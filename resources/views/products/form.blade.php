@@ -2,6 +2,13 @@
     <div class="container">
         <h1>{{ isset($product) ? 'Editar' : 'Agregar' }} producto</h1>
 
+        @if ($errors->has('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error:</strong> {{ $errors->first('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <form method='POST' action={{ url('/products') }}
             class="row g-3 needs-validation" novalidate enctype="multipart/form-data">
             @csrf
@@ -66,7 +73,7 @@
 
     @section('js')
         <script>
-            // Validación de formulario Bootstrap
+            // Validación de formulario Bootstrap y prevención de doble clic
             (function() {
                 'use strict';
 
@@ -75,13 +82,45 @@
 
                 // Iterar y prevenir envío si hay campos inválidos
                 Array.prototype.slice.call(forms).forEach(function(form) {
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    if (!submitButton) return;
+                    
+                    const originalButtonText = submitButton.innerHTML;
+                    let isSubmitting = false;
+
                     form.addEventListener('submit', function(event) {
                         if (!form.checkValidity()) {
                             event.preventDefault();
                             event.stopPropagation();
+                            form.classList.add('was-validated');
+                            return false;
                         }
 
-                        form.classList.add('was-validated')
+                        // Prevenir múltiples envíos
+                        if (isSubmitting) {
+                            event.preventDefault();
+                            return false;
+                        }
+
+                        // Marcar como enviando
+                        isSubmitting = true;
+
+                        // Deshabilitar el botón
+                        submitButton.disabled = true;
+
+                        // Cambiar el texto y agregar spinner
+                        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Guardando...';
+
+                        form.classList.add('was-validated');
+
+                        // Si hay errores de validación, el formulario no se enviará
+                        // pero necesitamos resetear el botón después de un tiempo
+                        setTimeout(function() {
+                            // Si seguimos en la misma página, probablemente hubo un error
+                            submitButton.disabled = false;
+                            submitButton.innerHTML = originalButtonText;
+                            isSubmitting = false;
+                        }, 3000);
                     }, false)
                 })
             })()

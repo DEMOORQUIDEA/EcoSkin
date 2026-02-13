@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\QueryException;
 
 class ProductController extends Controller
 {
@@ -45,19 +46,19 @@ class ProductController extends Controller
             Log::info("All files:", $request->allFiles());
             Log::info(
                 "Has file image: " .
-                    ($request->hasFile("image") ? "YES" : "NO"),
+                ($request->hasFile("image") ? "YES" : "NO"),
             );
             if ($request->hasFile("image")) {
                 $file = $request->file("image");
                 Log::info(
                     "File info: " .
-                        json_encode([
-                            "name" => $file->getClientOriginalName(),
-                            "size" => $file->getSize(),
-                            "mime" => $file->getMimeType(),
-                            "valid" => $file->isValid(),
-                            "error" => $file->getError(),
-                        ]),
+                    json_encode([
+                    "name" => $file->getClientOriginalName(),
+                    "size" => $file->getSize(),
+                    "mime" => $file->getMimeType(),
+                    "valid" => $file->isValid(),
+                    "error" => $file->getError(),
+                ]),
                 );
             }
 
@@ -99,7 +100,8 @@ class ProductController extends Controller
                         }
                     }
                 }
-            } else {
+            }
+            else {
                 // agregar producto nuevo (sin imagen primero)
                 $product = Product::create($validated);
 
@@ -119,7 +121,8 @@ class ProductController extends Controller
                         Log::info(
                             "Image path saved: " . $uploadResult["path"],
                         );
-                    } else {
+                    }
+                    else {
                         Log::error(
                             "Image upload failed: " . $uploadResult["message"],
                         );
@@ -129,13 +132,34 @@ class ProductController extends Controller
             return redirect()
                 ->route("products.index")
                 ->with("success", "Producto registrado exitosamente.");
-        } catch (ValidationException $e) {
+        }
+        catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
-        } catch (\Exception $e) {
+        }
+        catch (QueryException $e) {
+            // Manejar errores de base de datos (duplicados, restricciones, etc.)
+            Log::error("Database error in product store: " . $e->getMessage());
+
+            $errorMessage = "Ocurrió un error al guardar el producto.";
+
+            // Detectar error de duplicado (código 23000 es para violación de restricción única)
+            if ($e->getCode() == 23000) {
+                $errorMessage = "Este producto ya existe en el sistema. Por favor, verifica los datos e intenta nuevamente.";
+            }
+
             return redirect()
                 ->back()
                 ->withInput()
-                ->with("error", $e->getMessage());
+                ->withErrors(["error" => $errorMessage]);
+        }
+        catch (\Exception $e) {
+            // Manejar cualquier otro error inesperado
+            Log::error("Unexpected error in product store: " . $e->getMessage());
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(["error" => "Ocurrió un error inesperado. Por favor, intenta nuevamente."]);
         }
     }
 
@@ -217,8 +241,8 @@ class ProductController extends Controller
         $data = $data->map(function ($product) {
             $imageHtml = "";
             if (
-                $product->image &&
-                Storage::disk("public")->exists($product->image)
+            $product->image &&
+            Storage::disk("public")->exists($product->image)
             ) {
                 $imageHtml =
                     '<img src="' .
@@ -226,26 +250,27 @@ class ProductController extends Controller
                     '" alt="' .
                     $product->name .
                     '" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">';
-            } else {
+            }
+            else {
                 $imageHtml =
                     '<div class="bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 4px;"><i class="bi bi-image text-muted"></i></div>';
             }
 
             return [
-                "image" => $imageHtml,
-                "name" => $product->name,
-                "description" => $product->description,
-                "price" => '$' . number_format($product->price, 2),
-                "actions" =>
-                    '
+            "image" => $imageHtml,
+            "name" => $product->name,
+            "description" => $product->description,
+            "price" => '$' . number_format($product->price, 2),
+            "actions" =>
+            '
                     <button class="btn btn-primary btn-sm" onclick="execute(\'/products/' .
-                    $product->id .
-                    '/edit\')">
+            $product->id .
+            '/edit\')">
                         <i class="bi bi-pencil"></i> <span class="d-none d-sm-inline">Edit</span>
                     </button>
                     <button class="btn btn-danger btn-sm" onclick="deleteRecord(\'/products/' .
-                    $product->id .
-                    '\')">
+            $product->id .
+            '\')">
                         <i class="bi bi-trash"></i> <span class="d-none d-sm-inline">Delete</span>
                     </button>
                 ',
@@ -254,7 +279,7 @@ class ProductController extends Controller
 
         // Respuesta JSON en formato requerido por DataTables
         return response()->json([
-            "draw" => (int) $request->input("draw"), // Eco del draw para sync
+            "draw" => (int)$request->input("draw"), // Eco del draw para sync
             "recordsTotal" => $totalRecords,
             "recordsFiltered" => $recordsFiltered,
             "data" => $data,
@@ -275,7 +300,8 @@ class ProductController extends Controller
                 $product->image,
                 "producto_" . $product->id . "_" . basename($product->image),
             );
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             abort(404, "Archivo no encontrado");
         }
     }
