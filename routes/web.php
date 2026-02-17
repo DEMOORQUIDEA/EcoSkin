@@ -14,9 +14,7 @@ use App\Http\Controllers\CompanyController;
 
 use App\Http\Controllers\UserController;
 
-Route::get("/", function () {
-    return view("welcome-simple");
-});
+Route::get("/", [ProductController::class, "welcome"])->name("welcome");
 
 // Custom auth routes with better control
 Route::get("login", [LoginController::class, "showLoginForm"])->name("login");

@@ -22,6 +22,20 @@ class ProductController extends Controller
     {
         $this->fileService = $fileService;
     }
+
+    /**
+     * Mostrar productos públicos en la página de bienvenida con paginación
+     */
+    public function welcome(Request $request)
+    {
+        // Obtener productos con paginación (20 por página)
+        $products = Product::orderBy('created_at', 'desc')->paginate(20);
+
+        return view('welcome-simple', [
+            'products' => $products,
+        ]);
+    }
+
     public function index(Request $request)
     {
         // $products = Product::all();
