@@ -24,15 +24,31 @@ class ProductController extends Controller
     }
 
     /**
-     * Mostrar productos públicos en la página de bienvenida con paginación
+     * Mostrar productos públicos en la página de bienvenida con paginación y búsqueda
      */
     public function welcome(Request $request)
     {
+        $query = Product::query();
+
+        // Búsqueda en toda la base de datos
+        if ($request->has('search') && !empty($request->input('search'))) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('price', 'like', "%{$search}%");
+            });
+        }
+
         // Obtener productos con paginación (20 por página)
-        $products = Product::orderBy('created_at', 'desc')->paginate(20);
+        $products = $query->orderBy('created_at', 'desc')->paginate(20);
+
+        // Mantener parámetros de búsqueda en paginación
+        $products->appends($request->all());
 
         return view('welcome-simple', [
             'products' => $products,
+            'search' => $request->input('search', ''),
         ]);
     }
 

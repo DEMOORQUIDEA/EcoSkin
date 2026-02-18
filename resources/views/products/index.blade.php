@@ -1,5 +1,37 @@
 <x-layout>
 
+    @section('css')
+    <style>
+        /* Estilos personalizados para el input de búsqueda */
+        #searchInput {
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+            border-color: #86b7fe !important;
+        }
+
+        .input-group:focus-within .input-group-text {
+            border-color: #86b7fe;
+        }
+
+        #clearSearch {
+            transition: opacity 0.2s ease;
+        }
+
+        #clearSearch:hover {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        .input-group-text {
+            transition: border-color 0.15s ease-in-out;
+        }
+    </style>
+    @endsection
+
     <?php
 // $products = [
 //     ['id' => 1, 'name' => 'Coca600ml', 'description' => 'Coca cola de 600 grs', 'price' => 18.00],
@@ -14,6 +46,27 @@
                     <i class="bi bi-plus"></i>
                     <span class="d-none d-sm-inline">Agregar</span>
                 </button>
+            </div>
+        </div>
+
+        <!-- Barra de búsqueda -->
+        <div class="row mb-3">
+            <div class="col-md-6 col-lg-5">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-search text-primary"></i>
+                    </span>
+                    <input type="text"
+                           id="searchInput"
+                           class="form-control border-start-0 ps-0"
+                           placeholder="Buscar productos por nombre, descripción o precio...">
+                    <button class="btn btn-outline-secondary" type="button" id="clearSearch" style="display: none;">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                <small class="text-muted d-block mt-1">
+                    <i class="bi bi-info-circle"></i> Escribe para filtrar los productos
+                </small>
             </div>
         </div>
 
@@ -55,7 +108,8 @@
 
     @section('js')
     <script>
-        $('#myTable').DataTable({
+        // Inicializar DataTable
+        const table = $('#myTable').DataTable({
             serverSide: true,
             processing: true,
             ajax: {
@@ -80,9 +134,30 @@
             ],
             pageLength: 10, // Items por página
             lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+            searching: true, // Habilitar búsqueda
             // language: {
             //     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' // Opcional: español
             // }
+        });
+
+        // Búsqueda personalizada con el input
+        $('#searchInput').on('keyup', function() {
+            const searchValue = this.value;
+            table.search(searchValue).draw();
+
+            // Mostrar/ocultar botón de limpiar
+            if (searchValue.length > 0) {
+                $('#clearSearch').show();
+            } else {
+                $('#clearSearch').hide();
+            }
+        });
+
+        // Limpiar búsqueda
+        $('#clearSearch').on('click', function() {
+            $('#searchInput').val('');
+            table.search('').draw();
+            $(this).hide();
         });
 
         function execute(url) {
