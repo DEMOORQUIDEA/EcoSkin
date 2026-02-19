@@ -11,84 +11,88 @@ use App\Http\Controllers\Auth\ConfirmPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CartController;
 
 use App\Http\Controllers\UserController;
 
-Route::get("/", [ProductController::class, "welcome"])->name("welcome");
+Route::get("/", [ProductController::class , "welcome"])->name("welcome");
 
 // Custom auth routes with better control
-Route::get("login", [LoginController::class, "showLoginForm"])->name("login");
-Route::post("login", [LoginController::class, "login"]);
-Route::match(["get", "post"], "logout", [LoginController::class, "logout"])
+Route::get("login", [LoginController::class , "showLoginForm"])->name("login");
+Route::post("login", [LoginController::class , "login"]);
+Route::match (["get", "post"], "logout", [LoginController::class , "logout"])
     ->name("logout")
     ->middleware(["auth", "security:logout"]);
 
 Route::get("register", [
-    RegisterController::class,
+    RegisterController::class ,
     "showRegistrationForm",
 ])->name("register");
-Route::post("register", [RegisterController::class, "register"]);
+Route::post("register", [RegisterController::class , "register"]);
 
 Route::get("password/reset", [
-    ForgotPasswordController::class,
+    ForgotPasswordController::class ,
     "showLinkRequestForm",
 ])->name("password.request");
 Route::post("password/email", [
-    ForgotPasswordController::class,
+    ForgotPasswordController::class ,
     "sendResetLinkEmail",
 ])->name("password.email");
 Route::get("password/reset/{token}", [
-    ResetPasswordController::class,
+    ResetPasswordController::class ,
     "showResetForm",
 ])->name("password.reset");
-Route::post("password/reset", [ResetPasswordController::class, "reset"])->name(
+Route::post("password/reset", [ResetPasswordController::class , "reset"])->name(
     "password.update",
 );
 Route::get("password/confirm", [
-    ConfirmPasswordController::class,
+    ConfirmPasswordController::class ,
     "showConfirmForm",
 ])->name("password.confirm");
-Route::post("password/confirm", [ConfirmPasswordController::class, "confirm"]);
+Route::post("password/confirm", [ConfirmPasswordController::class , "confirm"]);
 
 Route::middleware(["auth", "security:auth"])->group(function () {
-    Route::get("/home", [HomeController::class, "index"])->name("home");
+    Route::get("/home", [HomeController::class , "index"])->name("home");
+
+    // Ruta del carrito
+    Route::get('/cart', [CartController::class , 'index'])->name('cart.index');
 
     // Rutas de productos
     Route::resource("products", ProductController::class)->except([
         "show",
         "update",
     ]);
-    Route::get("productos", [ProductController::class, "index"])->name(
+    Route::get("productos", [ProductController::class , "index"])->name(
         "productos.index",
     );
-    Route::get("productos/agregar", [ProductController::class, "create"])->name(
+    Route::get("productos/agregar", [ProductController::class , "create"])->name(
         "productos.create",
     );
-    Route::get("products/data", [ProductController::class, "dataTable"])->name(
+    Route::get("products/data", [ProductController::class , "dataTable"])->name(
         "products.data",
     );
     Route::get("products/{product}/download-image", [
-        ProductController::class,
+        ProductController::class ,
         "downloadImage",
     ])->name("products.download-image");
 
     // Rutas de empresas
     Route::resource('companies', CompanyController::class)->except(['show', 'update']);
-    Route::get('companies/data', [CompanyController::class, 'dataTable'])->name('companies.data');
+    Route::get('companies/data', [CompanyController::class , 'dataTable'])->name('companies.data');
 
     // Rutas de usuarios (Solo Admin)
     Route::middleware(["role:admin"])->group(function () {
-        Route::resource("users", UserController::class)->except([
-            "show",
-            "update",
-        ]);
-        Route::get("users/data", [UserController::class, "dataTable"])->name(
-            "users.data",
+            Route::resource("users", UserController::class)->except([
+                "show",
+                "update",
+            ]);
+            Route::get("users/data", [UserController::class , "dataTable"])->name(
+                "users.data",
+            );
+            Route::get("users/{user}/download-avatar", [
+                UserController::class ,
+                "downloadAvatar",
+            ])->name("users.download-avatar");
+        }
         );
-        Route::get("users/{user}/download-avatar", [
-            UserController::class,
-            "downloadAvatar",
-        ])->name("users.download-avatar");
     });
-
-});

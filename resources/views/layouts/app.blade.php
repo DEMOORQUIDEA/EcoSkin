@@ -273,7 +273,11 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Carrito de Compras -->
                         <li class="nav-item me-3">
-                            <a class="nav-link position-relative" href="#" id="cartIcon" onclick="toggleCart(event)">
+                            @auth
+                            <a class="nav-link position-relative" href="{{ route('cart.index') }}" id="cartIcon" title="Ver mi carrito">
+                            @else
+                            <a class="nav-link position-relative" href="{{ route('login') }}" id="cartIcon" title="Iniciar sesión para ver carrito">
+                            @endauth
                                 <i class="bi bi-cart3" style="font-size: 1.5rem;"></i>
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount" style="display: none; font-size: 0.7rem;">
                                     0
