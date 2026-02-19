@@ -92,15 +92,13 @@ class ProductController extends Controller
                 );
             }
 
-            // validar los inputs del request (sin validación de imagen por ahora)
+            // validar los inputs del request incluyendo imagen
             $validated = $request->validate([
                 "name" => "required|string|max:40",
                 "price" => "required|numeric|min:1|max:9999999",
                 "description" => "required|string",
+                "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120",
             ]);
-
-            // No agregar imagen al validated array ya que no está validada
-            // La procesaremos por separado
 
             $id = $request->input("id", null);
 
@@ -132,11 +130,15 @@ class ProductController extends Controller
                 }
             }
             else {
-                // agregar producto nuevo (sin imagen primero)
-                $product = Product::create($validated);
+                // agregar producto nuevo
+                $product = Product::create([
+                    'name' => $validated['name'],
+                    'price' => $validated['price'],
+                    'description' => $validated['description'],
+                ]);
 
                 // Procesar imagen para producto nuevo
-                if ($request->hasFile("image")) {
+                if ($request->hasFile("image") && $request->file("image")->isValid()) {
                     Log::info("Processing new product image");
                     $uploadResult = $this->fileService->upload(
                         $request->file("image"),
@@ -148,14 +150,10 @@ class ProductController extends Controller
                     if ($uploadResult["success"]) {
                         $product->image = $uploadResult["path"];
                         $product->save();
-                        Log::info(
-                            "Image path saved: " . $uploadResult["path"],
-                        );
+                        Log::info("Image path saved: " . $uploadResult["path"]);
                     }
                     else {
-                        Log::error(
-                            "Image upload failed: " . $uploadResult["message"],
-                        );
+                        Log::error("Image upload failed: " . $uploadResult["message"]);
                     }
                 }
             }
@@ -275,15 +273,15 @@ class ProductController extends Controller
             Storage::disk("public")->exists($product->image)
             ) {
                 $imageHtml =
-                    '<img src="' .
+                    '<div class="product-img-wrapper"><img src="' .
                     asset("storage/" . $product->image) .
                     '" alt="' .
                     $product->name .
-                    '" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">';
+                    '"></div>';
             }
             else {
                 $imageHtml =
-                    '<div class="bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 4px;"><i class="bi bi-image text-muted"></i></div>';
+                    '<div class="product-img-wrapper"><i class="bi bi-image no-image-icon"></i></div>';
             }
 
             return [
@@ -293,15 +291,15 @@ class ProductController extends Controller
             "price" => '$' . number_format($product->price, 2),
             "actions" =>
             '
-                    <button class="btn btn-primary btn-sm" onclick="execute(\'/products/' .
+                    <button class="btn btn-action btn-edit" onclick="execute(\'/products/' .
             $product->id .
             '/edit\')">
-                        <i class="bi bi-pencil"></i> <span class="d-none d-sm-inline">Edit</span>
+                        <i class="bi bi-pencil-square"></i> <span>Editar</span>
                     </button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteRecord(\'/products/' .
+                    <button class="btn btn-action btn-delete" onclick="deleteRecord(\'/products/' .
             $product->id .
             '\')">
-                        <i class="bi bi-trash"></i> <span class="d-none d-sm-inline">Delete</span>
+                        <i class="bi bi-trash-fill"></i> <span>Eliminar</span>
                     </button>
                 ',
             ];
