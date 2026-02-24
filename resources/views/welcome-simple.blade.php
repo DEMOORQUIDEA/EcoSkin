@@ -259,15 +259,9 @@
         </div>
 
         <!-- Pagination -->
-        @if($products->count() > 0 && $products->hasPages())
-        <div class="row mt-5">
-            <div class="col-12">
-                <div class="d-flex justify-content-center">
-                    {{ $products->links() }}
-                </div>
-            </div>
+        <div class="mt-5">
+            {{ $products->links('vendor.pagination.custom') }}
         </div>
-        @endif
 
     </div>
 </div>
@@ -446,160 +440,7 @@
         background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
     }
 
-    /* PAGINACIÓN SIN FLECHAS - MEJORADA Y CORREGIDA */
-    .pagination {
-        display: flex;
-        gap: 0.5rem;
-        padding: 1rem 0;
-        margin: 0;
-        list-style: none;
-        justify-content: center;
-        align-items: center;
-    }
 
-    .pagination .page-item {
-        list-style: none;
-    }
-
-    .pagination .page-link {
-        min-width: 45px;
-        height: 45px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        border: 2px solid #e0e6ed;
-        background: white;
-        color: #2d3748;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        padding: 0.5rem 1rem;
-        text-decoration: none;
-        position: relative;
-    }
-
-    .pagination .page-link:hover {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-color: #667eea;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    }
-
-    .pagination .page-item.active .page-link {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-color: #667eea;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    }
-
-    .pagination .page-item.disabled .page-link {
-        opacity: 0.4;
-        cursor: not-allowed;
-        background: #f7fafc;
-        color: #a0aec0;
-        border-color: #e0e6ed;
-    }
-
-    .pagination .page-item.disabled .page-link:hover {
-        background: #f7fafc;
-        color: #a0aec0;
-        transform: none;
-        box-shadow: none;
-    }
-
-    /* OCULTAR COMPLETAMENTE TODAS LAS FLECHAS SVG */
-    .pagination .page-link svg,
-    .pagination .page-link svg *,
-    .pagination svg,
-    nav[role="navigation"] svg,
-    nav svg {
-        display: none !important;
-        visibility: hidden !important;
-        width: 0 !important;
-        height: 0 !important;
-        opacity: 0 !important;
-    }
-
-    /* Ocultar cualquier icono o span dentro de los botones Previous/Next */
-    .pagination .page-item:first-child .page-link > *:not(::before),
-    .pagination .page-item:last-child .page-link > *:not(::before) {
-        display: none !important;
-        visibility: hidden !important;
-    }
-
-    /* Limpiar contenido de Previous y Next */
-    .pagination .page-item:first-child .page-link,
-    .pagination .page-item:last-child .page-link {
-        font-size: 0 !important;
-        line-height: 0 !important;
-    }
-
-    /* Agregar texto SOLO con ::before */
-    .pagination .page-item:first-child .page-link::before {
-        content: 'Anterior';
-        font-weight: 600;
-        font-size: 0.95rem;
-        line-height: normal;
-        display: inline-block;
-    }
-
-    .pagination .page-item:last-child .page-link::before {
-        content: 'Siguiente';
-        font-weight: 600;
-        font-size: 0.95rem;
-        line-height: normal;
-        display: inline-block;
-    }
-
-    /* Estilo especial para los botones Previous/Next */
-    .pagination .page-item:first-child .page-link,
-    .pagination .page-item:last-child .page-link {
-        padding: 0.5rem 1.25rem !important;
-        min-width: auto;
-    }
-
-    /* Números de página (mantener visibles) */
-    .pagination .page-item:not(:first-child):not(:last-child) .page-link {
-        min-width: 45px;
-        font-size: 1rem !important;
-        line-height: normal !important;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .hero-banner {
-            min-height: 250px;
-        }
-
-        .search-section {
-            position: sticky !important;
-            top: 0 !important;
-        }
-
-        .pagination {
-            flex-wrap: wrap;
-            gap: 0.25rem;
-        }
-
-        .pagination .page-link {
-            min-width: 40px;
-            height: 40px;
-            font-size: 0.9rem;
-            padding: 0.4rem 0.75rem;
-        }
-
-        .pagination .page-item:first-child .page-link::before {
-            content: 'Ant';
-            font-size: 0.85rem !important;
-        }
-
-        .pagination .page-item:last-child .page-link::before {
-            content: 'Sig';
-            font-size: 0.85rem !important;
-        }
-    }
 </style>
 @endpush
 
@@ -612,45 +453,7 @@
     }, 2000);
 @endauth
 
-// ELIMINAR FLECHAS DE PAGINACIÓN COMPLETAMENTE
-document.addEventListener('DOMContentLoaded', function() {
-    // Función para limpiar la paginación
-    function cleanPagination() {
-        // Obtener todos los elementos de paginación
-        const paginationItems = document.querySelectorAll('.pagination .page-item');
 
-        paginationItems.forEach((item, index) => {
-            const link = item.querySelector('.page-link');
-            if (!link) return;
-
-            // Si es el primer elemento (Previous/Anterior)
-            if (index === 0) {
-                // Remover todo el contenido
-                link.innerHTML = '';
-                // Agregar solo el texto
-                link.textContent = 'Anterior';
-            }
-            // Si es el último elemento (Next/Siguiente)
-            else if (index === paginationItems.length - 1) {
-                // Remover todo el contenido
-                link.innerHTML = '';
-                // Agregar solo el texto
-                link.textContent = 'Siguiente';
-            }
-
-            // Eliminar cualquier SVG que pueda quedar
-            const svgs = link.querySelectorAll('svg');
-            svgs.forEach(svg => svg.remove());
-        });
-    }
-
-    // Ejecutar al cargar
-    cleanPagination();
-
-    // Ejecutar después de un pequeño delay por si acaso
-    setTimeout(cleanPagination, 100);
-    setTimeout(cleanPagination, 500);
-});
 
 // Búsqueda automática
 document.addEventListener('DOMContentLoaded', function() {

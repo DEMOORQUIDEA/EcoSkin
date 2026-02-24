@@ -437,196 +437,9 @@
         color: #718096;
     }
 
-    /* PAGINACIÓN MODERNA Y ELEGANTE */
-    .pagination {
-        display: flex;
-        gap: 0.75rem;
-        padding: 3rem 0 2rem;
-        margin: 0;
-        list-style: none;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-
-    .pagination .page-item {
-        list-style: none;
-    }
-
-    .pagination .page-link {
-        min-width: 50px;
-        height: 50px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        border: none;
-        background: white;
-        color: #667eea;
-        font-weight: 700;
-        font-size: 1rem;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        cursor: pointer;
-        padding: 0.75rem 1.25rem;
-        text-decoration: none;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .pagination .page-link::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: 0;
-    }
-
-    .pagination .page-link span {
-        position: relative;
-        z-index: 1;
-    }
-
-    .pagination .page-link:hover {
-        color: white;
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-    }
-
-    .pagination .page-link:hover::before {
-        opacity: 1;
-    }
-
-    .pagination .page-item.active .page-link {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
-        transform: scale(1.1);
-    }
-
-    .pagination .page-item.active .page-link::before {
-        opacity: 1;
-    }
-
-    .pagination .page-item.disabled .page-link {
-        opacity: 0.5;
-        cursor: not-allowed;
-        background: rgba(255, 255, 255, 0.6);
-        color: #a0aec0;
-        box-shadow: none;
-    }
-
-    .pagination .page-item.disabled .page-link:hover {
-        background: rgba(255, 255, 255, 0.6);
-        color: #a0aec0;
-        transform: none;
-        box-shadow: none;
-    }
-
-    .pagination .page-item.disabled .page-link::before {
-        display: none;
-    }
-
-    /* FORZAR OCULTACIÓN DE FLECHAS - MÚLTIPLES MÉTODOS */
-    /* Método 1: Ocultar SVG directamente */
-    .pagination svg,
-    .pagination .page-link svg,
-    .pagination .page-item svg,
-    nav svg {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        width: 0 !important;
-        height: 0 !important;
-        position: absolute !important;
-        left: -9999px !important;
-    }
-
-    /* Método 2: Ocultar aria-hidden spans */
-    .pagination span[aria-hidden="true"],
-    .pagination .page-link span[aria-hidden="true"] {
-        display: none !important;
-        visibility: hidden !important;
-        font-size: 0 !important;
-    }
-
-    /* Método 3: Ocultar cualquier span dentro de Previous/Next */
-    .pagination .page-item:first-child span,
-    .pagination .page-item:last-child span {
-        display: none !important;
-    }
-
-    /* OCULTAR COMPLETAMENTE TODAS LAS FLECHAS SVG */
-    .pagination .page-link svg,
-    .pagination .page-link svg *,
-    .pagination svg,
-    nav[role="navigation"] svg,
-    nav svg {
-        display: none !important;
-        visibility: hidden !important;
-        width: 0 !important;
-        height: 0 !important;
-        opacity: 0 !important;
-    }
-
-    /* Ocultar cualquier contenido dentro de Previous/Next */
-    .pagination .page-item:first-child .page-link > *,
-    .pagination .page-item:last-child .page-link > *,
-    .pagination .page-item:first-child .page-link span,
-    .pagination .page-item:last-child .page-link span {
-        display: none !important;
-        visibility: hidden !important;
-    }
-
-    /* Limpiar contenido de Previous y Next */
-    .pagination .page-item:first-child .page-link,
-    .pagination .page-item:last-child .page-link {
-        font-size: 0 !important;
-        line-height: 0 !important;
-    }
-
-    /* Agregar texto SOLO con ::before */
-    .pagination .page-item:first-child .page-link::after {
-        content: 'Anterior';
-        font-weight: 700;
-        font-size: 0.95rem;
-        line-height: normal;
-        display: inline-block;
-        position: relative;
-        z-index: 1;
-    }
-
-    .pagination .page-item:last-child .page-link::after {
-        content: 'Siguiente';
-        font-weight: 700;
-        font-size: 0.95rem;
-        line-height: normal;
-        display: inline-block;
-        position: relative;
-        z-index: 1;
-    }
-
-    /* Estilo especial para los botones Previous/Next */
-    .pagination .page-item:first-child .page-link,
-    .pagination .page-item:last-child .page-link {
-        padding: 0.75rem 1.5rem !important;
-        min-width: 120px;
-        border-radius: 25px;
-        font-weight: 700;
-    }
-
-    /* Números de página (mantener visibles) */
-    .pagination .page-item:not(:first-child):not(:last-child) .page-link {
-        font-size: 1rem !important;
-        line-height: normal !important;
-        border-radius: 50%;
-        min-width: 50px;
-        height: 50px;
+    /* Contenedor de paginación */
+    .pagination-wrapper {
+        padding: 1rem 0;
     }
 
     @media (max-width: 768px) {
@@ -651,39 +464,9 @@
         .stats-container {
             grid-template-columns: 1fr;
         }
-
-        .pagination {
-            flex-wrap: wrap;
-            gap: 0.25rem;
-        }
-
-        .pagination .page-link {
-            min-width: 40px;
-            height: 40px;
-            font-size: 0.9rem;
-        }
-
-        .pagination .page-item:first-child .page-link::after {
-            content: '‹ Ant';
-            font-size: 0.85rem !important;
-        }
-
-        .pagination .page-item:last-child .page-link::after {
-            content: 'Sig ›';
-            font-size: 0.85rem !important;
-        }
-
-        .pagination .page-item:first-child .page-link,
-        .pagination .page-item:last-child .page-link {
-            min-width: 80px;
-        }
-
-        .pagination .page-item:not(:first-child):not(:last-child) .page-link {
-            min-width: 40px;
-            height: 40px;
-        }
     }
 </style>
+
 
 <div class="dashboard-container">
     <div class="container">
@@ -812,11 +595,7 @@
             </div>
 
             <!-- Pagination -->
-            @if($products->hasPages())
-                <div class="d-flex justify-content-center">
-                    {{ $products->links() }}
-                </div>
-            @endif
+            {{ $products->links('vendor.pagination.custom') }}
         @else
             <div class="empty-state">
                 <div class="empty-state-icon">
@@ -834,47 +613,7 @@
 </div>
 
 <script>
-// FUNCIÓN GLOBAL PARA ELIMINAR FLECHAS
-function forceRemoveArrows() {
-    // Eliminar todos los SVG de la paginación
-    document.querySelectorAll('.pagination svg').forEach(svg => {
-        svg.remove();
-        svg.style.display = 'none';
-    });
-
-    // Eliminar spans con aria-hidden
-    document.querySelectorAll('.pagination span[aria-hidden="true"]').forEach(span => {
-        span.remove();
-    });
-
-    // Limpiar Previous y Next
-    const prevButton = document.querySelector('.pagination .page-item:first-child .page-link');
-    const nextButton = document.querySelector('.pagination .page-item:last-child .page-link');
-
-    if (prevButton) {
-        prevButton.innerHTML = '';
-        prevButton.textContent = 'Anterior';
-    }
-
-    if (nextButton) {
-        nextButton.innerHTML = '';
-        nextButton.textContent = 'Siguiente';
-    }
-}
-
-// Ejecutar inmediatamente
-forceRemoveArrows();
-
-// Ejecutar múltiples veces
-setTimeout(forceRemoveArrows, 50);
-setTimeout(forceRemoveArrows, 100);
-setTimeout(forceRemoveArrows, 200);
-setTimeout(forceRemoveArrows, 500);
-setTimeout(forceRemoveArrows, 1000);
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Ejecutar al cargar el DOM
-    forceRemoveArrows();
     const searchInput = document.getElementById('searchInput');
     const searchForm = document.getElementById('searchForm');
     const clearButton = document.getElementById('clearSearch');
@@ -910,105 +649,27 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = "{{ route('home') }}";
         });
     }
-
-    // ELIMINAR FLECHAS DE PAGINACIÓN COMPLETAMENTE
-    function cleanPagination() {
-        const paginationItems = document.querySelectorAll('.pagination .page-item');
-
-        paginationItems.forEach((item, index) => {
-            const link = item.querySelector('.page-link');
-            if (!link) return;
-
-            // Si es el primer elemento (Previous/Anterior)
-            if (index === 0) {
-                // Remover todo el contenido
-                link.innerHTML = '';
-                // Agregar solo el texto
-                link.textContent = 'Anterior';
-            }
-            // Si es el último elemento (Next/Siguiente)
-            else if (index === paginationItems.length - 1) {
-                // Remover todo el contenido
-                link.innerHTML = '';
-                // Agregar solo el texto
-                link.textContent = 'Siguiente';
-            }
-
-            // Eliminar cualquier SVG que pueda quedar
-            const svgs = link.querySelectorAll('svg');
-            svgs.forEach(svg => svg.remove());
-
-            // Eliminar spans que puedan contener flechas
-            const spans = link.querySelectorAll('span');
-            spans.forEach(span => {
-                if (span.innerHTML.includes('<svg') || span.innerHTML.includes('aria-hidden')) {
-                    span.remove();
-                }
-            });
-        });
-    }
-
-    // Ejecutar múltiples veces para asegurar limpieza
-    cleanPagination();
-    setTimeout(cleanPagination, 100);
-    setTimeout(cleanPagination, 300);
-    setTimeout(cleanPagination, 500);
-    setTimeout(cleanPagination, 1000);
-
-    // Observer para detectar cambios en la paginación
-    const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.addedNodes.length) {
-                cleanPagination();
-            }
-        });
-    });
-
-    // Observar cambios en el contenedor de paginación
-    const paginationContainer = document.querySelector('.pagination');
-    if (paginationContainer) {
-        observer.observe(paginationContainer, {
-            childList: true,
-            subtree: true
-        });
-    }
-
-    // Ejecutar limpieza cada vez que se hace clic en la paginación
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.pagination')) {
-            setTimeout(forceRemoveArrows, 100);
-            setTimeout(forceRemoveArrows, 300);
-        }
-    });
 });
 
 // FUNCIÓN MEJORADA PARA AGREGAR AL CARRITO CON FEEDBACK VISUAL
 function addToCartWithFeedback(button, productId, productName, productPrice, productImage) {
-    // Guardar contenido original
     const originalContent = button.innerHTML;
     const originalClass = button.className;
 
-    // Deshabilitar botón temporalmente
     button.disabled = true;
-
-    // Cambiar a estado "agregando"
     button.innerHTML = '<i class="bi bi-arrow-repeat"></i><span>Agregando...</span>';
     button.style.opacity = '0.8';
 
-    // Agregar al carrito
     const result = addToCart(productId, productName, productPrice, productImage);
 
     if (result !== false) {
-        // Éxito - mostrar feedback positivo
         setTimeout(() => {
             button.className = originalClass + ' added';
             button.innerHTML = '<i class="bi bi-check-circle-fill"></i><span>¡Agregado!</span>';
             button.style.opacity = '1';
 
-            // Crear efecto de partículas (opcional)
             createCartParticles(button);
 
-            // Volver al estado original después de 2 segundos
             setTimeout(() => {
                 button.innerHTML = originalContent;
                 button.className = originalClass;
@@ -1016,7 +677,6 @@ function addToCartWithFeedback(button, productId, productName, productPrice, pro
             }, 2000);
         }, 300);
     } else {
-        // Error o no logueado
         button.innerHTML = originalContent;
         button.disabled = false;
         button.style.opacity = '1';
@@ -1052,35 +712,20 @@ function createCartParticles(button) {
         particle.style.setProperty('--ty', ty + 'px');
 
         document.body.appendChild(particle);
-
         setTimeout(() => particle.remove(), 1000);
     }
 
-    // Agregar animación CSS si no existe
     if (!document.getElementById('particle-animation')) {
         const style = document.createElement('style');
         style.id = 'particle-animation';
         style.textContent = `
             @keyframes particleFloat {
-                0% {
-                    transform: translate(0, 0) scale(1);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translate(var(--tx), var(--ty)) scale(0);
-                    opacity: 0;
-                }
+                0% { transform: translate(0, 0) scale(1); opacity: 1; }
+                100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
             }
         `;
         document.head.appendChild(style);
     }
 }
-
-// Ejecutar al cargar la ventana
-window.addEventListener('load', function() {
-    forceRemoveArrows();
-    setTimeout(forceRemoveArrows, 100);
-    setTimeout(forceRemoveArrows, 500);
-});
 </script>
 @endsection

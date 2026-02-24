@@ -1,174 +1,226 @@
 @if ($paginator->hasPages())
-    <nav role="navigation" aria-label="Pagination Navigation" class="custom-pagination">
-        <div class="pagination-container">
-            {{-- Información de resultados --}}
-            <div class="pagination-info">
-                <span class="text-muted">
-                    Mostrando
-                    <strong>{{ $paginator->firstItem() }}</strong>
-                    a
-                    <strong>{{ $paginator->lastItem() }}</strong>
-                    de
-                    <strong>{{ $paginator->total() }}</strong>
-                    resultados
-                </span>
-            </div>
+<nav aria-label="Paginación" class="pag-nav">
 
-            {{-- Enlaces de paginación --}}
-            <div class="pagination-links">
-                <ul class="pagination-list">
-                    {{-- Previous Page Link --}}
-                    @if ($paginator->onFirstPage())
-                        <li class="pagination-item disabled">
-                            <span class="pagination-link">Anterior</span>
-                        </li>
-                    @else
-                        <li class="pagination-item">
-                            <a href="{{ $paginator->previousPageUrl() }}" class="pagination-link" rel="prev">Anterior</a>
-                        </li>
-                    @endif
+    {{-- Barra de info --}}
+    <div class="pag-info">
+        <span>
+            Mostrando <b>{{ $paginator->firstItem() }}</b>&nbsp;–&nbsp;<b>{{ $paginator->lastItem() }}</b>
+            de <b>{{ $paginator->total() }}</b> resultados
+        </span>
+    </div>
 
-                    {{-- Pagination Elements --}}
-                    @foreach ($elements as $element)
-                        {{-- "Three Dots" Separator --}}
-                        @if (is_string($element))
-                            <li class="pagination-item disabled">
-                                <span class="pagination-link">{{ $element }}</span>
-                            </li>
-                        @endif
+    {{-- Controles --}}
+    <div class="pag-controls">
 
-                        {{-- Array Of Links --}}
-                        @if (is_array($element))
-                            @foreach ($element as $page => $url)
-                                @if ($page == $paginator->currentPage())
-                                    <li class="pagination-item active">
-                                        <span class="pagination-link">{{ $page }}</span>
-                                    </li>
-                                @else
-                                    <li class="pagination-item">
-                                        <a href="{{ $url }}" class="pagination-link">{{ $page }}</a>
-                                    </li>
-                                @endif
-                            @endforeach
+        {{-- Anterior --}}
+        @if ($paginator->onFirstPage())
+            <span class="pag-btn pag-nav-btn disabled" aria-disabled="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>
+                <span class="pag-label">Anterior</span>
+            </span>
+        @else
+            <a href="{{ $paginator->previousPageUrl() }}" class="pag-btn pag-nav-btn" rel="prev">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>
+                <span class="pag-label">Anterior</span>
+            </a>
+        @endif
+
+        {{-- Números de página --}}
+        <div class="pag-pages">
+            @foreach ($elements as $element)
+                @if (is_string($element))
+                    <span class="pag-btn pag-dots">…</span>
+                @endif
+                @if (is_array($element))
+                    @foreach ($element as $page => $url)
+                        @if ($page == $paginator->currentPage())
+                            <span class="pag-btn pag-page active" aria-current="page">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}" class="pag-btn pag-page">{{ $page }}</a>
                         @endif
                     @endforeach
-
-                    {{-- Next Page Link --}}
-                    @if ($paginator->hasMorePages())
-                        <li class="pagination-item">
-                            <a href="{{ $paginator->nextPageUrl() }}" class="pagination-link" rel="next">Siguiente</a>
-                        </li>
-                    @else
-                        <li class="pagination-item disabled">
-                            <span class="pagination-link">Siguiente</span>
-                        </li>
-                    @endif
-                </ul>
-            </div>
+                @endif
+            @endforeach
         </div>
 
-        <style>
-            .custom-pagination {
-                width: 100%;
-                padding: 20px 0;
-            }
+        {{-- Siguiente --}}
+        @if ($paginator->hasMorePages())
+            <a href="{{ $paginator->nextPageUrl() }}" class="pag-btn pag-nav-btn" rel="next">
+                <span class="pag-label">Siguiente</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+            </a>
+        @else
+            <span class="pag-btn pag-nav-btn disabled" aria-disabled="true">
+                <span class="pag-label">Siguiente</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+            </span>
+        @endif
 
-            .pagination-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
+    </div>
+</nav>
 
-            .pagination-info {
-                font-size: 14px;
-                color: #6c757d;
-            }
+<style>
+/* ============================
+   PAGINACIÓN PREMIUM
+   ============================ */
+.pag-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 1rem 0.5rem;
+    user-select: none;
+}
 
-            .pagination-info strong {
-                color: #495057;
-                font-weight: 600;
-            }
+/* Badge de información */
+.pag-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, #f0f0ff 0%, #f5f0ff 100%);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 50px;
+    padding: 0.45rem 1.1rem;
+    font-size: 0.82rem;
+    color: #5a6a8a;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
 
-            .pagination-links {
-                display: flex;
-                justify-content: center;
-            }
+.pag-info b {
+    color: #667eea;
+    font-weight: 700;
+}
 
-            .pagination-list {
-                display: flex;
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                gap: 5px;
-                flex-wrap: wrap;
-            }
+/* Controles: fila completa */
+.pag-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
-            .pagination-item {
-                display: inline-block;
-            }
+/* Grupo de páginas numeradas */
+.pag-pages {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #f8f8ff;
+    border: 1.5px solid rgba(102, 126, 234, 0.18);
+    border-radius: 14px;
+    padding: 0.3rem 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
-            .pagination-link {
-                display: inline-block;
-                padding: 8px 14px;
-                font-size: 14px;
-                font-weight: 500;
-                line-height: 1.5;
-                color: #007bff;
-                text-decoration: none;
-                background-color: #ffffff;
-                border: 1px solid #dee2e6;
-                border-radius: 4px;
-                transition: all 0.2s ease;
-                cursor: pointer;
-                min-width: 40px;
-                text-align: center;
-            }
+/* Base para todos los "botones" */
+.pag-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(.4,0,.2,1);
+    line-height: 1;
+    white-space: nowrap;
+}
 
-            .pagination-link:hover {
-                color: #0056b3;
-                background-color: #e9ecef;
-                border-color: #dee2e6;
-            }
+/* Botones Anterior / Siguiente */
+.pag-nav-btn {
+    padding: 0.6rem 1.15rem;
+    background: #ffffff;
+    color: #4a5568;
+    border: 2px solid #e0e6f0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
 
-            .pagination-item.active .pagination-link {
-                color: #ffffff;
-                background-color: #007bff;
-                border-color: #007bff;
-                cursor: default;
-            }
+.pag-nav-btn:not(.disabled):hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(102, 126, 234, 0.38);
+    text-decoration: none;
+}
 
-            .pagination-item.disabled .pagination-link {
-                color: #6c757d;
-                background-color: #ffffff;
-                border-color: #dee2e6;
-                cursor: not-allowed;
-                opacity: 0.6;
-            }
+.pag-nav-btn.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    color: #a0aec0;
+    background: #f7fafc;
+    border-color: #e2e8f0;
+    box-shadow: none;
+}
 
-            .pagination-item.disabled .pagination-link:hover {
-                color: #6c757d;
-                background-color: #ffffff;
-                border-color: #dee2e6;
-            }
+/* Números */
+.pag-page {
+    min-width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    color: #4a5568;
+    background: transparent;
+}
 
-            /* Responsive */
-            @media (max-width: 576px) {
-                .pagination-container {
-                    gap: 10px;
-                }
+.pag-page:not(.active):hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+    text-decoration: none;
+}
 
-                .pagination-link {
-                    padding: 6px 10px;
-                    font-size: 13px;
-                    min-width: 35px;
-                }
+/* Página activa */
+.pag-page.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(102, 126, 234, 0.45);
+    cursor: default;
+    border-radius: 8px;
+}
 
-                .pagination-info {
-                    font-size: 12px;
-                    text-align: center;
-                }
-            }
-        </style>
-    </nav>
+/* Puntos suspensivos */
+.pag-dots {
+    color: #a0aec0;
+    background: transparent;
+    cursor: default;
+    min-width: 24px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 640px) {
+    .pag-label {
+        display: none;
+    }
+
+    .pag-nav-btn {
+        padding: 0.55rem 0.75rem;
+    }
+
+    .pag-pages {
+        border-radius: 10px;
+        padding: 0.25rem 0.35rem;
+    }
+
+    .pag-page {
+        min-width: 34px;
+        height: 34px;
+        font-size: 0.8rem;
+    }
+
+    .pag-info {
+        font-size: 0.78rem;
+        padding: 0.4rem 0.9rem;
+    }
+}
+</style>
 @endif
