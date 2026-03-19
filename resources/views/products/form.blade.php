@@ -3,7 +3,7 @@
     <style>
         /* Container principal */
         .form-container {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--color-cream);
             min-height: calc(100vh - 76px);
             padding: 2rem 0;
             margin: 0 -15px;
@@ -20,8 +20,8 @@
         }
 
         .form-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--color-charcoal);
+            color: var(--color-cream);
             padding: 2rem;
             display: flex;
             align-items: center;
@@ -29,10 +29,11 @@
         }
 
         .form-icon {
-            width: 70px;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
+            width: 60px;
+            height: 60px;
+            background: rgba(230,234,221,0.15);
+            border: 1.5px solid rgba(186,155,114,0.3);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -45,14 +46,17 @@
 
         .form-header h1 {
             margin: 0;
-            font-size: 2rem;
-            font-weight: 700;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
         }
 
         .form-header p {
             margin: 0.5rem 0 0;
-            opacity: 0.9;
-            font-size: 1rem;
+            opacity: 0.65;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
         }
 
         /* Form body */
@@ -95,8 +99,8 @@
         }
 
         .section-title i {
-            color: #667eea;
-            font-size: 1.3rem;
+            color: var(--color-sage);
+            font-size: 1.2rem;
         }
 
         /* Form controls */
@@ -111,11 +115,11 @@
         }
 
         .form-label i {
-            color: #667eea;
+            color: var(--color-sage);
         }
 
         .form-label .required {
-            color: #f5576c;
+            color: var(--color-tan);
             margin-left: 0.25rem;
         }
 
@@ -131,26 +135,26 @@
 
         .form-control:focus,
         .form-select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+            border-color: var(--color-sage);
+            box-shadow: 0 0 0 0.2rem rgba(162,165,141,0.2);
             background: white;
             outline: none;
         }
 
         .form-control.is-invalid,
         .form-select.is-invalid {
-            border-color: #f5576c;
-            background: #fff5f7;
+            border-color: #b04a3a;
+            background: #fdf5f4;
         }
 
         .form-control.is-invalid:focus,
         .form-select.is-invalid:focus {
-            box-shadow: 0 0 0 0.2rem rgba(245, 87, 108, 0.15);
+            box-shadow: 0 0 0 0.2rem rgba(176,74,58,0.15);
         }
 
         .invalid-feedback {
-            color: #f5576c;
-            font-size: 0.9rem;
+            color: #b04a3a;
+            font-size: 0.85rem;
             margin-top: 0.5rem;
             display: flex;
             align-items: center;
@@ -168,10 +172,10 @@
         }
 
         .input-group-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--color-forest);
+            color: var(--color-cream);
             border: none;
-            font-weight: 600;
+            font-weight: 500;
             padding: 0.875rem 1rem;
         }
 
@@ -200,7 +204,7 @@
         }
 
         .char-counter.danger {
-            color: #f5576c;
+            color: var(--color-tan);
             font-weight: 600;
         }
 
@@ -227,15 +231,15 @@
         }
 
         .btn-save {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--color-forest);
+            color: var(--color-cream);
         }
 
         .btn-save:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-            color: white;
+            box-shadow: 0 6px 20px rgba(88,98,74,0.35);
+            background: var(--color-charcoal);
+            color: var(--color-cream);
         }
 
         .btn-save:disabled {
@@ -372,18 +376,15 @@
 
                         <!-- Información Básica -->
                         <div class="form-section">
-                            <div class="section-title">
-                                <i class="bi bi-info-circle-fill"></i>
-                                <span>Información Básica</span>
-                            </div>
+                        <h3 class="section-title">
+                            <i class="bi bi-info-circle"></i> {{ __('Información Básica') }}
+                        </h3>
 
-                            <div class="row g-4">
-                                <div class="col-md-8">
-                                    <label for="name" class="form-label">
-                                        <i class="bi bi-tag"></i>
-                                        Nombre del Producto
-                                        <span class="required">*</span>
-                                    </label>
+                        <div class="row g-4">
+                            <div class="col-md-8">
+                                <label for="name" class="form-label">
+                                    <i class="bi bi-tag"></i> {{ __('Nombre del Producto') }} <span class="required">*</span>
+                                </label>
                                     <input name="name"
                                            type="text"
                                            class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
@@ -408,12 +409,10 @@
                                     @endif
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label for="price" class="form-label">
-                                        <i class="bi bi-cash"></i>
-                                        Precio
-                                        <span class="required">*</span>
-                                    </label>
+                                    <i class="bi bi-currency-dollar"></i> {{ __('Precio') }} <span class="required">*</span>
+                                </label>
                                     <div class="input-group has-validation">
                                         <span class="input-group-text">$</span>
                                         <input name="price"
@@ -440,12 +439,35 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <label for="category" class="form-label">
+                                    <i class="bi bi-grid"></i> {{ __('Categoría') }} <span class="required">*</span>
+                                </label>
+                                    <select name="category" id="category" class="form-select {{ $errors->has('category') ? 'is-invalid' : '' }}">
+                                        <option value="">Seleccionar categoría (Opcional)</option>
+                                        <option value="Jabones" {{ old('category', $product->category ?? '') == 'Jabones' ? 'selected' : '' }}>Jabones</option>
+                                        <option value="Mascarillas en polvo" {{ old('category', $product->category ?? '') == 'Mascarillas en polvo' ? 'selected' : '' }}>Mascarillas en polvo</option>
+                                        <option value="Bálsamos" {{ old('category', $product->category ?? '') == 'Bálsamos' ? 'selected' : '' }}>Bálsamos</option>
+                                        <option value="Cremas faciales" {{ old('category', $product->category ?? '') == 'Cremas faciales' ? 'selected' : '' }}>Cremas faciales</option>
+                                        <option value="Cremas corporales" {{ old('category', $product->category ?? '') == 'Cremas corporales' ? 'selected' : '' }}>Cremas corporales</option>
+                                    </select>
+                                    @if($errors->has('category'))
+                                        <div class="invalid-feedback d-block">
+                                            <i class="bi bi-x-circle"></i>
+                                            {{ $errors->first('category') }}
+                                        </div>
+                                    @endif
+                                </div>
+
                                 <div class="col-12">
-                                    <label for="description" class="form-label">
-                                        <i class="bi bi-file-text"></i>
-                                        Descripción
-                                        <span class="required">*</span>
-                                    </label>
+                                    <h3 class="section-title">
+                            <i class="bi bi-text-left"></i> {{ __('Descripción Detallada') }}
+                        </h3>
+
+                        <div class="form-group mb-4">
+                            <label for="description" class="form-label">
+                                <i class="bi bi-body-text"></i> {{ __('Descripción') }}
+                            </label>
                                     <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
                                               name="description"
                                               id="description"
@@ -498,15 +520,13 @@
 
                         <!-- Botones de Acción -->
                         <div class="btn-group-custom">
-                            <button class="btn btn-custom btn-save" type="submit" id="submitBtn">
-                                <i class="bi bi-check-circle"></i>
-                                <span>{{ isset($product) ? 'Actualizar' : 'Guardar' }} Producto</span>
-                            </button>
-                            <a href="{{ route('products.index') }}" class="btn btn-custom btn-cancel">
-                                <i class="bi bi-x-circle"></i>
-                                <span>Cancelar</span>
-                            </a>
-                        </div>
+                    <button type="submit" class="btn-custom btn-save" id="submitBtn">
+                        <i class="bi bi-check-circle"></i> {{ __('Publicar Producto') }}
+                    </button>
+                    <a href="{{ route('products.index') }}" class="btn-custom btn-secondary" style="background: #e0e6ed; color: #4a5568; box-shadow: none;">
+                        <i class="bi bi-x-circle"></i> {{ __('Cancelar') }}
+                    </a>
+                </div>
                     </form>
                 </div>
             </div>

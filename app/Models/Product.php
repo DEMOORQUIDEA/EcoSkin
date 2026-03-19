@@ -15,7 +15,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ["name", "description", "price", "image"];
+    protected $fillable = ["name", "description", "price", "image", "category", "user_id", "is_active"];
 
     /**
      * Get the attributes that should be cast.
@@ -52,5 +52,21 @@ class Product extends Model
     {
         return !empty($this->image) &&
             Storage::disk("public")->exists($this->image);
+    }
+
+    /**
+     * Get the comments for the product
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->where('status', 'approved');
+    }
+
+    /**
+     * Get the user that owns the product
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

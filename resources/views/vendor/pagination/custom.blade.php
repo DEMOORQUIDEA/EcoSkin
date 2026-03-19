@@ -77,19 +77,19 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: linear-gradient(135deg, #f0f0ff 0%, #f5f0ff 100%);
-    border: 1px solid rgba(102, 126, 234, 0.2);
+    background: white;
+    border: 1px solid rgba(162,165,141,0.35);
     border-radius: 50px;
     padding: 0.45rem 1.1rem;
     font-size: 0.82rem;
-    color: #5a6a8a;
+    color: var(--color-sage);
     font-weight: 500;
     letter-spacing: 0.01em;
 }
 
 .pag-info b {
-    color: #667eea;
-    font-weight: 700;
+    color: var(--color-forest);
+    font-weight: 600;
 }
 
 /* Controles: fila completa */
@@ -106,9 +106,9 @@
     display: flex;
     align-items: center;
     gap: 0.35rem;
-    background: #f8f8ff;
-    border: 1.5px solid rgba(102, 126, 234, 0.18);
-    border-radius: 14px;
+    background: white;
+    border: 1.5px solid rgba(162,165,141,0.25);
+    border-radius: 50px;
     padding: 0.3rem 0.5rem;
     flex-wrap: wrap;
     justify-content: center;
@@ -141,11 +141,11 @@
 }
 
 .pag-nav-btn:not(.disabled):hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #ffffff;
+    background: var(--color-forest);
+    color: var(--color-cream);
     border-color: transparent;
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(102, 126, 234, 0.38);
+    box-shadow: 0 6px 18px rgba(88,98,74,0.3);
     text-decoration: none;
 }
 
@@ -168,18 +168,18 @@
 }
 
 .pag-page:not(.active):hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--color-sage);
     color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+    box-shadow: 0 4px 12px rgba(162,165,141,0.35);
     text-decoration: none;
 }
 
 /* Página activa */
 .pag-page.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 14px rgba(102, 126, 234, 0.45);
+    background: var(--color-charcoal);
+    color: var(--color-cream);
+    box-shadow: 0 4px 14px rgba(45,45,38,0.3);
     cursor: default;
     border-radius: 8px;
 }

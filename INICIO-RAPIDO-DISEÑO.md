@@ -255,7 +255,7 @@ php artisan storage:link
 ### Problemas con DataTables
 - Verifica que jQuery se carga antes que DataTables
 - Abre la consola del navegador (F12) para ver errores
-- Revisa que la ruta `products.data` existe
+- Revisa que las rutas `products.data` (legacy) **o** `productos.data` existen (se apunta al mismo controlador)
 
 ### Paginación muestra flechas en lugar de texto
 - Verifica que el CSS de paginación está presente en `products/index.blade.php`

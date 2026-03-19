@@ -127,95 +127,127 @@ class UserController extends Controller
 
     public function destroy(Request $request, User $user)
     {
-        // Eliminar avatar si existe
-        if ($user->avatar) {
-            $this->fileService->delete($user->avatar);
-        }
-
-        $user->delete();
+        // Cambiar a desactivar en lugar de eliminar
+        $user->deactivate();
 
         return redirect()
             ->route("users.index")
-            ->with("success", "Usuario eliminado exitosamente!!!");
+            ->with("success", "Usuario desactivado exitosamente!!!");
+    }
+
+    /**
+     * Activate a user account
+     */
+    public function activate(Request $request, User $user)
+    {
+        $user->activate();
+
+        return redirect()
+            ->route("users.index")
+            ->with("success", "Usuario activado exitosamente!!!");
+    }
+
+    /**
+     * Toggle user status (activate/deactivate)
+     */
+    public function toggleStatus(Request $request, User $user)
+    {
+        $user->toggleStatus();
+        $newStatus = $user->is_active ? 'activado' : 'desactivado';
+
+        return redirect()
+            ->route("users.index")
+            ->with("success", "Usuario {$newStatus} exitosamente!!!");
     }
 
     public function dataTable(Request $request)
     {
-        $request->validate([
-            "draw" => "integer",
-            "start" => "integer|min:0",
-            "length" => "integer|min:1|max:100",
-            "search.value" => "nullable|string|max:255",
-        ]);
+        try {
+            $request->validate([
+                "draw" => "integer",
+                "start" => "integer|min:0",
+                "length" => "integer|min:1|max:100",
+                "search.value" => "nullable|string|max:255",
+            ]);
 
-        $query = User::query();
+            $query = User::query();
 
-        $search = $request->input("search.value");
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->where("name", "like", "%{$search}%")
-                    ->orWhere("email", "like", "%{$search}%");
-            });
-        }
-
-        $totalRecords = User::count();
-
-        $filteredRecords = clone $query;
-        $recordsFiltered = $filteredRecords->count();
-
-        $columns = ["name", "email", "created_at", "id"];
-        $orderColumn = $request->input("order.0.column", 0);
-        $orderDir = $request->input("order.0.dir", "asc");
-        $query->orderBy($columns[$orderColumn] ?? "id", $orderDir);
-
-        $start = $request->input("start", 0);
-        $length = $request->input("length", 10);
-        $data = $query->skip($start)->take($length)->get();
-
-        $data = $data->map(function ($user) {
-            $avatarHtml = "";
-            if (
-                $user->avatar &&
-                Storage::disk("public")->exists($user->avatar)
-            ) {
-                $avatarHtml =
-                    '<img src="' .
-                    asset("storage/" . $user->avatar) .
-                    '" alt="' .
-                    $user->name .
-                    '" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">';
-            } else {
-                $avatarHtml =
-                    '<div class="bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 50%;"><i class="bi bi-person text-muted"></i></div>';
+            $search = $request->input("search.value");
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where("name", "like", "%{$search}%")
+                        ->orWhere("email", "like", "%{$search}%");
+                });
             }
 
-            return [
-                "avatar" => $avatarHtml,
-                "name" => $user->name,
-                "email" => $user->email,
-                "created_at" => $user->created_at->format('Y-m-d H:i'),
-                "actions" =>
-                    '
-                    <button class="btn btn-primary btn-sm" onclick="execute(\'/users/' .
-                    $user->id .
-                    '/edit\')">
-                        <i class="bi bi-pencil"></i> <span class="d-none d-sm-inline">Edit</span>
-                    </button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteRecord(\'/users/' .
-                    $user->id .
-                    '\')">
-                        <i class="bi bi-trash"></i> <span class="d-none d-sm-inline">Delete</span>
-                    </button>
-                ',
-            ];
-        });
+            $totalRecords = User::count();
 
-        return response()->json([
-            "draw" => (int) $request->input("draw"),
-            "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $recordsFiltered,
-            "data" => $data,
-        ]);
+            $filteredRecords = clone $query;
+            $recordsFiltered = $filteredRecords->count();
+
+            $columns = ["name", "email", "created_at", "id"];
+            $orderColumn = $request->input("order.0.column", 0);
+            $orderDir = $request->input("order.0.dir", "asc");
+            $query->orderBy($columns[$orderColumn] ?? "id", $orderDir);
+
+            $start = $request->input("start", 0);
+            $length = $request->input("length", 10);
+            $data = $query->skip($start)->take($length)->get();
+
+            $data = $data->map(function ($user) {
+                $avatarHtml = "";
+                if (
+                    $user->avatar &&
+                    Storage::disk("public")->exists($user->avatar)
+                ) {
+                    $avatarHtml =
+                        '<img src="' .
+                        asset("storage/" . $user->avatar) .
+                        '" alt="' .
+                        $user->name .
+                        '" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">';
+                } else {
+                    $avatarHtml =
+                        '<div class="bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border-radius: 50%;"><i class="bi bi-person text-muted"></i></div>';
+                }
+
+                return [
+                    "avatar" => $avatarHtml,
+                    "name" => $user->name,
+                    "email" => $user->email,
+                    "created_at" => $user->created_at->format('Y-m-d H:i'),
+                    "actions" =>
+                        '
+                        <button class="btn btn-primary btn-sm" onclick="execute(\'/users/' .
+                        $user->id .
+                        '/edit\')">
+                            <i class="bi bi-pencil"></i> <span class="d-none d-sm-inline">Edit</span>
+                        </button>
+                        ' . ($user->is_active
+                            ? '<button class="btn btn-action btn-deactivate btn-sm" onclick="confirmToggleStatus(\'/users/' . $user->id . '/toggle\', \'desactivar\')">
+                                <i class="bi bi-lock"></i> <span class="d-none d-sm-inline">Desactivar</span>
+                            </button>'
+                            : '<button class="btn btn-action btn-activate btn-sm" onclick="confirmToggleStatus(\'/users/' . $user->id . '/toggle\', \'activar\')">
+                                <i class="bi bi-unlock"></i> <span class="d-none d-sm-inline">Activar</span>
+                            </button>'
+                        ) .
+                        '
+                    ',
+                ];
+            });
+
+            return response()->json([
+                "draw" => (int) $request->input("draw"),
+                "recordsTotal" => $totalRecords,
+                "recordsFiltered" => $recordsFiltered,
+                "data" => $data,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('User dataTable error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Se produjo un error al cargar los usuarios. Consulte logs.'
+            ], 500);
+        }
     }
 
     public function downloadAvatar(User $user)

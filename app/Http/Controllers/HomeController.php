@@ -25,32 +25,10 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::query();
-
-        // Búsqueda
-        $search = $request->input('search', '');
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('price', 'like', "%{$search}%");
-            });
+        if (auth()->user()->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
         }
 
-        // Paginación (12 productos por página)
-        $products = $query->orderBy('created_at', 'desc')->paginate(12);
-
-        // Mantener parámetros de búsqueda en la paginación
-        $products->appends(['search' => $search]);
-
-        // Estadísticas generales (sin filtro)
-        $allProducts = Product::all();
-
-        return view("home", [
-            'products' => $products,
-            'search' => $search,
-            'totalProducts' => $allProducts->count(),
-            'avgPrice' => $allProducts->avg('price') ?? 0,
-        ]);
+        return redirect('/');
     }
 }

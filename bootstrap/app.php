@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
             "api.response" => \App\Http\Middleware\ApiResponseMiddleware::class,
             "force.json" =>
                 \App\Http\Middleware\ForceJsonResponseMiddleware::class,
+            "check-active" => \App\Http\Middleware\CheckActiveUser::class,
 
             // Aliases de Sanctum (movidos aquí)
             "auth:sanctum" =>
@@ -39,7 +40,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Registrar middleware web globalmente si es necesario
         $middleware->web(
             append: [
-                // Aquí podríamos agregar middleware web si fuera necesario
+                \App\Http\Middleware\CheckActiveUser::class,
             ],
         );
     })

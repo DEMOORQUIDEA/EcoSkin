@@ -266,7 +266,9 @@ const table = $('#myTable').DataTable({
     
     // Configuración AJAX
     ajax: {
-        url: '{{ route("products.data") }}',  // Endpoint del controlador
+        // En las versiones españolas el end‑point también puede llamarse
+        // `productos.data`, pero ambas rutas apuntan al mismo método.
+        url: '{{ route("productos.data") }}',  // Endpoint del controlador
         type: 'GET'
     },
     
@@ -590,7 +592,7 @@ document.addEventListener('DOMContentLoaded', function() {
 **Diagnóstico:**
 ```javascript
 // Verificar ruta
-console.log('{{ route("products.data") }}');
+// console.log('{{ route("productos.data") }}');  // muestra /productos/data (alias)
 // Debe ser /products/data
 
 // Verificar respuesta AJAX

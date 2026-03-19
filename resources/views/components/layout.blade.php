@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <title>Jesus's page</title>
+    <title>{{ config('app.name', 'EcoSkin') }}</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -15,24 +15,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.css">
 
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Estilos generales */
-        body {
-            background: #f5f7fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --color-cream: #EBF2E8;
+            --color-tan: #8DB600;
+            --color-sage: #8F9D7D;
+            --color-forest: #48633F;
+            --color-charcoal: #1B2B1B;
         }
 
-        /* Navbar moderna */
+        /* Estilos generales */
+        body {
+            background: var(--color-cream);
+            font-family: 'Jost', sans-serif;
+            color: var(--color-charcoal);
+        }
+
+        /* Navbar */
         .navbar-custom {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 0.75rem 0;
+            background: var(--color-charcoal);
+            box-shadow: 0 2px 16px rgba(45, 45, 38, 0.18);
+            padding: 0.85rem 0;
         }
 
         .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: white !important;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1.6rem;
+            letter-spacing: 0.04em;
+            color: var(--color-cream) !important;
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -40,57 +52,57 @@
         }
 
         .navbar-brand:hover {
-            transform: translateY(-2px);
+            color: var(--color-tan) !important;
         }
 
         .navbar-brand-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--color-forest);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .navbar-brand-icon img {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            filter: brightness(0) invert(1);
         }
 
         .navbar-toggler {
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 1.5px solid rgba(230, 234, 221, 0.4);
             padding: 0.5rem 0.75rem;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .navbar-toggler:focus {
-            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 0.15rem rgba(186, 155, 114, 0.4);
         }
 
         .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28230, 234, 221, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
         /* User Dropdown */
         .user-dropdown {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
+            background: rgba(230, 234, 221, 0.12);
+            border-radius: 8px;
             padding: 0.5rem 1rem;
             transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 1.5px solid rgba(186, 155, 114, 0.3);
         }
 
         .user-dropdown:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
+            background: rgba(186, 155, 114, 0.15);
         }
 
         .navbar-nav .nav-link.dropdown-toggle {
-            color: white !important;
-            font-weight: 500;
+            color: var(--color-cream) !important;
+            font-weight: 400;
+            letter-spacing: 0.03em;
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -101,46 +113,54 @@
         }
 
         .user-avatar {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            border: 2px solid white;
+            border: 2px solid var(--color-tan);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .dropdown-menu {
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            padding: 0.75rem;
+            border-radius: 10px;
+            border: 1px solid rgba(162, 165, 141, 0.2);
+            box-shadow: 0 12px 40px rgba(45, 45, 38, 0.12);
+            padding: 0.5rem;
             margin-top: 0.5rem;
             min-width: 220px;
+            background: #fff;
         }
 
         .dropdown-item {
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            border-radius: 6px;
+            padding: 0.7rem 1rem;
+            font-weight: 400;
+            color: var(--color-charcoal);
+            transition: all 0.25s ease;
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            font-size: 0.95rem;
         }
 
         .dropdown-item i {
-            font-size: 1.1rem;
-            width: 20px;
+            font-size: 1rem;
+            width: 18px;
+            color: var(--color-sage);
         }
 
         .dropdown-item:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            transform: translateX(5px);
+            background: var(--color-cream);
+            color: var(--color-forest);
+            transform: translateX(3px);
+        }
+
+        .dropdown-item:hover i {
+            color: var(--color-tan);
         }
 
         .dropdown-divider {
-            margin: 0.5rem 0;
-            border-color: #e0e6ed;
+            margin: 0.4rem 0;
+            border-color: rgba(162, 165, 141, 0.3);
         }
 
         /* Main content */
@@ -150,49 +170,92 @@
 
         /* Footer */
         footer {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--color-charcoal);
+            color: var(--color-cream);
             padding: 2rem 0;
             margin-top: 3rem;
         }
 
         footer p {
             margin: 0;
-            opacity: 0.9;
+            opacity: 0.85;
+            letter-spacing: 0.02em;
+            font-size: 0.9rem;
         }
 
         footer a {
-            color: white;
+            color: var(--color-tan);
             text-decoration: none;
             transition: all 0.3s ease;
         }
 
         footer a:hover {
-            opacity: 0.8;
+            color: var(--color-cream);
         }
 
-        /* Scrollbar personalizado */
-        ::-webkit-scrollbar {
-            width: 10px;
+        /* ── BOOTSTRAP OVERRIDES (FORZAR VERDE) ──────────────── */
+        .btn-primary {
+            background-color: var(--color-forest) !important;
+            border-color: var(--color-forest) !important;
+            color: var(--color-cream) !important;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        /* botones personalizados para activar/desactivar coherentes */
+        .btn-activate {
+            background: var(--color-forest) !important;
+            color: var(--color-cream) !important;
+        }
+        .btn-activate:hover {
+            filter: brightness(0.9);
+        }
+        .btn-deactivate {
+            background: var(--color-tan) !important;
+            color: var(--color-cream) !important;
+        }
+        .btn-deactivate:hover {
+            filter: brightness(0.9);
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 5px;
+        .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+            background-color: var(--color-charcoal) !important;
+            border-color: var(--color-charcoal) !important;
+            box-shadow: 0 4px 12px rgba(45, 45, 38, 0.25) !important;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        .btn-outline-primary {
+            color: var(--color-forest) !important;
+            border-color: var(--color-forest) !important;
         }
+        .btn-outline-primary:hover {
+            background-color: var(--color-forest) !important;
+            color: var(--color-cream) !important;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--color-sage) !important;
+            box-shadow: 0 0 0 0.25rem rgba(162, 165, 141, 0.25) !important;
+        }
+
+        .text-primary { color: var(--color-forest) !important; }
+        .bg-primary { background-color: var(--color-forest) !important; }
+
+        .page-item.active .page-link {
+            background-color: var(--color-forest) !important;
+            border-color: var(--color-forest) !important;
+        }
+        .page-link { color: var(--color-forest); }
+        .page-link:hover { color: var(--color-charcoal); }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--color-cream); }
+        ::-webkit-scrollbar-thumb { background: var(--color-sage); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-forest); }
 
         /* Responsive */
         @media (max-width: 768px) {
             .navbar-brand {
-                font-size: 1.25rem;
+                font-size: 1.3rem;
             }
 
             .user-dropdown {
@@ -212,11 +275,11 @@
         <nav class="navbar navbar-expand-lg navbar-custom">
             <div class="container">
                 <!-- Brand -->
-                <a class="navbar-brand" href="/">
-                    <div class="navbar-brand-icon">
-                        <img src="{{ asset('images/avatar.png') }}" alt="Logo">
+                <a class="navbar-brand d-flex align-items-center" href="{{ auth()->check() && auth()->user()->hasRole('admin') ? route('admin.dashboard') : url('/') }}">
+                    <div class="logo-ec-container me-2" style="background: var(--color-forest); color: var(--color-cream); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.3rem;">
+                        <span class="logo-ec">EC</span>
                     </div>
-                    <span>My WebApp</span>
+                    <span>EcoSkin</span>
                 </a>
 
                 <!-- Toggler -->
@@ -237,9 +300,9 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('home') }}">
-                                        <i class="bi bi-house-door"></i>
-                                        <span>Inicio</span>
+                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                        <i class="bi bi-speedometer2"></i>
+                                        <span>Panel</span>
                                     </a>
                                 </li>
                                 <li>
@@ -283,14 +346,10 @@
     <footer>
         <div class="container text-center">
             <p>
-                <i class="bi bi-heart-fill me-2"></i>
-                Hecho con amor por Jesus's Team © {{ date('Y') }}
+                EcoSkin Cosmetics © {{ date('Y') }}
             </p>
-            <p class="mt-2">
-                <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="me-3"><i class="bi bi-twitter"></i></a>
-                <a href="#" class="me-3"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-github"></i></a>
+            <p class="mt-2 text-center" style="color: var(--color-tan); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; letter-spacing: 0.1em; font-weight: 600;">
+                SOMOS ECOSKIN COSMETICS
             </p>
         </div>
     </footer>

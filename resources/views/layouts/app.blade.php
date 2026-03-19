@@ -11,7 +11,7 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -20,23 +20,43 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     <style>
-        /* Estilos generales */
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: #f5f7fa;
+        /* ====================================================
+           PALETA EcoSkin
+           #E6EADD - crema claro (fondo)
+           #BA9B72 - tostado/dorado (acento cálido)
+           #A2A58D - sage gris (acento neutro)
+           #58624A - verde bosque (primario)
+           #2D2D26 - carbón oscuro (navbar/footer/texto)
+        ==================================================== */
+        :root {
+            --color-cream: #EBF2E8;
+            --color-tan: #8DB600;
+            --color-sage: #8F9D7D;
+            --color-forest: #48633F;
+            --color-charcoal: #1B2B1B;
         }
 
-        /* Navbar moderna */
+        /* Estilos generales */
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--color-cream);
+            color: var(--color-charcoal);
+        }
+
+        /* Navbar */
         .navbar-custom {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 0.75rem 0;
+            background: var(--color-charcoal);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 1.1rem 0;
+            border-bottom: 1px solid rgba(230, 234, 221, 0.05);
         }
 
         .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: white !important;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1.6rem;
+            letter-spacing: 0.04em;
+            color: var(--color-cream) !important;
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -44,49 +64,54 @@
         }
 
         .navbar-brand:hover {
-            transform: translateY(-2px);
+            color: var(--color-tan) !important;
         }
 
         .navbar-brand-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--color-forest);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .navbar-brand-icon i {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+            color: var(--color-cream);
         }
 
         .navbar-toggler {
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 1.5px solid rgba(230, 234, 221, 0.4);
             padding: 0.5rem 0.75rem;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .navbar-toggler:focus {
-            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 0.15rem rgba(186, 155, 114, 0.4);
         }
 
         .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28230, 234, 221, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
         .navbar-nav .nav-link {
-            color: white !important;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            margin: 0 0.25rem;
+            color: var(--color-cream) !important;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            margin: 0 0.4rem;
+            font-size: 0.92rem;
+            text-transform: uppercase;
         }
 
         .navbar-nav .nav-link:hover {
-            background: rgba(255, 255, 255, 0.15);
+            color: var(--color-tan) !important;
+            background: rgba(186, 155, 114, 0.08);
+            transform: translateY(-1px);
         }
 
         /* Carrito de compras */
@@ -99,7 +124,7 @@
         }
 
         #cartIcon:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(186, 155, 114, 0.15);
             transform: scale(1.05);
         }
 
@@ -112,7 +137,9 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            background: var(--color-tan) !important;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
             animation: cartBounce 0.5s ease;
         }
 
@@ -124,29 +151,31 @@
         /* Modal del carrito */
         .modal-content {
             border: none;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(45, 45, 38, 0.2);
         }
 
         .list-group-item {
             transition: all 0.3s ease;
+            border-color: #e8ebe2;
         }
 
         .list-group-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(88, 98, 74, 0.1);
         }
 
         /* User Dropdown */
         .user-dropdown {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
+            background: rgba(230, 234, 221, 0.12);
+            border-radius: 8px;
             padding: 0.25rem 0.75rem;
             transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 1.5px solid rgba(186, 155, 114, 0.3);
         }
 
         .user-dropdown:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(186, 155, 114, 0.15);
         }
 
         .navbar-nav .nav-link.dropdown-toggle {
@@ -156,33 +185,41 @@
         }
 
         .dropdown-menu {
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            padding: 0.75rem;
+            border-radius: 10px;
+            border: 1px solid rgba(162, 165, 141, 0.2);
+            box-shadow: 0 12px 40px rgba(45, 45, 38, 0.12);
+            padding: 0.5rem;
             margin-top: 0.5rem;
             min-width: 200px;
+            background: #fff;
         }
 
         .dropdown-item {
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            border-radius: 6px;
+            padding: 0.7rem 1rem;
+            font-weight: 400;
+            color: var(--color-charcoal);
+            transition: all 0.25s ease;
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            font-size: 0.95rem;
         }
 
         .dropdown-item i {
-            font-size: 1.1rem;
-            width: 20px;
+            font-size: 1rem;
+            width: 18px;
+            color: var(--color-sage);
         }
 
         .dropdown-item:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            transform: translateX(5px);
+            background: var(--color-cream);
+            color: var(--color-forest);
+            transform: translateX(3px);
+        }
+
+        .dropdown-item:hover i {
+            color: var(--color-tan);
         }
 
         /* Main content */
@@ -192,57 +229,75 @@
 
         /* Footer */
         footer {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1.5rem 0;
+            background: var(--color-charcoal);
+            color: var(--color-cream);
+            padding: 1.75rem 0;
             margin-top: auto;
         }
 
         footer p {
             margin: 0;
-            opacity: 0.9;
-            font-size: 0.95rem;
+            opacity: 0.85;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
         }
 
         footer a {
-            color: white;
+            color: var(--color-tan);
             text-decoration: none;
             transition: all 0.3s ease;
         }
 
         footer a:hover {
-            opacity: 0.8;
+            color: var(--color-cream);
         }
 
         /* Scrollbar personalizado */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: var(--color-cream);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 5px;
+            background: var(--color-sage);
+            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            background: var(--color-forest);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .navbar-brand {
-                font-size: 1.25rem;
+                font-size: 1.3rem;
             }
 
             .user-dropdown {
-                margin-top: 1rem;
-                width: 100%;
-                justify-content: center;
-            }
+        .logo-ec-container {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--color-tan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            margin-right: 0.8rem;
+        }
+
+        .logo-ec {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--color-tan);
+            letter-spacing: 0.1em;
+        }
+
+        .brand-text {
+            font-size: 1.5rem;
+            font-weight: 300;
         }
     </style>
 
@@ -253,12 +308,12 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-custom">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <div class="navbar-brand-icon">
-                        <i class="bi bi-box-seam-fill"></i>
-                    </div>
-                    <span>{{ config('app.name', 'Jesus\'s page') }}</span>
-                </a>
+                <a class="navbar-brand d-flex align-items-center" href="{{ auth()->check() && auth()->user()->hasRole('admin') ? route('admin.dashboard') : url('/') }}">
+                <div class="logo-ec-container me-2">
+                    <span class="logo-ec">EC</span>
+                </div>
+                <span class="brand-text">EcoSkin</span>
+            </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -266,12 +321,106 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        @role('admin')
+                            {{-- Administrador: Panel y secciones principales --}}
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                                    <i class="bi bi-speedometer2 me-1"></i> {{ __('Dashboard') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                                    <i class="bi bi-people me-1"></i> {{ __('Users') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('productos.create') ? 'active' : '' }}" href="{{ route('productos.create') }}">
+                                    <i class="bi bi-cloud-upload me-1"></i> {{ __('Subir Productos') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('productos.index') ? 'active' : '' }}" href="{{ route('productos.index') }}">
+                                    <i class="bi bi-box-seam me-1"></i> {{ __('Productos') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
+                                    <i class="bi bi-cart-check me-1"></i> {{ __('Orders') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.abandoned.index') ? 'active' : '' }}" href="{{ route('admin.abandoned.index') }}">
+                                    <i class="bi bi-bag-x me-1"></i> {{ __('Abandoned Cart') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.comments.index') ? 'active' : '' }}" href="{{ route('admin.comments.index') }}">
+                                    <i class="bi bi-chat-dots me-1"></i> {{ __('Comments') }}
+                                </a>
+                            </li>
+                        @else
+                            {{-- Cliente/Invitado: Nosotros y Productos --}}
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->is('nosotros') ? 'active' : '' }}" href="{{ route('nosotros') }}">
+                                    <i class="bi bi-people me-1"></i> {{ __('Nosotros') }}
+                                </a>
+                            </li>
+                            @auth
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('productos.create') ? 'active' : '' }}" href="{{ route('productos.create') }}">
+                                    <i class="bi bi-cloud-upload me-1"></i> {{ __('Subir Productos') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('productos.index') ? 'active' : '' }}" href="{{ route('productos.index') }}">
+                                    <i class="bi bi-box-seam me-1"></i> {{ __('Productos') }}
+                                </a>
+                            </li>
+                            @endauth
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdownProductos" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <i class="bi bi-grid me-1"></i> {{ __('Products') }}
+                                </a>
 
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownProductos">
+                                    <a class="dropdown-item" href="{{ route('welcome') }}">
+                                        <i class="bi bi-collection"></i> <span>{{ __('General Products') }}</span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Jabones']) }}">
+                                        <i class="bi bi-water"></i> <span>Jabones</span>
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Mascarillas en polvo']) }}">
+                                        <i class="bi bi-magic"></i> <span>Mascarillas en polvo</span>
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Bálsamos']) }}">
+                                        <i class="bi bi-droplet"></i> <span>Bálsamos</span>
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Cremas faciales']) }}">
+                                        <i class="bi bi-sparkles"></i> <span>Cremas faciales</span>
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Cremas corporales']) }}">
+                                        <i class="bi bi-wind"></i> <span>Cremas corporales</span>
+                                    </a>
+                                </div>
+                            </li>
+                        @endrole
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto d-flex align-items-center">
+                        <!-- Historial de Compras (Solo usuarios autenticados no admin) -->
+                        @if(Auth::check() && !Auth::user()->hasRole('admin'))
+                        <li class="nav-item me-2 d-flex align-items-center">
+                            <a class="nav-link d-flex align-items-center gap-2" href="{{ route('user.orders') }}" title="Mi Historial de Compras" style="padding: 0.5rem 1rem !important; border-radius: 8px; transition: all 0.3s;" onmouseover="this.style.background='rgba(186, 155, 114, 0.15)';" onmouseout="this.style.background='transparent';">
+                                <i class="bi bi-clock-history" style="font-size: 1.2rem;"></i>
+                                <span style="font-weight: 500; font-size: 0.95rem;">Historial de compras</span>
+                            </a>
+                        </li>
+                        @endif
+
                         <!-- Carrito de Compras -->
+                        @unless(Auth::check() && Auth::user()->hasRole('admin'))
                         <li class="nav-item me-3">
                             @auth
                             <a class="nav-link position-relative" href="{{ route('cart.index') }}" id="cartIcon" title="Ver mi carrito">
@@ -284,26 +433,35 @@
                                 </span>
                             </a>
                         </li>
+                        @endunless
+
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.login') }}">
+                                    <i class="bi bi-shield"></i>
+                                    <span>{{ __('Administrador') }}</span>
+                                </a>
+                            </li>
+                        @endguest
 
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">
-                                        <i class="bi bi-box-arrow-in-right me-1"></i>
-                                        {{ __('Login') }}
-                                    </a>
-                                </li>
-                            @endif
+                                <a class="nav-link" href="{{ route('login') }}">
+                                    <i class="bi bi-person"></i>
+                                    <span>{{ __('Login') }}</span>
+                                </a>
+                            </li>
+                        @endif
 
                             @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">
-                                        <i class="bi bi-person-plus me-1"></i>
-                                        {{ __('Register') }}
-                                    </a>
-                                </li>
-                            @endif
+                                <a class="nav-link" href="{{ route('register') }}">
+                                    <i class="bi bi-person-plus"></i>
+                                    <span>{{ __('Register') }}</span>
+                                </a>
+                            </li>
+                        @endif
                         @else
                             <li class="nav-item dropdown user-dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -312,15 +470,17 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('home') }}">
-                                        <i class="bi bi-house-door"></i>
-                                        <span>Inicio</span>
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('products.index') }}">
-                                        <i class="bi bi-box-seam"></i>
-                                        <span>Productos</span>
-                                    </a>
-                                    <div class="dropdown-divider"></div>
+                                    @role('admin')
+                                        {{-- Para Admin: Solo Logout --}}
+                                        <div class="dropdown-header text-uppercase small font-weight-bold" style="color: var(--color-sage);">Sesión de Administrador</div>
+                                    @else
+                                        {{-- Para Cliente: Inicio y Logout --}}
+                                        <a class="dropdown-item" href="{{ route('home') }}">
+                                            <i class="bi bi-house-door"></i>
+                                            <span>Inicio</span>
+                                        </a>
+                                    @endrole
+
                                     <a class="dropdown-item" href="{{ route('logout') }}">
                                         <i class="bi bi-box-arrow-left"></i>
                                         <span>{{ __('Logout') }}</span>
@@ -341,11 +501,12 @@
             @yield('content')
         </main>
 
+        @unless(Auth::check() && Auth::user()->hasRole('admin'))
         <!-- Modal del Carrito -->
         <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content" style="border-radius: 15px; border: none;">
-                    <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px 15px 0 0;">
+                    <div class="modal-header" style="background: var(--color-charcoal); color: var(--color-cream); border-radius: 16px 16px 0 0;">
                         <h5 class="modal-title" id="cartModalLabel">
                             <i class="bi bi-cart3 me-2"></i>Mi Carrito de Compras
                         </h5>
@@ -357,16 +518,16 @@
                             <p class="mt-3 text-muted">Tu carrito está vacío</p>
                         </div>
                     </div>
-                    <div class="modal-footer" style="background: #f8f9fa;">
+                    <div class="modal-footer" style="background: var(--color-cream);">
                         <div class="w-100">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h5 class="mb-0">Total:</h5>
-                                <h4 class="mb-0" id="cartTotal" style="color: #667eea; font-weight: 700;">$0.00</h4>
+                                <h4 class="mb-0" id="cartTotal" style="color: var(--color-forest); font-weight: 600; font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;">$0.00</h4>
                             </div>
-                            <button type="button" class="btn btn-secondary w-100 mb-2" data-bs-dismiss="modal">
+                            <button type="button" class="btn w-100 mb-2" style="background: var(--color-cream); color: var(--color-charcoal); border: 1.5px solid var(--color-sage); font-weight: 500; letter-spacing: 0.03em;" data-bs-dismiss="modal">
                                 <i class="bi bi-arrow-left me-2"></i>Seguir Comprando
                             </button>
-                            <button type="button" class="btn w-100" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;" onclick="checkout()">
+                            <button type="button" class="btn w-100" style="background: var(--color-forest); color: var(--color-cream); border: none; font-weight: 500; letter-spacing: 0.05em; transition: background 0.3s;" onmouseover="this.style.background='var(--color-charcoal)'" onmouseout="this.style.background='var(--color-forest)'" onclick="checkout()">
                                 <i class="bi bi-credit-card me-2"></i>Proceder al Pago
                             </button>
                         </div>
@@ -374,15 +535,44 @@
                 </div>
             </div>
         </div>
+        @endunless
 
-        <footer>
+        @unless(Auth::check() && Auth::user()->hasRole('admin'))
+        <footer class="py-5" style="background: var(--color-charcoal); color: var(--color-cream); margin-top: 3rem;">
             <div class="container text-center">
-                <p>
-                    <i class="bi bi-heart-fill me-2"></i>
-                    Hecho con amor por Jesus's Team © {{ date('Y') }}
-                </p>
+                <div class="d-flex justify-content-center gap-4 mb-4">
+                    <a href="#" class="social-icon-link" title="Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon-link" title="Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="#" class="social-icon-link" title="TikTok">
+                        <i class="bi bi-tiktok"></i>
+                    </a>
+                </div>
+                
+                <h5 class="mt-2 fw-bold" style="font-family: 'Cormorant Garamond', serif; letter-spacing: 0.15em; color: var(--color-tan); font-size: 1.4rem;">
+                    SOMOS ECOSKIN COSMETICS
+                </h5>
+
+                <style>
+                    .social-icon-link {
+                        color: var(--color-cream);
+                        font-size: 2rem;
+                        transition: all 0.3s ease;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .social-icon-link:hover {
+                        color: var(--color-tan);
+                        transform: translateY(-5px);
+                    }
+                </style>
             </div>
         </footer>
+        @endunless
     </div>
     @stack('scripts')
 
@@ -409,13 +599,22 @@
         });
 
         // SISTEMA DE CARRITO
+        function getCartKey() {
+            @auth
+                return 'cart_{{ Auth::id() }}';
+            @endauth
+            return 'cart_guest';
+        }
+
         function getCart() {
-            const cart = localStorage.getItem('cart');
+            const cartKey = getCartKey();
+            const cart = localStorage.getItem(cartKey);
             return cart ? JSON.parse(cart) : [];
         }
 
         function saveCart(cart) {
-            localStorage.setItem('cart', JSON.stringify(cart));
+            const cartKey = getCartKey();
+            localStorage.setItem(cartKey, JSON.stringify(cart));
             updateCartCount();
         }
 
@@ -529,7 +728,7 @@
                             </button>
                         </div>
                         <div class="text-end" style="min-width: 80px;">
-                            <div class="fw-bold" style="color: #667eea;">$${itemTotal.toFixed(2)}</div>
+                            <div class="fw-bold" style="color: var(--color-forest); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;">$${itemTotal.toFixed(2)}</div>
                             <button class="btn btn-sm btn-link text-danger p-0" onclick="removeFromCart(${item.id})" style="font-size: 0.85rem;">
                                 <i class="bi bi-trash"></i> Eliminar
                             </button>
@@ -562,7 +761,7 @@
 
         function showToastNotification(message, type = 'success') {
             const icon = type === 'success' ? 'cart-check-fill' : type === 'error' ? 'x-circle-fill' : 'info-circle-fill';
-            const bgColor = type === 'success' ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : type === 'error' ? 'linear-gradient(135deg, #f56565 0%, #e53e3e 100%)' : 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
+            const bgColor = type === 'success' ? 'var(--color-forest)' : type === 'error' ? '#b04a3a' : 'var(--color-sage)';
 
             const toastHtml = `
                 <div class="toast-custom align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true"

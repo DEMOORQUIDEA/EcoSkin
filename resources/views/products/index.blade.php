@@ -4,7 +4,7 @@
     <style>
         /* Estilos generales */
         .products-container {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--color-cream);
             min-height: calc(100vh - 76px);
             padding: 2rem 0;
             margin: 0 -15px;
@@ -33,14 +33,14 @@
         }
 
         .title-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
+            width: 56px;
+            height: 56px;
+            background: var(--color-forest);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 5px 15px rgba(88, 98, 74, 0.25);
         }
 
         .title-icon i {
@@ -50,20 +50,22 @@
 
         .header-title h1 {
             margin: 0;
-            color: #2d3748;
-            font-weight: 700;
+            color: var(--color-charcoal);
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
             font-size: 2rem;
         }
 
         .btn-add {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--color-forest);
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            color: white;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--color-cream);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 15px rgba(88, 98, 74, 0.25);
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -71,9 +73,9 @@
 
         .btn-add:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-            color: white;
+            box-shadow: 0 6px 20px rgba(88, 98, 74, 0.35);
+            background: var(--color-charcoal);
+            color: var(--color-cream);
         }
 
         .btn-add i {
@@ -99,7 +101,7 @@
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: #667eea;
+            color: var(--color-sage);
             font-size: 1.25rem;
             pointer-events: none;
         }
@@ -115,8 +117,8 @@
 
         #searchInput:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+            border-color: var(--color-sage);
+            box-shadow: 0 0 0 0.2rem rgba(162, 165, 141, 0.2);
         }
 
         #clearSearch {
@@ -147,7 +149,7 @@
         }
 
         .search-help i {
-            color: #667eea;
+            color: var(--color-sage);
         }
 
         /* Table Styles */
@@ -163,17 +165,17 @@
         }
 
         .table thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--color-charcoal);
         }
 
         .table thead th {
-            color: white;
-            font-weight: 600;
+            color: var(--color-cream);
+            font-weight: 500;
             padding: 1.25rem 1rem;
             border: none;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
 
         .table tbody tr {
@@ -182,14 +184,14 @@
         }
 
         .table tbody tr:hover {
-            background: #f8f9ff;
-            transform: scale(1.01);
+            background: rgba(230, 234, 221, 0.5);
+            transform: scale(1.005);
         }
 
         .table tbody td {
             padding: 1rem;
             vertical-align: middle;
-            color: #2d3748;
+            color: var(--color-charcoal);
         }
 
         /* Product Image in Table */
@@ -198,11 +200,11 @@
             height: 60px;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--color-cream);
         }
 
         .product-img-wrapper img {
@@ -230,25 +232,46 @@
         }
 
         .btn-edit {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: var(--color-sage);
             color: white;
         }
 
         .btn-edit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);
+            box-shadow: 0 4px 12px rgba(162, 165, 141, 0.4);
             color: white;
+            background: var(--color-forest);
         }
 
         .btn-delete {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: #b04a3a;
             color: white;
         }
 
         .btn-delete:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+            box-shadow: 0 4px 12px rgba(180, 74, 58, 0.4);
             color: white;
+            background: #8b3a2c;
+        }
+
+        /* botones de activar/desactivar con la paleta del sitio */
+        .btn-activate {
+            background: var(--color-forest);
+            color: white;
+        }
+        .btn-activate:hover {
+            background: var(--color-forest);
+            filter: brightness(0.9);
+        }
+
+        .btn-deactivate {
+            background: var(--color-tan);
+            color: white;
+        }
+        .btn-deactivate:hover {
+            background: var(--color-tan);
+            filter: brightness(0.9);
         }
 
         /* DataTables Custom Styles */
@@ -273,8 +296,8 @@
             border: 2px solid #e0e6ed;
             border-radius: 8px;
             font-size: 0.95rem;
-            color: #2d3748;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            color: var(--color-charcoal);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2358624A' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 0.75rem center;
             appearance: none;
@@ -311,18 +334,18 @@
         }
 
         .dataTables_paginate .paginate_button:hover:not(.disabled):not(.current) {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--color-forest);
             color: white;
-            border-color: #667eea;
+            border-color: var(--color-forest);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(88, 98, 74, 0.3);
         }
 
         .dataTables_paginate .paginate_button.current {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--color-charcoal);
             color: white;
-            border-color: #667eea;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            border-color: var(--color-charcoal);
+            box-shadow: 0 4px 15px rgba(45, 45, 38, 0.3);
         }
 
         .dataTables_paginate .paginate_button.disabled {
@@ -369,10 +392,10 @@
             background: white;
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 40px rgba(45, 45, 38, 0.15);
             border: none;
-            color: #667eea;
-            font-weight: 600;
+            color: var(--color-forest);
+            font-weight: 500;
         }
 
         /* Empty State */
@@ -429,12 +452,15 @@
                         <div class="title-icon">
                             <i class="bi bi-box-seam-fill"></i>
                         </div>
-                        <h1>Gestión de Productos</h1>
+                        <h1>{{ __('Products') }}</h1>
+                        <span class="badge rounded-pill bg-success ms-2 pt-2 pb-2 ps-3 pe-3" style="font-size: 0.9rem; font-family: 'Inter', sans-serif; background: var(--color-forest) !important;">
+                            {{ $totalProducts }} {{ $totalProducts == 1 ? 'producto' : 'productos' }} en total
+                        </span>
                     </div>
-                    <button class="btn btn-add" onclick="execute('/productos/agregar')">
-                        <i class="bi bi-plus-circle-fill"></i>
-                        <span>Agregar Producto</span>
-                    </button>
+                    <a href="{{ route('productos.create') }}" class="btn-add">
+                        <i class="bi bi-plus-circle"></i>
+                        <span>{{ __('Agregar Producto') }}</span>
+                    </a>
                 </div>
             </div>
 
@@ -461,11 +487,14 @@
                     <table id="myTable" class="table">
                         <thead>
                             <tr>
-                                <th style="width: 80px;">Imagen</th>
-                                <th>Nombre</th>
+                                <th style="width: 80px;">{{ __('Imagen') }}</th>
+                                <th>{{ __('Nombre') }}</th>
+                                <th>{{ __('Categoría') }}</th>
+                                <th>{{ __('Subido por') }}</th>
+                                <th>{{ __('Estado') }}</th>
                                 <th>Descripción</th>
-                                <th style="width: 120px;">Precio</th>
-                                <th class="text-center" style="width: 200px;">Acciones</th>
+                                <th style="width: 120px;">{{ __('Precio') }}</th>
+                                <th class="text-center">{{ __('Acciones') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -484,8 +513,13 @@
             serverSide: true,
             processing: true,
             ajax: {
-                url: '{{ route("products.data") }}',
-                type: 'GET'
+                // spanish route matches the /productos prefix being displayed
+                url: '{{ route("productos.data") }}',
+                type: 'GET',
+                error: function(xhr, error, thrown) {
+                    console.error('DataTables Ajax error (products):', error, thrown, xhr.responseText);
+                    alert('Error al cargar productos. Comprueba la consola o revisa migraciones / permisos.');
+                }
             },
             columns: [
                 {
@@ -495,6 +529,9 @@
                     width: '80px'
                 },
                 { data: 'name' },
+                { data: 'category' },
+                { data: 'owner' },
+                { data: 'status' },
                 { data: 'description' },
                 { data: 'price' },
                 {
@@ -548,6 +585,36 @@
         // Funciones auxiliares
         function execute(url) {
             window.open(url, '_self');
+        }
+
+        function toggleStatus(url) {
+            if (confirm('¿Deseas cambiar el estado de este producto?')) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Mostrar mensaje de éxito
+                            const alert = $('<div>', {
+                                class: 'alert alert-success alert-dismissible fade show',
+                                style: 'position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); border-radius: 12px;',
+                                html: '<i class="bi bi-check-circle-fill me-2"></i><strong>' + response.message + '</strong><button type="button" class="btn-close" data-bs-dismiss="alert"></button>'
+                            });
+                            $('body').append(alert);
+                            setTimeout(() => alert.fadeOut(400, () => alert.remove()), 5000);
+
+                            // Recargar la tabla
+                            table.ajax.reload(null, false);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Ocurrió un error al cambiar el estado.');
+                    }
+                });
+            }
         }
 
         function deleteRecord(url) {

@@ -1,655 +1,982 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Hero Banner Section -->
-<div class="hero-banner" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative; overflow: hidden;">
-    <div class="hero-content">
-        <div class="container py-5">
-            <div class="row align-items-center">
-                <div class="col-lg-6 text-white">
-                    <h1 class="display-4 fw-bold mb-3" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">
-                        Encuentra los mejores productos
-                    </h1>
-                    <p class="lead mb-4">Miles de productos con las mejores ofertas y envío rápido</p>
-                    <div class="d-flex gap-3">
-                        <span class="badge bg-warning text-dark px-3 py-2">
-                            <i class="bi bi-lightning-fill me-1"></i> Envío gratis
-                        </span>
-                        <span class="badge bg-success px-3 py-2">
-                            <i class="bi bi-shield-check me-1"></i> Compra segura
-                        </span>
-                        <span class="badge bg-info px-3 py-2">
-                            <i class="bi bi-award-fill me-1"></i> Calidad garantizada
-                        </span>
-                    </div>
-                </div>
-                <div class="col-lg-6 d-none d-lg-block">
-                    <div class="hero-image">
-                        <i class="bi bi-bag-check-fill" style="font-size: 15rem; color: rgba(255,255,255,0.2);"></i>
-                    </div>
-                </div>
+
+{{-- ====================================================
+     ECOSKIN — Página de bienvenida / catálogo público
+     Paleta Ecológica: #EBF2E8 · #8DB600 · #8F9D7D · #48633F · #1B2B1B
+==================================================== --}}
+
+<!-- ╔══ HERO ══════════════════════════════════════════════════════╗ -->
+<section class="eco-hero">
+    <!-- Decoradores orgánicos -->
+    <div class="eco-hero__bg-circle eco-hero__bg-circle--1"></div>
+    <div class="eco-hero__bg-circle eco-hero__bg-circle--2"></div>
+
+    <div class="container eco-hero__inner">
+        <div class="eco-hero__content">
+            <span class="eco-hero__tag">
+                <i class="bi bi-flower1 me-1"></i> 100% Natural &amp; Orgánico
+            </span>
+            <h1 class="eco-hero__title">
+                Belleza que nace<br>
+                <em>de la naturaleza</em>
+            </h1>
+            <p class="eco-hero__subtitle">
+                {{ __('Cosméticos formulados con ingredientes naturales seleccionados, sin parabenos, crueldad free y empaques eco‑amigables.') }}
+            </p>
+            <div class="eco-hero__badges">
+                <span class="eco-badge"><i class="bi bi-leaf-fill me-1"></i>{{ __('Sin químicos dañinos') }}</span>
+                <span class="eco-badge"><i class="bi bi-heart-fill me-1"></i>{{ __('Cruelty-free') }}</span>
+                <span class="eco-badge"><i class="bi bi-recycle me-1"></i>{{ __('Eco-packaging') }}</span>
+            </div>
+        </div>
+        <div class="eco-hero__visual d-none d-lg-flex">
+            <div class="eco-hero__visual-circle">
+                <i class="bi bi-flower3"></i>
+            </div>
+            <div class="eco-hero__visual-orbit eco-hero__visual-orbit--1">
+                <span><i class="bi bi-droplet-fill"></i></span>
+            </div>
+            <div class="eco-hero__visual-orbit eco-hero__visual-orbit--2">
+                <span><i class="bi bi-sun-fill"></i></span>
+            </div>
+            <div class="eco-hero__visual-orbit eco-hero__visual-orbit--3">
+                <span><i class="bi bi-wind"></i></span>
             </div>
         </div>
     </div>
-    <div class="wave-bottom"></div>
-</div>
+</section>
 
-<!-- Search Bar Section -->
-<div class="search-section bg-white shadow-sm sticky-top" style="top: 0; z-index: 1020;">
-    <div class="container py-4">
+<!-- ╔══ SEARCH ════════════════════════════════════════════════════╗ -->
+<div class="eco-search-wrap">
+    <div class="container">
         <form method="GET" action="{{ route('welcome') }}" id="searchForm">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="search-container position-relative">
-                        <div class="input-group input-group-lg shadow-lg" style="border-radius: 50px; overflow: hidden;">
-                            <span class="input-group-text bg-white border-0 ps-4">
-                                <i class="bi bi-search" style="color: #667eea; font-size: 1.5rem;"></i>
-                            </span>
-                            <input type="text"
-                                   name="search"
-                                   id="searchInput"
-                                   class="form-control border-0 px-3"
-                                   style="font-size: 1.1rem;"
-                                   placeholder="¿Qué estás buscando hoy?"
-                                   value="{{ $search }}"
-                                   autocomplete="off">
-                            @if($search)
-                            <a href="{{ route('welcome') }}" class="btn btn-link text-danger px-3" title="Limpiar búsqueda">
-                                <i class="bi bi-x-circle-fill" style="font-size: 1.3rem;"></i>
-                            </a>
-                            @endif
-                            <button type="submit" class="btn px-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 600;">
-                                <i class="bi bi-search me-2"></i> Buscar
-                            </button>
-                        </div>
-                        <div id="searchLoader" class="spinner-border text-primary position-absolute" role="status" style="display: none; right: 120px; top: 50%; transform: translateY(-50%); width: 1.5rem; height: 1.5rem; z-index: 100;">
-                            <span class="visually-hidden">Buscando...</span>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mt-2 px-3">
-                        <small class="text-muted">
-                            <i class="bi bi-info-circle-fill me-1"></i> <span id="searchHint">Búsqueda automática después de 3 caracteres</span>
-                        </small>
-                        @if($search)
-                        <small class="badge" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                            <i class="bi bi-filter-circle-fill me-1"></i> "{{ $search }}"
-                        </small>
-                        @endif
-                    </div>
-                </div>
+            <div class="eco-search">
+                <i class="bi bi-search eco-search__icon"></i>
+                <input type="text"
+                       name="search"
+                       id="searchInput"
+                       class="eco-search__input"
+                       placeholder="Buscar productos naturales…"
+                       value="{{ $search }}"
+                       autocomplete="off">
+                @if($search)
+                    <a href="{{ route('welcome') }}" class="eco-search__clear" title="Limpiar">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+                @endif
+                <button type="submit" class="eco-search__btn">
+                    <i class="bi bi-search me-1"></i> {{ __('Search') }}
+                </button>
             </div>
+            @if($search)
+                <p class="eco-search__hint">
+                    <i class="bi bi-filter-circle me-1"></i>
+                    Resultados para "<strong>{{ $search }}</strong>": {{ $products->total() }} producto(s)
+                </p>
+            @else
+                <p class="eco-search__hint">
+                    <i class="bi bi-info-circle me-1"></i> Búsqueda automática desde 3 caracteres
+                </p>
+            @endif
         </form>
     </div>
 </div>
 
-<!-- Main Content -->
-<div class="main-content bg-light py-5">
+<!-- ╔══ STATS BAR ═════════════════════════════════════════════════╗ -->
+<div class="eco-stats-bar">
+    <div class="container">
+        <div class="eco-stats">
+            <div class="eco-stat">
+                <i class="bi bi-box-seam"></i>
+                <div>
+                    <strong id="productCounter">{{ $products->total() }}</strong>
+                    <span>{{ $search ? 'Encontrados' : 'Productos' }}</span>
+                </div>
+            </div>
+            <div class="eco-stat-divider"></div>
+            <div class="eco-stat">
+                <i class="bi bi-truck"></i>
+                <div>
+                    <strong>Gratis</strong>
+                    <span>Envío rápido</span>
+                </div>
+            </div>
+            <div class="eco-stat-divider"></div>
+            <div class="eco-stat">
+                <i class="bi bi-shield-check"></i>
+                <div>
+                    <strong>100%</strong>
+                    <span>Ingredientes naturales</span>
+                </div>
+            </div>
+            <div class="eco-stat-divider"></div>
+            <div class="eco-stat">
+                <i class="bi bi-award"></i>
+                <div>
+                    <strong>4.9 ★</strong>
+                    <span>Valoración</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ╔══ PRODUCTS ══════════════════════════════════════════════════╗ -->
+<section class="eco-catalog">
     <div class="container">
 
-        <!-- Stats Bar -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card border-0 shadow-sm" style="border-radius: 15px; background: white;">
-                    <div class="card-body py-3">
-                        <div class="row align-items-center text-center">
-                            <div class="col-md-3 border-end">
-                                <div class="stat-item">
-                                    <i class="bi bi-box-seam-fill text-primary" style="font-size: 2rem;"></i>
-                                    <h4 class="mb-0 mt-2 fw-bold" id="productCounter">{{ $products->total() }}</h4>
-                                    <small class="text-muted">{{ $search ? 'Encontrados' : 'Productos' }}</small>
-                                </div>
-                            </div>
-                            <div class="col-md-3 border-end">
-                                <div class="stat-item">
-                                    <i class="bi bi-truck text-success" style="font-size: 2rem;"></i>
-                                    <h4 class="mb-0 mt-2 fw-bold">Gratis</h4>
-                                    <small class="text-muted">Envío rápido</small>
-                                </div>
-                            </div>
-                            <div class="col-md-3 border-end">
-                                <div class="stat-item">
-                                    <i class="bi bi-shield-check text-info" style="font-size: 2rem;"></i>
-                                    <h4 class="mb-0 mt-2 fw-bold">100%</h4>
-                                    <small class="text-muted">Seguro</small>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="stat-item">
-                                    <i class="bi bi-star-fill text-warning" style="font-size: 2rem;"></i>
-                                    <h4 class="mb-0 mt-2 fw-bold">4.8</h4>
-                                    <small class="text-muted">Calificación</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Cabecera de sección -->
+        <div class="eco-section-heading">
+            <span class="eco-section-heading__line"></span>
+            <h2 class="eco-section-heading__title">
+                @if($search)
+                    <i class="bi bi-search me-2"></i>Resultados de búsqueda
+                @elseif(isset($currentCategory) && !empty($currentCategory))
+                    @switch($currentCategory)
+                        @case('Jabones')
+                            Jabones Artesanales: <span class="text-tan">Limpieza que Nutre</span>
+                            @break
+                        @case('Mascarillas en polvo')
+                            Mascarillas Botánicas: <span class="text-tan">El Poder del Polvo</span>
+                            @break
+                        @case('Bálsamos')
+                            Bálsamos Hidratantes: <span class="text-tan">Caricia de la Naturaleza</span>
+                            @break
+                        @case('Cremas faciales')
+                            Cuidado Facial: <span class="text-tan">Revela tu Brillo Natural</span>
+                            @break
+                        @case('Cremas corporales')
+                            Cuidado Corporal: <span class="text-tan">Suavidad que Perdura</span>
+                            @break
+                        @default
+                            Sección {{ $currentCategory }}: <span class="text-tan">Lo Natural</span>
+                    @endswitch
+                @else
+                    Nuestros Productos: <span class="text-tan">Esencia Natural</span>
+                @endif
+            </h2>
+            <span class="eco-section-heading__line"></span>
         </div>
 
-        <!-- Filter and Sort Bar -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                    <div class="d-flex gap-2 flex-wrap">
-                        <button class="btn btn-outline-primary btn-sm filter-chip active" data-filter="all" style="border-radius: 20px;">
-                            <i class="bi bi-grid-fill me-1"></i> Todos
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm filter-chip" data-filter="bebidas" style="border-radius: 20px;">
-                            <i class="bi bi-cup-straw me-1"></i> Bebidas
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm filter-chip" data-filter="snacks" style="border-radius: 20px;">
-                            <i class="bi bi-bag-fill me-1"></i> Snacks
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm filter-chip" data-filter="ofertas" style="border-radius: 20px;">
-                            <i class="bi bi-tag-fill me-1"></i> Ofertas
-                        </button>
-                    </div>
-                    <div class="d-flex gap-2 align-items-center">
-                        <small class="text-muted">Vista:</small>
-                        <button class="btn btn-sm btn-outline-secondary" onclick="toggleViewMode()" title="Cambiar vista" style="border-radius: 10px;">
-                            <i class="bi bi-grid-3x3-gap" id="viewIcon"></i>
-                        </button>
-                        <button class="btn btn-sm btn-outline-secondary" id="scrollTopBtn" style="display: none; border-radius: 10px;" onclick="scrollToTop()" title="Volver arriba">
-                            <i class="bi bi-arrow-up-circle-fill"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @if($products->count() > 0)
+            <div class="eco-grid" id="productsGrid">
+                @foreach($products as $product)
+                    <div class="eco-card product-item">
 
-        <!-- Products Grid -->
-        <div id="productsContainer">
-            @if($products->count() > 0)
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="productsGrid">
-                    @foreach($products as $product)
-                        <div class="col product-item" data-category="bebidas">
-                            <div class="card product-card h-100 border-0 shadow-sm" style="border-radius: 15px; transition: all 0.3s ease;">
-                                <!-- Product Badge -->
-                                <div class="product-badge-container" style="position: absolute; top: 10px; left: 10px; z-index: 10;">
-                                    <span class="badge bg-danger">
-                                        <i class="bi bi-fire me-1"></i> HOT
-                                    </span>
-                                </div>
+                        <a href="{{ route('products.show', $product) }}" class="eco-card__img-link">
+                            <div class="eco-card__img-wrap">
+                                @if($product->hasImage())
+                                    <img src="{{ $product->image_url }}"
+                                        alt="{{ $product->name }}"
+                                        class="eco-card__img">
+                                @else
+                                    <div class="eco-card__img-placeholder">
+                                        <i class="bi bi-flower2"></i>
+                                    </div>
+                                @endif
 
-                                <!-- Favorite Button -->
-                                <button class="btn btn-sm btn-favorite position-absolute top-0 end-0 m-2" style="z-index: 10; background: white; border-radius: 50%; width: 40px; height: 40px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onclick="toggleFavorite(this)">
-                                    <i class="bi bi-heart text-danger"></i>
+                                <!-- Badge natural -->
+                                <span class="eco-card__badge">Natural</span>
+
+                                <!-- Botón favorito -->
+                                <button class="eco-card__fav" onclick="toggleFavorite(this, event)" title="Favorito">
+                                    <i class="bi bi-heart"></i>
                                 </button>
+                            </div>
+                        </a>
 
-                                <!-- Product Image -->
-                                <div class="card-img-wrapper" style="position: relative; overflow: hidden; height: 250px; background: #f8f9fa;">
-                                    @if($product->hasImage())
-                                        <img src="{{ $product->image_url }}"
-                                             class="card-img-top"
-                                             alt="{{ $product->name }}"
-                                             style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
-                                    @else
-                                        <div class="d-flex align-items-center justify-content-center h-100">
-                                            <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
-                                        </div>
-                                    @endif
+                        <div class="eco-card__body">
+                            <h6 class="eco-card__name">
+                                <a href="{{ route('products.show', $product) }}" class="text-decoration-none text-dark">
+                                    {{ Str::limit($product->name, 50) }}
+                                </a>
+                            </h6>
+                            <p class="eco-card__desc">{{ Str::limit($product->description, 75) }}</p>
+
+                            <!-- Estrellas -->
+                            <div class="eco-card__stars">
+                                @php
+                                    $rating = $product->comments_avg_rating ?: 0;
+                                @endphp
+                                @for($i = 1; $i <= 5; $i++)
+                                    <i class="bi {{ $i <= $rating ? 'bi-star-fill' : ($i - 0.5 <= $rating ? 'bi-star-half' : 'bi-star') }}"></i>
+                                @endfor
+                                <small>({{ number_format($rating, 1) }})</small>
+                            </div>
+
+                            <!-- Precio -->
+                            <div class="eco-card__footer">
+                                <div class="eco-card__price-block">
+                                    <span class="eco-card__price-old">${{ number_format($product->price * 1.15, 2) }}</span>
+                                    <span class="eco-card__price">${{ number_format($product->price, 2) }}</span>
                                 </div>
-
-                                <!-- Product Info -->
-                                <div class="card-body d-flex flex-column">
-                                    <h6 class="card-title text-dark fw-bold mb-2" style="min-height: 40px; font-size: 0.95rem;">
-                                        {{ Str::limit($product->name, 50) }}
-                                    </h6>
-                                    <p class="card-text text-muted small mb-3" style="min-height: 60px; font-size: 0.85rem;">
-                                        {{ Str::limit($product->description, 80) }}
-                                    </p>
-
-                                    <!-- Rating -->
-                                    <div class="mb-2">
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                        <i class="bi bi-star-fill text-warning"></i>
-                                        <i class="bi bi-star-half text-warning"></i>
-                                        <small class="text-muted ms-1">(4.5)</small>
-                                    </div>
-
-                                    <!-- Price and Actions -->
-                                    <div class="mt-auto">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <div>
-                                                <small class="text-muted text-decoration-line-through d-block">${{ number_format($product->price * 1.2, 2) }}</small>
-                                                <h5 class="mb-0 text-success fw-bold">${{ number_format($product->price, 2) }}</h5>
-                                            </div>
-                                            <span class="badge bg-success">-20%</span>
-                                        </div>
-
-                                        <div class="d-grid gap-2">
-                                            <button class="btn btn-primary btn-add-cart"
-                                                    style="border-radius: 10px; font-weight: 600;"
-                                                    onclick="addToCartFromWelcome({{ $product->id }}, '{{ addslashes($product->name) }}', {{ $product->price }}, '{{ $product->hasImage() ? $product->image_url : '' }}')">
-                                                <i class="bi bi-cart-plus-fill me-2"></i> Agregar al carrito
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <button class="eco-card__btn-cart"
+                                        onclick="addToCartFromWelcome({{ $product->id }}, '{{ addslashes($product->name) }}', {{ $product->price }}, '{{ $product->hasImage() ? $product->image_url : '' }}')">
+                                    <i class="bi bi-cart-plus-fill"></i>
+                                    <span>{{ __('Agregar') }}</span>
+                                </button>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-            @else
-                <!-- Empty State -->
-                <div class="text-center py-5">
-                    <div class="mb-4">
-                        <i class="bi bi-inbox" style="font-size: 6rem; color: #dee2e6;"></i>
                     </div>
-                    <h4 class="text-muted mb-3">No hay productos disponibles</h4>
-                    <p class="text-muted">Estamos trabajando para traerte los mejores productos. ¡Vuelve pronto!</p>
+                @endforeach
+            </div>
+
+            <!-- Paginación -->
+            <div class="eco-pagination-wrap">
+                {{ $products->links('vendor.pagination.custom') }}
+            </div>
+
+        @else
+            <!-- Empty State -->
+            <div class="eco-empty">
+                <div class="eco-empty__icon">
+                    <i class="bi bi-search"></i>
                 </div>
-            @endif
-        </div>
-
-        <!-- No Results Message -->
-        <div id="noResultsMessage" class="text-center py-5" style="display: none;">
-            <div class="mb-4">
-                <i class="bi bi-search" style="font-size: 6rem; color: #dee2e6;"></i>
+                <h4>Sin resultados para "{{ $search }}"</h4>
+                <p>Intenta con otras palabras clave o explora todo nuestro catálogo.</p>
+                <a href="{{ route('welcome') }}" class="eco-btn eco-btn--primary">
+                    <i class="bi bi-arrow-counterclockwise me-2"></i>Ver todos los productos
+                </a>
             </div>
-            <h4 class="text-dark mb-3">No encontramos resultados</h4>
-            <p class="text-muted mb-4">
-                Intenta buscar con otras palabras clave o explora nuestras categorías
-            </p>
-            <button class="btn btn-primary" onclick="clearSearch()" style="border-radius: 25px; padding: 0.8rem 2rem;">
-                <i class="bi bi-arrow-counterclockwise me-2"></i> Ver todos los productos
-            </button>
-        </div>
-
-        <!-- Pagination -->
-        <div class="mt-5">
-            {{ $products->links('vendor.pagination.custom') }}
-        </div>
-
+        @endif
     </div>
-</div>
+</section>
 
-<!-- Trust Section -->
-<div class="trust-section bg-white py-5 border-top">
+<!-- ╔══ CARACTERÍSTICAS ════════════════════════════════════════════╗ -->
+<section class="eco-features">
     <div class="container">
-        <div class="row text-center">
-            <div class="col-md-3 mb-4 mb-md-0">
-                <i class="bi bi-shield-check text-primary" style="font-size: 3rem;"></i>
-                <h5 class="mt-3">Compra Segura</h5>
-                <p class="text-muted small">Protegemos tus datos y transacciones</p>
+        <div class="eco-features__grid">
+            <div class="eco-feature">
+                <div class="eco-feature__icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h5>Ingredientes seguros</h5>
+                <p>Formulaciones dermatológicamente probadas, sin sulfatos ni parabenos.</p>
             </div>
-            <div class="col-md-3 mb-4 mb-md-0">
-                <i class="bi bi-truck text-success" style="font-size: 3rem;"></i>
-                <h5 class="mt-3">Envío Gratis</h5>
-                <p class="text-muted small">En compras mayores a $500</p>
+            <div class="eco-feature">
+                <div class="eco-feature__icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+                <h5>Envío rápido</h5>
+                <p>Recibe tu pedido en casa. Envío gratis en compras mayores a $500.</p>
             </div>
-            <div class="col-md-3 mb-4 mb-md-0">
-                <i class="bi bi-arrow-repeat text-info" style="font-size: 3rem;"></i>
-                <h5 class="mt-3">30 días de devolución</h5>
-                <p class="text-muted small">Si no estás satisfecho</p>
+            <div class="eco-feature">
+                <div class="eco-feature__icon">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
+                <h5>30 días de garantía</h5>
+                <p>Si no estás satisfecha, te devolvemos tu dinero sin preguntas.</p>
             </div>
-            <div class="col-md-3">
-                <i class="bi bi-headset text-warning" style="font-size: 3rem;"></i>
-                <h5 class="mt-3">Soporte 24/7</h5>
-                <p class="text-muted small">Estamos aquí para ayudarte</p>
+            <div class="eco-feature">
+                <div class="eco-feature__icon">
+                    <i class="bi bi-leaf"></i>
+                </div>
+                <h5>Eco-friendly</h5>
+                <p>Empaques biodegradables y compromiso con el medio ambiente.</p>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 @endsection
 
 @push('styles')
 <style>
-    /* Hero Banner */
-    .hero-banner {
-        position: relative;
-        min-height: 350px;
-    }
+/* ══════════════════════════════════════════════════════════════
+   ECOSKIN — Estilos de la página de bienvenida
+   Paleta Ecológica: #EBF2E8 · #8DB600 · #8F9D7D · #48633F · #1B2B1B
+══════════════════════════════════════════════════════════════ */
 
-    .wave-bottom {
-        position: absolute;
-        bottom: -1px;
-        left: 0;
-        width: 100%;
-        overflow: hidden;
-        line-height: 0;
-    }
+.text-tan { color: var(--color-tan) !important; }
 
-    .wave-bottom svg {
-        position: relative;
-        display: block;
-        width: calc(100% + 1.3px);
-        height: 60px;
-    }
+/* ── HERO ─────────────────────────────────────────────────── */
+.eco-hero {
+    position: relative;
+    background: var(--color-charcoal);
+    overflow: hidden;
+    padding: 5rem 0 4rem;
+    margin: -1.5rem -0.75rem 0;
+}
 
-    /* Search Section */
-    .search-section {
-        position: sticky !important;
-        top: 0 !important;
-        z-index: 1020 !important;
-        margin-top: 0 !important;
-        padding-top: 1rem !important;
-    }
+.eco-hero__bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.06;
+    background: var(--color-tan);
+    pointer-events: none;
+}
+.eco-hero__bg-circle--1 {
+    width: 600px; height: 600px;
+    top: -200px; right: -100px;
+}
+.eco-hero__bg-circle--2 {
+    width: 300px; height: 300px;
+    bottom: -80px; left: -60px;
+    background: var(--color-sage);
+    opacity: 0.08;
+}
 
-    .search-container .form-control:focus {
-        box-shadow: none;
-    }
+.eco-hero__inner {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    position: relative;
+    z-index: 1;
+}
 
-    .search-container .input-group:focus-within {
-        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
-    }
+.eco-hero__content {
+    flex: 1;
+}
 
-    /* Product Cards */
-    .product-card {
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        cursor: pointer;
-    }
+.eco-hero__tag {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(186,155,114,0.18);
+    color: var(--color-tan);
+    border: 1px solid rgba(186,155,114,0.3);
+    border-radius: 50px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
 
-    .product-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
-    }
+.eco-hero__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    color: var(--color-cream);
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+}
+.eco-hero__title em {
+    font-style: italic;
+    color: var(--color-tan);
+}
 
-    .product-card:hover .card-img-top {
-        transform: scale(1.05);
-    }
+.eco-hero__subtitle {
+    color: rgba(230,234,221,0.7);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 2rem;
+}
 
-    .product-card .card-img-wrapper {
-        overflow: hidden;
-    }
+.eco-hero__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
 
-    .btn-favorite:hover {
-        transform: scale(1.1);
-    }
+.eco-badge {
+    background: rgba(162,165,141,0.15);
+    border: 1px solid rgba(162,165,141,0.3);
+    color: var(--color-sage);
+    border-radius: 50px;
+    padding: 0.35rem 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+}
 
-    .btn-favorite.active i {
-        color: #dc3545;
-    }
+/* Visual decorativo */
+.eco-hero__visual {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
 
-    .btn-favorite.active i::before {
-        content: "\f5a1";
-    }
+.eco-hero__visual-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(88,98,74,0.3);
+    border: 2px solid rgba(186,155,114,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+    color: rgba(186,155,114,0.5);
+    animation: ecoFloat 5s ease-in-out infinite;
+}
 
-    /* Filter Chips */
-    .filter-chip {
-        transition: all 0.3s ease;
-    }
+@keyframes ecoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
 
-    .filter-chip:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    }
+.eco-hero__visual-orbit {
+    position: absolute;
+    animation: ecoOrbit 8s linear infinite;
+}
+.eco-hero__visual-orbit--2 { animation-duration: 12s; animation-direction: reverse; }
+.eco-hero__visual-orbit--3 { animation-duration: 10s; }
 
-    .filter-chip.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-        color: white !important;
-        border-color: transparent !important;
-    }
+.eco-hero__visual-orbit span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: var(--color-forest);
+    border-radius: 50%;
+    font-size: 1.1rem;
+    color: var(--color-cream);
+    box-shadow: 0 4px 16px rgba(88,98,74,0.4);
+}
 
-    /* Add to Cart Button */
-    .btn-add-cart {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border: none;
-        transition: all 0.3s ease;
-    }
+.eco-hero__visual-orbit--1 { top: 20px; right: 40px; }
+.eco-hero__visual-orbit--2 { bottom: 30px; left: 20px; }
+.eco-hero__visual-orbit--3 { top: 50%; right: 0; }
 
-    .btn-add-cart:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
-    }
+@keyframes ecoOrbit {
+    from { transform: rotate(0deg) translateX(30px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
+}
 
-    /* Animations */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+/* ── REFINAMIENTO MINIMALISTA (ADICIONAL) ────────────── */
+.eco-hero {
+    background: radial-gradient(circle at 70% 30%, #3a3a32 0%, var(--color-charcoal) 100%);
+    padding: 7rem 0 6rem;
+}
 
-    .product-item {
-        animation: fadeInUp 0.6s ease forwards;
-        opacity: 0;
-    }
+.eco-hero__tag {
+    background: rgba(186, 155, 114, 0.1);
+    border: 1px solid rgba(186, 155, 114, 0.2);
+    letter-spacing: 0.15em;
+    font-weight: 500;
+}
 
-    .product-item:nth-child(1) { animation-delay: 0.1s; }
-    .product-item:nth-child(2) { animation-delay: 0.2s; }
-    .product-item:nth-child(3) { animation-delay: 0.3s; }
-    .product-item:nth-child(4) { animation-delay: 0.4s; }
-    .product-item:nth-child(5) { animation-delay: 0.5s; }
-    .product-item:nth-child(6) { animation-delay: 0.6s; }
-    .product-item:nth-child(7) { animation-delay: 0.7s; }
-    .product-item:nth-child(8) { animation-delay: 0.8s; }
+.eco-hero__title {
+    letter-spacing: -0.02em;
+}
 
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-        width: 12px;
-    }
+.eco-hero__subtitle {
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    opacity: 0.8;
+}
 
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
+.eco-badge {
+    background: rgba(230, 234, 221, 0.05);
+    border: 1px solid rgba(230, 234, 221, 0.1);
+    color: rgba(230, 234, 221, 0.7);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+}
 
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 10px;
-    }
+.eco-badge:hover {
+    background: rgba(186, 155, 114, 0.15);
+    color: var(--color-tan);
+    border-color: var(--color-tan);
+}
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
-    }
+.eco-hero__visual-circle {
+    background: rgba(230, 234, 221, 0.03);
+    border: 1px solid rgba(186, 155, 114, 0.15);
+    box-shadow: inset 0 0 40px rgba(186, 155, 114, 0.05);
+}
 
+.eco-hero__visual-orbit span {
+    background: rgba(88, 98, 74, 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(230, 234, 221, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
 
+/* ── SEARCH ───────────────────────────────────────────────── */
+.eco-search-wrap {
+    background: white;
+    padding: 1.5rem 0 1rem;
+    box-shadow: 0 4px 20px rgba(45,45,38,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 800;
+}
+
+.eco-search {
+    display: flex;
+    align-items: center;
+    background: var(--color-cream);
+    border: 1.5px solid rgba(162,165,141,0.4);
+    border-radius: 50px;
+    padding: 0.2rem 0.3rem 0.2rem 1.1rem;
+    gap: 0.6rem;
+    max-width: 620px;
+    margin: 0 auto;
+    transition: all 0.4s ease;
+}
+.eco-search:focus-within {
+    border-color: var(--color-sage);
+    box-shadow: 0 0 0 3px rgba(162,165,141,0.18);
+}
+
+.eco-search__icon {
+    color: var(--color-sage);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.eco-search__input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.98rem;
+    color: var(--color-charcoal);
+    outline: none;
+}
+.eco-search__input::placeholder { color: var(--color-sage); }
+
+.eco-search__clear {
+    color: var(--color-sage);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.eco-search__clear:hover { color: var(--color-charcoal); }
+
+.eco-search__btn {
+    background: var(--color-forest);
+    color: var(--color-cream);
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 1.25rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+.eco-search__btn:hover {
+    background: var(--color-charcoal);
+    transform: translateY(-1px);
+}
+
+.eco-search__hint {
+    text-align: center;
+    color: var(--color-sage);
+    font-size: 0.82rem;
+    margin: 0.6rem 0 0;
+    letter-spacing: 0.02em;
+}
+.eco-search__hint strong { color: var(--color-tan); }
+
+/* ── STATS BAR ────────────────────────────────────────────── */
+.eco-stats-bar {
+    background: var(--color-forest);
+    padding: 1rem 0;
+}
+
+.eco-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+}
+
+.eco-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--color-cream);
+}
+.eco-stat i {
+    font-size: 1.3rem;
+    color: var(--color-tan);
+}
+.eco-stat strong {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    line-height: 1;
+}
+.eco-stat span {
+    font-size: 0.75rem;
+    opacity: 0.75;
+    letter-spacing: 0.04em;
+}
+.eco-stat-divider {
+    width: 1px;
+    height: 30px;
+    background: rgba(230,234,221,0.2);
+}
+
+/* ── CATALOG ──────────────────────────────────────────────── */
+.eco-catalog {
+    padding: 4rem 0 3rem;
+}
+
+.eco-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+.eco-section-heading__line {
+    flex: 1;
+    height: 1px;
+    background: rgba(162,165,141,0.35);
+}
+.eco-section-heading__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.9rem;
+    color: var(--color-charcoal);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+}
+
+/* Grid */
+.eco-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.75rem;
+}
+
+/* Card */
+.eco-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(45,45,38,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: ecoFadeUp 0.5s ease forwards;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+}
+.eco-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(45,45,38,0.12);
+}
+
+.eco-card__img-wrap {
+    position: relative;
+    height: 220px;
+    background: var(--color-cream);
+    overflow: hidden;
+}
+.eco-card__img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.eco-card:hover .eco-card__img { transform: scale(1.06); }
+
+.eco-card__img-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+    color: var(--color-sage);
+    opacity: 0.5;
+    background: linear-gradient(135deg, var(--color-cream) 0%, #d8ddd2 100%);
+}
+
+.eco-card__badge {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--color-forest);
+    color: var(--color-cream);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    border-radius: 50px;
+}
+
+.eco-card__fav {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--color-sage);
+    backdrop-filter: blur(4px);
+    transition: all 0.25s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.eco-card__fav:hover { color: #c0392b; transform: scale(1.1); }
+.eco-card__fav.active { color: #c0392b; }
+
+.eco-card__body {
+    padding: 1.25rem 1.25rem 1.1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.eco-card__name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-charcoal);
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+}
+
+.eco-card__desc {
+    font-size: 0.82rem;
+    color: var(--color-sage);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    flex: 1;
+}
+
+.eco-card__stars {
+    color: var(--color-tan);
+    font-size: 0.78rem;
+    margin-bottom: 1rem;
+}
+.eco-card__stars small { color: var(--color-sage); margin-left: 0.25rem; }
+
+.eco-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-top: 1px solid rgba(162,165,141,0.2);
+    padding-top: 0.9rem;
+}
+
+.eco-card__price-block { display: flex; flex-direction: column; }
+.eco-card__price-old {
+    font-size: 0.78rem;
+    color: var(--color-sage);
+    text-decoration: line-through;
+    line-height: 1;
+}
+.eco-card__price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--color-forest);
+    line-height: 1;
+}
+
+.eco-card__btn-cart {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--color-forest);
+    color: var(--color-cream);
+    border: none;
+    border-radius: 50px;
+    padding: 0.55rem 1.1rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    white-space: nowrap;
+}
+.eco-card__btn-cart:hover {
+    background: var(--color-charcoal);
+    transform: translateY(-1px);
+}
+
+/* ── EMPTY STATE ──────────────────────────────────────────── */
+.eco-empty {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(45,45,38,0.07);
+}
+.eco-empty__icon {
+    width: 90px; height: 90px;
+    background: var(--color-cream);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+    color: var(--color-sage);
+    border: 2px solid rgba(162,165,141,0.3);
+}
+.eco-empty h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--color-charcoal);
+    margin-bottom: 0.5rem;
+}
+.eco-empty p { color: var(--color-sage); margin-bottom: 1.5rem; }
+
+/* ── GENERIC BTN ──────────────────────────────────────────── */
+.eco-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+.eco-btn--primary {
+    background: var(--color-forest);
+    color: var(--color-cream);
+}
+.eco-btn--primary:hover {
+    background: var(--color-charcoal);
+    color: var(--color-cream);
+    transform: translateY(-2px);
+}
+
+/* ── PAGINATION ───────────────────────────────────────────── */
+.eco-pagination-wrap { margin-top: 3rem; }
+
+/* ── FEATURES ─────────────────────────────────────────────── */
+.eco-features {
+    background: var(--color-charcoal);
+    padding: 4rem 0;
+}
+
+.eco-features__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2.5rem;
+    text-align: center;
+}
+
+.eco-feature__icon {
+    width: 60px; height: 60px;
+    background: rgba(186,155,114,0.15);
+    border: 1.5px solid rgba(186,155,114,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.1rem;
+    font-size: 1.5rem;
+    color: var(--color-tan);
+    transition: background 0.3s;
+}
+.eco-feature:hover .eco-feature__icon {
+    background: rgba(186,155,114,0.25);
+}
+
+.eco-feature h5 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--color-cream);
+    margin-bottom: 0.5rem;
+}
+.eco-feature p {
+    font-size: 0.85rem;
+    color: rgba(230,234,221,0.6);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── ANIMATIONS ───────────────────────────────────────────── */
+@keyframes ecoFadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.product-item:nth-child(1)  { animation-delay: 0.05s; }
+.product-item:nth-child(2)  { animation-delay: 0.1s; }
+.product-item:nth-child(3)  { animation-delay: 0.15s; }
+.product-item:nth-child(4)  { animation-delay: 0.2s; }
+.product-item:nth-child(5)  { animation-delay: 0.25s; }
+.product-item:nth-child(6)  { animation-delay: 0.3s; }
+.product-item:nth-child(7)  { animation-delay: 0.35s; }
+.product-item:nth-child(8)  { animation-delay: 0.4s; }
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .eco-hero { padding: 3.5rem 0 3rem; }
+    .eco-hero__title { font-size: 2.4rem; }
+    .eco-stats { gap: 0.5rem 1.25rem; }
+    .eco-stat-divider { display: none; }
+    .eco-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+    .eco-card__img-wrap { height: 180px; }
+}
 </style>
 @endpush
 
 @push('scripts')
 <script>
-@auth
-    // Redireccionar a home en 2 segs
-    setTimeout(function() {
-        window.location.href = "{{ route('home') }}";
-    }, 2000);
-@endauth
 
 
-
-// Búsqueda automática
+// ── Búsqueda automática ────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
-    const searchForm = document.getElementById('searchForm');
-    const searchHint = document.getElementById('searchHint');
-    const searchLoader = document.getElementById('searchLoader');
+    const searchForm  = document.getElementById('searchForm');
     let searchTimeout;
 
-    searchForm.addEventListener('submit', function(e) {
-        const searchValue = searchInput.value.trim();
-
-        if (searchValue.length > 0 && searchValue.length < 3) {
-            e.preventDefault();
-            searchHint.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-1"></i> Debes escribir al menos 3 caracteres';
-            searchInput.focus();
-
-            setTimeout(() => {
-                searchHint.innerHTML = '<i class="bi bi-info-circle-fill me-1"></i> Búsqueda automática después de 3 caracteres';
-            }, 3000);
-            return false;
-        }
-
-        searchLoader.style.display = 'block';
-        searchHint.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Buscando productos...';
-    });
+    if (!searchInput) return;
 
     searchInput.addEventListener('input', function() {
-        const searchValue = this.value.trim();
+        const val = this.value.trim();
         clearTimeout(searchTimeout);
 
-        if (searchValue.length === 0) {
-            searchHint.innerHTML = '<i class="bi bi-info-circle-fill me-1"></i> Búsqueda automática después de 3 caracteres';
-            searchTimeout = setTimeout(() => {
-                searchForm.submit();
-            }, 500);
-        } else if (searchValue.length < 3) {
-            searchHint.innerHTML = '<i class="bi bi-info-circle-fill me-1"></i> Escribe ' + (3 - searchValue.length) + ' caracter(es) más';
-        } else {
-            searchHint.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Buscando...';
-            searchLoader.style.display = 'block';
-
-            searchTimeout = setTimeout(() => {
-                searchForm.submit();
-            }, 700);
+        if (val.length === 0) {
+            searchTimeout = setTimeout(() => searchForm.submit(), 500);
+        } else if (val.length >= 3) {
+            searchTimeout = setTimeout(() => searchForm.submit(), 700);
         }
-    });
-
-    // Filter chips
-    const filterChips = document.querySelectorAll('.filter-chip');
-    filterChips.forEach(chip => {
-        chip.addEventListener('click', function() {
-            filterChips.forEach(c => c.classList.remove('active'));
-            this.classList.add('active');
-
-            const filter = this.dataset.filter;
-            const products = document.querySelectorAll('.product-item');
-
-            products.forEach(product => {
-                if (filter === 'all' || product.dataset.category === filter) {
-                    product.style.display = 'block';
-                } else {
-                    product.style.display = 'none';
-                }
-            });
-        });
     });
 });
 
-// Funciones auxiliares
-function clearSearch() {
-    window.location.href = "{{ route('welcome') }}";
-}
-
+// ── Añadir al carrito (pública) ───────────────────────────────────
 function addToCartFromWelcome(productId, productName, productPrice, productImage) {
     @guest
-        // Si no está logueado, redirigir al login
-        if (confirm('Debes iniciar sesión para agregar productos al carrito. ¿Deseas ir al login?')) {
+        if (confirm('Debes iniciar sesión para añadir al carrito. ¿Deseas ir al login?')) {
             window.location.href = "{{ route('login') }}";
         }
         return false;
     @endguest
 
-    const btn = event.target.closest('.btn-add-cart');
-    const originalText = btn.innerHTML;
+    const btn = event.target.closest('.eco-card__btn-cart');
+    const original = btn.innerHTML;
 
-    // Agregar al carrito usando la función global
     if (typeof addToCart === 'function') {
         const result = addToCart(productId, productName, productPrice, productImage);
-        if (!result) return; // Si falló (no logueado), salir
+        if (!result) return;
     }
 
-    // Feedback visual en el botón
-    btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> ¡Agregado!';
-    btn.style.background = 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)';
+    btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> <span>¡Listo!</span>';
+    btn.style.background = 'var(--color-sage)';
     btn.disabled = true;
 
     setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        btn.innerHTML = original;
+        btn.style.background = '';
         btn.disabled = false;
     }, 2000);
 }
 
-function toggleFavorite(btn) {
+// ── Favorito ──────────────────────────────────────────────────────
+function toggleFavorite(btn, event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
     btn.classList.toggle('active');
     const icon = btn.querySelector('i');
-
     if (btn.classList.contains('active')) {
-        icon.classList.remove('bi-heart');
-        icon.classList.add('bi-heart-fill');
-        showToast('Agregado a favoritos', 'info');
+        icon.classList.replace('bi-heart', 'bi-heart-fill');
     } else {
-        icon.classList.remove('bi-heart-fill');
-        icon.classList.add('bi-heart');
+        icon.classList.replace('bi-heart-fill', 'bi-heart');
     }
 }
-
-function toggleViewMode() {
-    const grid = document.getElementById('productsGrid');
-    const icon = document.getElementById('viewIcon');
-
-    if (grid.classList.contains('row-cols-lg-4')) {
-        grid.classList.remove('row-cols-lg-4');
-        grid.classList.add('row-cols-lg-3');
-        icon.classList.remove('bi-grid-3x3-gap');
-        icon.classList.add('bi-grid');
-    } else {
-        grid.classList.remove('row-cols-lg-3');
-        grid.classList.add('row-cols-lg-4');
-        icon.classList.remove('bi-grid');
-        icon.classList.add('bi-grid-3x3-gap');
-    }
-}
-
-function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-window.addEventListener('scroll', function() {
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
-    if (window.pageYOffset > 300) {
-        scrollTopBtn.style.display = 'block';
-    } else {
-        scrollTopBtn.style.display = 'none';
-    }
-});
-
-// Toast notifications
-function showToast(message, type = 'success') {
-    const toastContainer = document.getElementById('toastContainer') || createToastContainer();
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.style.cssText = `
-        position: fixed;
-        top: 80px;
-        right: 20px;
-        background: ${type === 'success' ? '#48bb78' : type === 'error' ? '#f56565' : '#667eea'};
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 9999;
-        animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
-        font-weight: 500;
-    `;
-
-    const icon = type === 'success' ? 'check-circle-fill' : type === 'error' ? 'x-circle-fill' : 'info-circle-fill';
-    toast.innerHTML = `<i class="bi bi-${icon} me-2"></i>${message}`;
-
-    toastContainer.appendChild(toast);
-
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
-}
-
-function createToastContainer() {
-    const container = document.createElement('div');
-    container.id = 'toastContainer';
-    container.style.cssText = 'position: fixed; top: 0; right: 0; z-index: 9999;';
-    document.body.appendChild(container);
-    return container;
-}
-
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
 </script>
 @endpush

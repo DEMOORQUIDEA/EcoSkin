@@ -25,7 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = "/home";
+    protected $redirectTo = "/";
 
     /**
      * Create a new controller instance.
@@ -36,6 +36,36 @@ class LoginController extends Controller
     {
         $this->middleware("guest")->except("logout");
         $this->middleware("auth")->only("logout");
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        if (!$user->is_active) {
+            $this->guard()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')
+                ->withErrors(['email' => 'Su cuenta ha sido desactivada por normas de seguridad. Por favor, intente más tarde.']);
+        }
+
+        if ($user->hasRole('admin')) {
+            $this->guard()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')
+                ->withErrors(['email' => 'Los administradores deben usar el acceso de administración.']);
+        }
+
+        return redirect()->intended($this->redirectPath());
     }
 
     /**

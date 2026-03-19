@@ -1,31 +1,170 @@
+@push('styles')
+<style>
+    /* Estilos generales */
+    .users-container {
+        background: var(--color-cream);
+        min-height: calc(100vh - 76px);
+        padding: 2rem 0;
+        margin: 0 -15px;
+    }
+
+    .users-header {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .header-title {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .title-icon {
+        width: 56px;
+        height: 56px;
+        background: var(--color-forest);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 15px rgba(88, 98, 74, 0.25);
+    }
+
+    .title-icon i {
+        font-size: 1.75rem;
+        color: white;
+    }
+
+    .header-title h1 {
+        margin: 0;
+        color: var(--color-charcoal);
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+        font-size: 2rem;
+    }
+
+    .btn-add {
+        background: var(--color-forest);
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: var(--color-cream);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(88, 98, 74, 0.25);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-add:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(88, 98, 74, 0.35);
+        background: var(--color-charcoal);
+        color: var(--color-cream);
+    }
+
+    /* Table Styles */
+    .table-container {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .table thead {
+        background: var(--color-charcoal);
+    }
+
+    .table thead th {
+        color: var(--color-cream);
+        font-weight: 500;
+        padding: 1.25rem 1rem;
+        border: none;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(230, 234, 221, 0.5);
+    }
+
+    /* Avatar */
+    .avatar-wrapper {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid var(--color-forest);
+    }
+
+    /* DataTables Custom Styles */
+    .dataTables_wrapper {
+        padding: 1.5rem;
+    }
+
+    .dataTables_paginate .paginate_button.current {
+        background: var(--color-charcoal) !important;
+        color: white !important;
+        border-color: var(--color-charcoal) !important;
+    }
+
+    .dataTables_paginate .paginate_button:hover:not(.disabled):not(.current) {
+        background: var(--color-forest) !important;
+        color: white !important;
+    }
+</style>
+@endpush
+
 <x-layout>
-
-    <div class="container">
-        <div class="row my-4 mx-1">
-            <div class="d-flex justify-content-between align-items-center">
-                <h1 class="mb-0">Usuarios</h1>
-                <button class="btn btn-primary btn-sm" onclick="execute('/users/create')">
-                    <i class="bi bi-plus"></i>
-                    <span class="d-none d-sm-inline">Agregar</span>
-                </button>
+    <div class="users-container">
+        <div class="container">
+            <!-- Header -->
+            <div class="users-header">
+                <div class="header-content">
+                    <div class="header-title">
+                        <div class="title-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <h1>{{ __('Users') }}</h1>
+                    </div>
+                    <button class="btn btn-add" onclick="execute('{{ route('users.create') }}')">
+                        <i class="bi bi-person-plus-fill"></i>
+                        <span>{{ __('Agregar Usuario') }}</span>
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <div class="row justify-content-center">
-            <div class="table-responsive">
-                <table id="myTable" class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Avatar</th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Fecha Registro</th>
-                            <th class="text-end text-nowrap w-auto">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+            <!-- Table -->
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table id="myTable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>{{ __('Avatar') }}</th>
+                                <th>{{ __('Nombre') }}</th>
+                                <th>{{ __('Email') }}</th>
+                                <th>{{ __('Registro') }}</th>
+                                <th class="text-center">{{ __('Acciones') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -37,7 +176,11 @@
                 processing: true,
                 ajax: {
                     url: '{{ route("users.data") }}',
-                    type: 'GET'
+                    type: 'GET',
+                    error: function(xhr, error, thrown) {
+                        console.error('DataTables Ajax error (users):', error, thrown, xhr.responseText);
+                        alert('Error al cargar usuarios. Revisa la consola del navegador o captura en el servidor.');
+                    }
                 },
                 columns: [
                     {
@@ -52,18 +195,40 @@
                     {
                         data: 'actions',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        className: 'text-center'
                     }
                 ],
                 pageLength: 10,
                 lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+                language: {
+                    paginate: {
+                        next: "Siguiente",
+                        previous: "Anterior"
+                    }
+                }
             });
 
             function execute(url) {
                 window.open(url, '_self');
             }
+
+            function confirmToggleStatus(url, action) {
+                const message = action === 'desactivar' 
+                    ? '⚠️ ¿Estás seguro de desactivar esta cuenta? El usuario no podrá iniciar sesión.'
+                    : '✅ ¿Estás seguro de activar esta cuenta?';
+                
+                if (confirm(message)) {
+                    $('<form>', { 'action': url, 'method': 'POST' })
+                        .append($('<input>', { type: 'hidden', name: '_token', value: '{{ csrf_token() }}' }))
+                        .appendTo('body')
+                        .submit()
+                        .remove();
+                }
+            }
+
             function deleteRecord(url) {
-                if (confirm('¿Está seguro de eliminar este registro?')) {
+                if (confirm('⚠️ ¿Estás seguro de eliminar este usuario?')) {
                     $('<form>', { 'action': url, 'method': 'POST' })
                         .append($('<input>', { type: 'hidden', name: '_token', value: '{{ csrf_token() }}' }))
                         .append($('<input>', { type: 'hidden', name: '_method', value: 'DELETE' }))
@@ -72,10 +237,6 @@
                         .remove();
                 }
             }
-            @if (session('success'))
-                alert(`{{ session('success') }}`);
-            @endif
         </script>
     @endsection
-
 </x-layout>

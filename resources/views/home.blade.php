@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .dashboard-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--color-cream);
         min-height: calc(100vh - 76px);
         padding: 3rem 0;
         margin: -1.5rem -0.75rem 0;
@@ -27,13 +27,13 @@
     .welcome-icon {
         width: 70px;
         height: 70px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 15px;
+        background: var(--color-forest);
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-right: 1.5rem;
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 5px 15px rgba(88, 98, 74, 0.25);
     }
 
     .welcome-icon i {
@@ -43,14 +43,15 @@
 
     .welcome-text h2 {
         margin: 0;
-        color: #2d3748;
-        font-weight: 700;
-        font-size: 1.8rem;
+        color: var(--color-charcoal);
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+        font-size: 2rem;
     }
 
     .welcome-text p {
         margin: 0.5rem 0 0;
-        color: #718096;
+        color: var(--color-sage);
         font-size: 1rem;
     }
 
@@ -74,7 +75,7 @@
         left: 1rem;
         top: 50%;
         transform: translateY(-50%);
-        color: #667eea;
+        color: var(--color-sage);
         font-size: 1.25rem;
         pointer-events: none;
     }
@@ -90,8 +91,8 @@
 
     .search-input:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+        border-color: var(--color-sage);
+        box-shadow: 0 0 0 0.2rem rgba(162, 165, 141, 0.2);
     }
 
     .clear-search {
@@ -134,21 +135,25 @@
     }
 
     .search-results strong {
-        color: #ffd700;
+        color: var(--color-tan);
     }
 
     .section-title {
-        color: white;
-        font-size: 1.5rem;
+        color: var(--color-charcoal);
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.8rem;
         font-weight: 600;
         margin-bottom: 1.5rem;
         display: flex;
         align-items: center;
+        border-bottom: 1px solid rgba(162, 165, 141, 0.4);
+        padding-bottom: 0.75rem;
     }
 
     .section-title i {
         margin-right: 0.75rem;
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        color: var(--color-tan);
     }
 
     .product-card {
@@ -170,7 +175,7 @@
 
     .product-image {
         height: 220px;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(135deg, var(--color-cream) 0%, #d8ddd2 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -202,9 +207,10 @@
     }
 
     .product-title {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         font-weight: 600;
-        color: #2d3748;
+        font-family: 'Cormorant Garamond', serif;
+        color: var(--color-charcoal);
         margin-bottom: 0.75rem;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -213,8 +219,8 @@
     }
 
     .product-description {
-        color: #718096;
-        font-size: 0.95rem;
+        color: var(--color-sage);
+        font-size: 0.9rem;
         margin-bottom: 1rem;
         display: -webkit-box;
         -webkit-line-clamp: 3;
@@ -238,32 +244,31 @@
     }
 
     .price-tag {
-        font-size: 1.5rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        font-size: 1.4rem;
+        font-weight: 600;
+        font-family: 'Cormorant Garamond', serif;
+        color: var(--color-forest);
     }
 
     .price-label {
-        font-size: 0.75rem;
-        color: #a0aec0;
+        font-size: 0.7rem;
+        color: var(--color-sage);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
     }
 
     /* Botón Agregar al Carrito */
     .btn-add-cart {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--color-forest);
         border: none;
-        border-radius: 10px;
+        border-radius: 8px;
         padding: 0.75rem 1rem;
-        font-weight: 600;
-        color: white;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: var(--color-cream);
         width: 100%;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 4px 12px rgba(88, 98, 74, 0.25);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -280,7 +285,7 @@
         width: 0;
         height: 0;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.15);
         transform: translate(-50%, -50%);
         transition: width 0.6s, height 0.6s;
     }
@@ -292,9 +297,9 @@
 
     .btn-add-cart:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
-        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-        color: white;
+        box-shadow: 0 6px 16px rgba(88, 98, 74, 0.35);
+        background: var(--color-charcoal);
+        color: var(--color-cream);
     }
 
     .btn-add-cart:active {
@@ -307,12 +312,12 @@
     }
 
     .btn-add-cart:hover i {
-        transform: scale(1.2) rotate(10deg);
+        transform: scale(1.15) rotate(8deg);
     }
 
     .btn-add-cart.added {
-        background: linear-gradient(135deg, #48bb78 0%, #38a169 100%) !important;
-        box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4) !important;
+        background: var(--color-sage) !important;
+        box-shadow: 0 4px 15px rgba(162, 165, 141, 0.4) !important;
     }
 
     .btn-add-cart.added i {
@@ -337,7 +342,7 @@
     .empty-state-icon {
         width: 100px;
         height: 100px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--color-forest);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -347,35 +352,39 @@
 
     .empty-state-icon i {
         font-size: 3rem;
-        color: white;
+        color: var(--color-cream);
     }
 
     .empty-state h4 {
-        color: #2d3748;
+        color: var(--color-charcoal);
+        font-family: 'Cormorant Garamond', serif;
         font-weight: 600;
+        font-size: 1.5rem;
         margin-bottom: 0.75rem;
     }
 
     .empty-state p {
-        color: #718096;
+        color: var(--color-sage);
         margin: 0 0 1rem 0;
     }
 
     .btn-clear-search {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--color-forest);
         border: none;
-        border-radius: 10px;
+        border-radius: 8px;
         padding: 0.75rem 2rem;
-        font-weight: 600;
-        color: white;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: var(--color-cream);
         transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 4px 12px rgba(88, 98, 74, 0.25);
     }
 
     .btn-clear-search:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
-        color: white;
+        box-shadow: 0 6px 16px rgba(88, 98, 74, 0.35);
+        color: var(--color-cream);
+        background: var(--color-charcoal);
     }
 
     .stats-container {
@@ -413,28 +422,32 @@
     }
 
     .stat-icon.purple {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--color-forest);
     }
 
     .stat-icon.pink {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        background: var(--color-tan);
     }
 
     .stat-icon.blue {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        background: var(--color-sage);
     }
 
     .stat-content h3 {
         margin: 0;
         font-size: 1.75rem;
-        font-weight: 700;
-        color: #2d3748;
+        font-weight: 600;
+        font-family: 'Cormorant Garamond', serif;
+        color: var(--color-charcoal);
     }
 
     .stat-content p {
         margin: 0.25rem 0 0;
-        font-size: 0.9rem;
-        color: #718096;
+        font-size: 0.85rem;
+        color: var(--color-sage);
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
     }
 
     /* Contenedor de paginación */
@@ -686,7 +699,7 @@ function addToCartWithFeedback(button, productId, productName, productPrice, pro
 // Función para crear efecto de partículas
 function createCartParticles(button) {
     const rect = button.getBoundingClientRect();
-    const colors = ['#667eea', '#764ba2', '#48bb78', '#38a169'];
+    const colors = ['#58624A', '#BA9B72', '#A2A58D', '#2D2D26'];
 
     for (let i = 0; i < 6; i++) {
         const particle = document.createElement('div');

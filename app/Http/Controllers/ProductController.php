@@ -36,9 +36,18 @@ class ProductController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('price', 'like', "%{$search}%");
+                  ->orWhere('price', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%");
             });
         }
+
+        // Filtrado por categoría
+        if ($request->has('category') && !empty($request->input('category'))) {
+            $query->where('category', $request->input('category'));
+        }
+
+        // Solo mostrar productos activos en la tienda pública
+        $query->where('is_active', true);
 
         // Obtener productos con paginación (20 por página)
         $products = $query->orderBy('created_at', 'desc')->paginate(20);
@@ -49,15 +58,16 @@ class ProductController extends Controller
         return view('welcome-simple', [
             'products' => $products,
             'search' => $request->input('search', ''),
+            'currentCategory' => $request->input('category'),
         ]);
     }
 
     public function index(Request $request)
     {
-        // $products = Product::all();
+        $totalProducts = Product::count();
 
         return view("products.index", [
-            // 'products' => $products,
+            "totalProducts" => $totalProducts,
             "products" => collect(),
         ]);
     }
@@ -97,6 +107,7 @@ class ProductController extends Controller
                 "name" => "required|string|max:40",
                 "price" => "required|numeric|min:1|max:9999999",
                 "description" => "required|string",
+                "category" => "nullable|string|max:50",
                 "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120",
             ]);
 
@@ -135,6 +146,8 @@ class ProductController extends Controller
                     'name' => $validated['name'],
                     'price' => $validated['price'],
                     'description' => $validated['description'],
+                    'category' => $validated['category'] ?? null,
+                    'user_id' => auth()->id(),
                 ]);
 
                 // Procesar imagen para producto nuevo
@@ -191,6 +204,20 @@ class ProductController extends Controller
         }
     }
 
+    public function show(Product $product)
+    {
+        $product->load(['comments.user']);
+        
+        // Calculate average rating
+        $averageRating = $product->comments()->avg('rating') ?: 0;
+        
+        return view("products.show", [
+            "product" => $product,
+            "averageRating" => number_format($averageRating, 1),
+            "comments" => $product->comments()->orderBy('created_at', 'desc')->get(),
+        ]);
+    }
+
     public function edit(Request $request, Product $product)
     {
         //$product = Product::find($product);
@@ -225,93 +252,99 @@ class ProductController extends Controller
 
     public function dataTable(Request $request)
     {
-        // Validar params de DataTables (opcional, pero seguro)
-        $request->validate([
-            "draw" => "integer",
-            "start" => "integer|min:0",
-            "length" => "integer|min:1|max:100",
-            "search.value" => "nullable|string|max:255",
-        ]);
+        try {
+            // Validar params de DataTables
+            $request->validate([
+                "draw" => "integer",
+                "start" => "integer|min:0",
+                "length" => "integer|min:1|max:100",
+                "search.value" => "nullable|string|max:255",
+            ]);
 
-        // Query base
-        $query = Product::query();
+            // Query base
+            $query = Product::with('user');
 
-        // Búsqueda en varios campos
-        $search = $request->input("search.value");
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->where("name", "like", "%{$search}%")
-                    ->orWhere("description", "like", "%{$search}%")
-                    ->orWhere("price", "like", "%{$search}%");
+            // Búsqueda en varios campos
+            $search = $request->input("search.value");
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where("name", "like", "%{$search}%")
+                        ->orWhere("description", "like", "%{$search}%")
+                        ->orWhere("price", "like", "%{$search}%")
+                        ->orWhere("category", "like", "%{$search}%");
+                });
+            }
+
+            // Total de registros antes de paginación pero después de búsqueda
+            $recordsFiltered = $query->count();
+            
+            // Total absoluto de registros
+            $totalRecords = Product::count();
+
+            // Ordenación
+            $columns = ["id", "name", "category", "user_id", "is_active", "description", "price", "id"];
+            $orderColumn = $request->input("order.0.column", 1);
+            $orderDir = $request->input("order.0.dir", "asc");
+            $query->orderBy($columns[$orderColumn] ?? "id", $orderDir);
+
+            // Paginación
+            $start = $request->input("start", 0);
+            $length = $request->input("length", 10);
+            $data = $query->skip($start)->take($length)->get();
+
+            // Formatear los datos para DataTables
+            $data = $data->map(function ($product) {
+                $imageHtml = "";
+                if ($product->image && Storage::disk("public")->exists($product->image)) {
+                    $imageHtml = '<div class="product-img-wrapper"><img src="' . asset("storage/" . $product->image) . '" alt="' . $product->name . '"></div>';
+                } else {
+                    $imageHtml = '<div class="product-img-wrapper"><i class="bi bi-image no-image-icon"></i></div>';
+                }
+
+                $statusHtml = $product->is_active 
+                    ? '<span class="badge bg-success">Activo</span>' 
+                    : '<span class="badge bg-danger">Inactivo</span>';
+
+                $btnStatusClass = $product->is_active ? 'btn-deactivate' : 'btn-activate';
+                $btnStatusIcon = $product->is_active ? 'bi-lock' : 'bi-unlock';
+                $btnStatusText = $product->is_active ? 'Desactivar' : 'Activar';
+
+                return [
+                    "image" => $imageHtml,
+                    "name" => $product->name,
+                    "description" => $product->description,
+                    "price" => '$' . number_format($product->price, 2),
+                    "category" => $product->category ?? '<span class="text-muted">Sin categoría</span>',
+                    "owner" => $product->user?->name ?? '<span class="text-muted">Sistema</span>',
+                    "status" => $statusHtml,
+                    "actions" => '
+                        <div class="d-flex gap-2 justify-content-center">
+                            <button class="btn btn-action btn-edit" onclick="execute(\'/products/' . $product->id . '/edit\')">
+                                <i class="bi bi-pencil-square"></i> <span>Editar</span>
+                            </button>
+                            <button class="btn btn-action ' . $btnStatusClass . '" onclick="toggleStatus(\'/products/' . $product->id . '/toggle\')">
+                                <i class="bi ' . $btnStatusIcon . '"></i> <span>' . $btnStatusText . '</span>
+                            </button>
+                            <button class="btn btn-action btn-delete" onclick="deleteRecord(\'/products/' . $product->id . '\')">
+                                <i class="bi bi-trash-fill"></i> <span>Eliminar</span>
+                            </button>
+                        </div>
+                    ',
+                ];
             });
+
+            return response()->json([
+                "draw" => (int)$request->input("draw"),
+                "recordsTotal" => $totalRecords,
+                "recordsFiltered" => $recordsFiltered,
+                "data" => $data,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Product dataTable error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Se produjo un error al cargar los productos. Consulte logs.'
+            ], 500);
         }
-
-        // Total de registros sin filtros (para recordsTotal)
-        $totalRecords = Product::count();
-
-        // Registros filtrados (recordsFiltered)
-        $filteredRecords = clone $query;
-        $recordsFiltered = $filteredRecords->count();
-
-        // get y set Ordenación (columna y dirección)
-        $columns = ["name", "description", "price", "id"]; // Orden de columnas en tabla
-        $orderColumn = $request->input("order.0.column", 0);
-        $orderDir = $request->input("order.0.dir", "asc");
-        $query->orderBy($columns[$orderColumn] ?? "id", $orderDir);
-
-        // Paginación
-        $start = $request->input("start", 0);
-        $length = $request->input("length", 10);
-        $data = $query->skip($start)->take($length)->get();
-
-        // Formatear los datos para el componente DataTables
-        // TODO: Formatear del lado del cliente
-        $data = $data->map(function ($product) {
-            $imageHtml = "";
-            if (
-            $product->image &&
-            Storage::disk("public")->exists($product->image)
-            ) {
-                $imageHtml =
-                    '<div class="product-img-wrapper"><img src="' .
-                    asset("storage/" . $product->image) .
-                    '" alt="' .
-                    $product->name .
-                    '"></div>';
-            }
-            else {
-                $imageHtml =
-                    '<div class="product-img-wrapper"><i class="bi bi-image no-image-icon"></i></div>';
-            }
-
-            return [
-            "image" => $imageHtml,
-            "name" => $product->name,
-            "description" => $product->description,
-            "price" => '$' . number_format($product->price, 2),
-            "actions" =>
-            '
-                    <button class="btn btn-action btn-edit" onclick="execute(\'/products/' .
-            $product->id .
-            '/edit\')">
-                        <i class="bi bi-pencil-square"></i> <span>Editar</span>
-                    </button>
-                    <button class="btn btn-action btn-delete" onclick="deleteRecord(\'/products/' .
-            $product->id .
-            '\')">
-                        <i class="bi bi-trash-fill"></i> <span>Eliminar</span>
-                    </button>
-                ',
-            ];
-        });
-
-        // Respuesta JSON en formato requerido por DataTables
-        return response()->json([
-            "draw" => (int)$request->input("draw"), // Eco del draw para sync
-            "recordsTotal" => $totalRecords,
-            "recordsFiltered" => $recordsFiltered,
-            "data" => $data,
-        ]);
     }
 
     /**
@@ -333,4 +366,41 @@ class ProductController extends Controller
             abort(404, "Archivo no encontrado");
         }
     }
+    public function toggleStatus(Request $request, Product $product)
+    {
+        // Verificar que el usuario sea el dueño o sea admin
+        if (!auth()->user()->hasRole('admin') && $product->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'No tienes permiso para realizar esta acción.'], 403);
+        }
+
+        $product->is_active = !$product->is_active;
+        $product->save();
+
+        $status = $product->is_active ? 'activado' : 'desactivado';
+        
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Producto {$status} exitosamente.",
+                'is_active' => $product->is_active
+            ]);
+        }
+
+        return redirect()->back()->with('success', "Producto {$status} exitosamente.");
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

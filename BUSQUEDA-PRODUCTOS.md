@@ -37,6 +37,11 @@ La búsqueda está completamente integrada con DataTables y utiliza:
 - **AJAX**: Peticiones asíncronas sin recargar la página
 - **Búsqueda en múltiples campos**: nombre, descripción y precio
 
+> 🎨 *Estilo de botones:* los botones de acción dentro de la tabla (Editar,
+> Activar/Desactivar y Eliminar) emplean clases propias (`btn-edit`,
+> `btn-activate`, `btn-deactivate`, `btn-delete`) con la paleta de colores del
+> sitio para mantener coherencia visual en toda la aplicación.
+
 ### 4. Estilos CSS Personalizados
 
 ```css
