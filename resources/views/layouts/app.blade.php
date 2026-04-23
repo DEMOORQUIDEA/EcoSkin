@@ -21,19 +21,17 @@
 
     <style>
         /* ====================================================
-           PALETA EcoSkin
-           #E6EADD - crema claro (fondo)
-           #BA9B72 - tostado/dorado (acento cálido)
-           #A2A58D - sage gris (acento neutro)
-           #58624A - verde bosque (primario)
-           #2D2D26 - carbón oscuro (navbar/footer/texto)
+           PALETA EcoSkin Minimalista
+           Limpieza, luz, y toques sutiles de verde
         ==================================================== */
         :root {
-            --color-cream: #EBF2E8;
-            --color-tan: #8DB600;
-            --color-sage: #8F9D7D;
-            --color-forest: #48633F;
-            --color-charcoal: #1B2B1B;
+            --color-cream: #FCFCFC;     /* Fondo principal casi blanco */
+            --color-surface: #FFFFFF;    /* Blanco puro para tarjetas/navbar */
+            --color-tan: #829D64;        /* Verde suave para acentos sutiles */
+            --color-sage: #8A9286;       /* Gris con subtono verde para textos secundarios */
+            --color-forest: #4A5B42;     /* Verde oscuro para botones principales */
+            --color-charcoal: #2A2F28;   /* Gris antracita para el texto, menos duro que negro */
+            --color-border: #EAECE8;     /* Bordes muy tenues */
         }
 
         /* Estilos generales */
@@ -43,20 +41,20 @@
             color: var(--color-charcoal);
         }
 
-        /* Navbar */
+        /* Navbar Minimalista */
         .navbar-custom {
-            background: var(--color-charcoal);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            background: var(--color-surface);
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
             padding: 1.1rem 0;
-            border-bottom: 1px solid rgba(230, 234, 221, 0.05);
+            border-bottom: 1px solid var(--color-border);
         }
 
         .navbar-brand {
             font-family: 'Cormorant Garamond', serif;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 1.6rem;
-            letter-spacing: 0.04em;
-            color: var(--color-cream) !important;
+            letter-spacing: 0.02em;
+            color: var(--color-charcoal) !important;
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -93,14 +91,14 @@
         }
 
         .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28230, 234, 221, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2842, 47, 40, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
         .navbar-nav .nav-link {
-            color: var(--color-cream) !important;
+            color: var(--color-charcoal) !important;
             font-weight: 400;
-            letter-spacing: 0.05em;
-            padding: 0.5rem 1.25rem;
+            letter-spacing: 0.04em;
+            padding: 0.5rem 1rem;
             border-radius: 6px;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             margin: 0 0.4rem;
@@ -227,10 +225,11 @@
             min-height: calc(100vh - 76px);
         }
 
-        /* Footer */
+        /* Footer Minimalista */
         footer {
-            background: var(--color-charcoal);
-            color: var(--color-cream);
+            background: var(--color-surface);
+            border-top: 1px solid var(--color-border);
+            color: var(--color-charcoal);
             padding: 1.75rem 0;
             margin-top: auto;
         }
@@ -280,7 +279,7 @@
         .logo-ec-container {
             width: 32px;
             height: 32px;
-            border: 1px solid var(--color-tan);
+            border: 1px solid var(--color-forest);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -356,6 +355,11 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('admin.comments.index') ? 'active' : '' }}" href="{{ route('admin.comments.index') }}">
                                     <i class="bi bi-chat-dots me-1"></i> {{ __('Comments') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.reports.index') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">
+                                    <i class="bi bi-graph-up me-1"></i> {{ __('Reporte de Ventas') }}
                                 </a>
                             </li>
                         @else
@@ -506,7 +510,7 @@
         <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content" style="border-radius: 15px; border: none;">
-                    <div class="modal-header" style="background: var(--color-charcoal); color: var(--color-cream); border-radius: 16px 16px 0 0;">
+                    <div class="modal-header" style="background: var(--color-surface); border-bottom: 1px solid var(--color-border); color: var(--color-charcoal); border-radius: 16px 16px 0 0;">
                         <h5 class="modal-title" id="cartModalLabel">
                             <i class="bi bi-cart3 me-2"></i>Mi Carrito de Compras
                         </h5>
@@ -538,7 +542,7 @@
         @endunless
 
         @unless(Auth::check() && Auth::user()->hasRole('admin'))
-        <footer class="py-5" style="background: var(--color-charcoal); color: var(--color-cream); margin-top: 3rem;">
+        <footer class="py-5" style="background: var(--color-surface); margin-top: 3rem;">
             <div class="container text-center">
                 <div class="d-flex justify-content-center gap-4 mb-4">
                     <a href="#" class="social-icon-link" title="Instagram">
@@ -558,8 +562,8 @@
 
                 <style>
                     .social-icon-link {
-                        color: var(--color-cream);
-                        font-size: 2rem;
+                        color: var(--color-sage);
+                        font-size: 1.8rem;
                         transition: all 0.3s ease;
                         display: inline-flex;
                         align-items: center;

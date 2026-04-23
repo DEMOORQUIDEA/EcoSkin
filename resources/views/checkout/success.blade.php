@@ -170,12 +170,11 @@
     .border-bottom.double { border-bottom: 1px double #1B2B1B !important; }
 
     /* ====================================================
-       ESTILOS DE IMPRESIÓN REFORZADOS (58mm)
+       ESTILOS DE IMPRESIÓN FLEXIBLES (Cualquier impresora)
     ==================================================== */
     @media print {
         @page {
-            size: 58mm auto;
-            margin: 0 !important;
+            margin: 0.5cm;
         }
         
         html, body {
@@ -184,16 +183,13 @@
             background: #fff !important;
             height: auto !important;
             overflow: visible !important;
-            width: 58mm !important;
             -webkit-print-color-adjust: exact;
+            color-adjust: exact;
         }
 
         /* Ocultar elementos de la interfaz */
-        #app > nav, #app > footer, .container > .row:first-child, .btn, .card, hr, .mt-5, .py-5, .no-print {
+        #app > nav, footer, .container > .row:first-child, .btn, .no-print, .eco-search-wrap, .eco-stats-bar {
             display: none !important;
-            height: 0 !important;
-            margin: 0 !important;
-            padding: 0 !important;
         }
 
         /* Resetear contenedores para impresión */
@@ -205,14 +201,14 @@
             display: block !important;
         }
 
-        /* Forzar que solo el ticket sea visible y ocupe todo el ancho */
+        /* Ticket autoajustable al centro */
         #printable-ticket {
             display: block !important;
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 58mm !important;
-            padding: 2mm 1mm !important;
+            position: relative !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+            max-width: 300px !important; /* Ideal para tickets, centrado si es A4 */
+            padding: 10px !important;
             border: none !important;
             box-shadow: none !important;
             height: auto !important;

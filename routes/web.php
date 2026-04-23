@@ -145,6 +145,9 @@ Route::middleware(["auth", "security:auth"])->group(function () {
             Route::get('admin/comments', [CommentController::class, 'index'])->name('admin.comments.index');
             Route::patch('admin/comments/{comment}', [CommentController::class, 'update'])->name('admin.comments.update');
             Route::delete('admin/comments/{comment}', [CommentController::class, 'destroy'])->name('admin.comments.destroy');
+
+            // Reportes de Ventas
+            Route::get('admin/reports', [\App\Http\Controllers\Admin\ReportAdminController::class, 'index'])->name('admin.reports.index');
         }
     );
 

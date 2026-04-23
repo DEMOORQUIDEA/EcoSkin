@@ -7,9 +7,9 @@
      Paleta Ecológica: #EBF2E8 · #8DB600 · #8F9D7D · #48633F · #1B2B1B
 ==================================================== --}}
 
-<!-- ╔══ HERO ══════════════════════════════════════════════════════╗ -->
+<!-- ╔══ HERO MINIMALISTA ══════════════════════════════════════════════════════╗ -->
 <section class="eco-hero">
-    <!-- Decoradores orgánicos -->
+    <!-- Decoradores orgánicos suaves -->
     <div class="eco-hero__bg-circle eco-hero__bg-circle--1"></div>
     <div class="eco-hero__bg-circle eco-hero__bg-circle--2"></div>
 
@@ -19,11 +19,11 @@
                 <i class="bi bi-flower1 me-1"></i> 100% Natural &amp; Orgánico
             </span>
             <h1 class="eco-hero__title">
-                Belleza que nace<br>
-                <em>de la naturaleza</em>
+                Tu piel en armonía<br>
+                <em>con la botánica</em>
             </h1>
             <p class="eco-hero__subtitle">
-                {{ __('Cosméticos formulados con ingredientes naturales seleccionados, sin parabenos, crueldad free y empaques eco‑amigables.') }}
+                {{ __('Descubre la pureza de lo natural. Cosmética premium, formulada para respetar tu piel y cuidar nuestro planeta.') }}
             </p>
             <div class="eco-hero__badges">
                 <span class="eco-badge"><i class="bi bi-leaf-fill me-1"></i>{{ __('Sin químicos dañinos') }}</span>
@@ -32,17 +32,9 @@
             </div>
         </div>
         <div class="eco-hero__visual d-none d-lg-flex">
-            <div class="eco-hero__visual-circle">
-                <i class="bi bi-flower3"></i>
-            </div>
-            <div class="eco-hero__visual-orbit eco-hero__visual-orbit--1">
-                <span><i class="bi bi-droplet-fill"></i></span>
-            </div>
-            <div class="eco-hero__visual-orbit eco-hero__visual-orbit--2">
-                <span><i class="bi bi-sun-fill"></i></span>
-            </div>
-            <div class="eco-hero__visual-orbit eco-hero__visual-orbit--3">
-                <span><i class="bi bi-wind"></i></span>
+            <!-- Imagen generada de cosmética natural -->
+            <div class="eco-hero__visual-circle" style="background: transparent; border: none; box-shadow: none;">
+                <img src="{{ asset('img/natural_hero.png') }}" alt="Cosmética Natural" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; box-shadow: 0 20px 50px rgba(0,0,0,0.15);">
             </div>
         </div>
     </div>
@@ -291,31 +283,33 @@
 
 .text-tan { color: var(--color-tan) !important; }
 
-/* ── HERO ─────────────────────────────────────────────────── */
+/* ── HERO MINIMALISTA ─────────────────────────────────────── */
 .eco-hero {
     position: relative;
-    background: var(--color-charcoal);
+    background: #EBF2EB; /* Minimalist soft green background */
     overflow: hidden;
-    padding: 5rem 0 4rem;
+    padding: 6rem 0 5rem;
     margin: -1.5rem -0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .eco-hero__bg-circle {
     position: absolute;
     border-radius: 50%;
-    opacity: 0.06;
-    background: var(--color-tan);
+    opacity: 0.2;
+    background: var(--color-cream);
     pointer-events: none;
 }
 .eco-hero__bg-circle--1 {
     width: 600px; height: 600px;
     top: -200px; right: -100px;
+    background: radial-gradient(circle, rgba(130, 157, 100, 0.08) 0%, rgba(255,255,255,0) 70%);
 }
 .eco-hero__bg-circle--2 {
     width: 300px; height: 300px;
     bottom: -80px; left: -60px;
-    background: var(--color-sage);
-    opacity: 0.08;
+    background: radial-gradient(circle, rgba(138, 146, 134, 0.06) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0.8;
 }
 
 .eco-hero__inner {
@@ -333,23 +327,24 @@
 .eco-hero__tag {
     display: inline-flex;
     align-items: center;
-    background: rgba(186,155,114,0.18);
-    color: var(--color-tan);
-    border: 1px solid rgba(186,155,114,0.3);
+    background: rgba(130, 157, 100, 0.08); /* Verde claro */
+    color: var(--color-forest);
+    border: 1px solid rgba(130, 157, 100, 0.2);
     border-radius: 50px;
     padding: 0.4rem 1.1rem;
     font-size: 0.8rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     margin-bottom: 1.5rem;
+    font-weight: 500;
 }
 
 .eco-hero__title {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
-    font-size: clamp(2.5rem, 5vw, 3.8rem);
-    color: var(--color-cream);
-    line-height: 1.2;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--color-charcoal);
+    line-height: 1.15;
     margin-bottom: 1.25rem;
 }
 .eco-hero__title em {
@@ -358,11 +353,12 @@
 }
 
 .eco-hero__subtitle {
-    color: rgba(230,234,221,0.7);
-    font-size: 1.05rem;
+    color: var(--color-sage);
+    font-size: 1.1rem;
     line-height: 1.7;
     max-width: 480px;
     margin-bottom: 2rem;
+    font-weight: 300;
 }
 
 .eco-hero__badges {
@@ -372,13 +368,18 @@
 }
 
 .eco-badge {
-    background: rgba(162,165,141,0.15);
-    border: 1px solid rgba(162,165,141,0.3);
-    color: var(--color-sage);
+    background: var(--color-cream);
+    border: 1px solid var(--color-border);
+    color: var(--color-forest);
     border-radius: 50px;
-    padding: 0.35rem 1rem;
+    padding: 0.4rem 1.1rem;
     font-size: 0.8rem;
     letter-spacing: 0.03em;
+    transition: all 0.3s ease;
+}
+.eco-badge:hover {
+    background: rgba(130, 157, 100, 0.05);
+    border-color: var(--color-tan);
 }
 
 /* Visual decorativo */
@@ -392,102 +393,21 @@
 }
 
 .eco-hero__visual-circle {
-    width: 200px;
-    height: 200px;
+    width: 280px;
+    height: 280px;
     border-radius: 50%;
-    background: rgba(88,98,74,0.3);
-    border: 2px solid rgba(186,155,114,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 6rem;
-    color: rgba(186,155,114,0.5);
-    animation: ecoFloat 5s ease-in-out infinite;
+    animation: ecoFloat 6s ease-in-out infinite;
 }
 
 @keyframes ecoFloat {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
+    50% { transform: translateY(-15px); }
 }
 
-.eco-hero__visual-orbit {
-    position: absolute;
-    animation: ecoOrbit 8s linear infinite;
-}
-.eco-hero__visual-orbit--2 { animation-duration: 12s; animation-direction: reverse; }
-.eco-hero__visual-orbit--3 { animation-duration: 10s; }
-
-.eco-hero__visual-orbit span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    background: var(--color-forest);
-    border-radius: 50%;
-    font-size: 1.1rem;
-    color: var(--color-cream);
-    box-shadow: 0 4px 16px rgba(88,98,74,0.4);
-}
-
-.eco-hero__visual-orbit--1 { top: 20px; right: 40px; }
-.eco-hero__visual-orbit--2 { bottom: 30px; left: 20px; }
-.eco-hero__visual-orbit--3 { top: 50%; right: 0; }
-
-@keyframes ecoOrbit {
-    from { transform: rotate(0deg) translateX(30px) rotate(0deg); }
-    to   { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
-}
-
-/* ── REFINAMIENTO MINIMALISTA (ADICIONAL) ────────────── */
-.eco-hero {
-    background: radial-gradient(circle at 70% 30%, #3a3a32 0%, var(--color-charcoal) 100%);
-    padding: 7rem 0 6rem;
-}
-
-.eco-hero__tag {
-    background: rgba(186, 155, 114, 0.1);
-    border: 1px solid rgba(186, 155, 114, 0.2);
-    letter-spacing: 0.15em;
-    font-weight: 500;
-}
-
-.eco-hero__title {
-    letter-spacing: -0.02em;
-}
-
-.eco-hero__subtitle {
-    font-weight: 300;
-    letter-spacing: 0.01em;
-    opacity: 0.8;
-}
-
-.eco-badge {
-    background: rgba(230, 234, 221, 0.05);
-    border: 1px solid rgba(230, 234, 221, 0.1);
-    color: rgba(230, 234, 221, 0.7);
-    backdrop-filter: blur(4px);
-    transition: all 0.3s ease;
-}
-
-.eco-badge:hover {
-    background: rgba(186, 155, 114, 0.15);
-    color: var(--color-tan);
-    border-color: var(--color-tan);
-}
-
-.eco-hero__visual-circle {
-    background: rgba(230, 234, 221, 0.03);
-    border: 1px solid rgba(186, 155, 114, 0.15);
-    box-shadow: inset 0 0 40px rgba(186, 155, 114, 0.05);
-}
-
-.eco-hero__visual-orbit span {
-    background: rgba(88, 98, 74, 0.8);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(230, 234, 221, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
+/* ── BÚSQUEDA MINIMALISTA ────────────── */
 
 /* ── SEARCH ───────────────────────────────────────────────── */
 .eco-search-wrap {
@@ -571,10 +491,11 @@
 }
 .eco-search__hint strong { color: var(--color-tan); }
 
-/* ── STATS BAR ────────────────────────────────────────────── */
+/* ── STATS BAR MINIMALISTA ────────────────────────────────────────────── */
 .eco-stats-bar {
-    background: var(--color-forest);
-    padding: 1rem 0;
+    background: var(--color-surface);
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .eco-stats {
@@ -582,34 +503,40 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 0.5rem 2rem;
+    gap: 0.5rem 2.5rem;
 }
 
 .eco-stat {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
-    color: var(--color-cream);
+    gap: 0.75rem;
+    color: var(--color-charcoal);
 }
 .eco-stat i {
     font-size: 1.3rem;
     color: var(--color-tan);
+    background: rgba(130, 157, 100, 0.1);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
 }
 .eco-stat strong {
     display: block;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     line-height: 1;
+    font-weight: 600;
 }
 .eco-stat span {
     font-size: 0.75rem;
-    opacity: 0.75;
+    color: var(--color-sage);
     letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 .eco-stat-divider {
     width: 1px;
-    height: 30px;
-    background: rgba(230,234,221,0.2);
+    height: 40px;
+    background: var(--color-border);
 }
 
 /* ── CATALOG ──────────────────────────────────────────────── */
