@@ -25,7 +25,12 @@ use App\Http\Controllers\AbandonedCartController;
 use App\Http\Controllers\UserOrderController;
 
 Route::get("/", [ProductController::class , "welcome"])->name("welcome");
-Route::get("/nosotros", [PageController::class, "nosotros"])->name("nosotros");
+Route::get("/sobre-orquidea", function() {
+    return view('sobre-orquidea');
+})->name('sobre-orquidea');
+
+Route::get("/favorites", [ProductController::class, "favorites"])->name("favorites.index");
+// Route::get("/nosotros", [PageController::class, "nosotros"])->name("nosotros");
 
 // Custom auth routes with better control
 Route::get("login", [LoginController::class , "showLoginForm"])->name("login");
@@ -40,7 +45,7 @@ Route::post('admin/login', [AdminLoginController::class, 'login'])->name('admin.
 // Admin dashboard route
 Route::get('admin', [App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])
     ->name('admin.dashboard')
-    ->middleware(['auth', 'role:admin']);
+    ->middleware(['auth', 'role:admin', 'security:auth']);
 
 Route::get("register", [
     RegisterController::class ,
@@ -137,6 +142,7 @@ Route::middleware(["auth", "security:auth"])->group(function () {
             // Pedidos (Orders)
             Route::get('admin/orders', [OrderAdminController::class, 'index'])->name('admin.orders.index');
             Route::get('admin/orders/{order}', [OrderAdminController::class, 'show'])->name('admin.orders.show');
+            Route::post('admin/orders/{order}/status', [OrderAdminController::class, 'updateStatus'])->name('admin.orders.update-status');
 
             // Abandono de Productos (Abandoned)
             Route::get('admin/abandoned', [AbandonedCartController::class, 'index'])->name('admin.abandoned.index');

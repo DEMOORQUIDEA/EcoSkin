@@ -27,7 +27,11 @@ class CheckoutController extends Controller
     {
         $request->validate([
             'cart' => 'required|array',
-            'payment_method' => 'required|in:bank_transfer,stripe,paypal'
+            'payment_method' => 'required|in:bank_transfer,stripe,paypal',
+            'shipping_name' => 'required|string|max:255',
+            'shipping_phone' => 'required|string|max:20',
+            'shipping_address' => 'required|string',
+            'shipping_reference' => 'nullable|string'
         ]);
 
         try {
@@ -46,7 +50,13 @@ class CheckoutController extends Controller
                     'user_id' => auth()->id(),
                     'total' => $total,
                     'status' => 'pending',
-                    'payment_method' => $request->payment_method
+                    'payment_method' => $request->payment_method,
+                    'shipping_name' => $request->shipping_name,
+                    'shipping_phone' => $request->shipping_phone,
+                    'shipping_address' => $request->shipping_address,
+                    'shipping_reference' => $request->shipping_reference,
+                    'payment_status' => 'pending',
+                    'shipping_status' => 'pending'
                 ]);
 
                 foreach ($cart as $item) {
@@ -125,9 +135,12 @@ class CheckoutController extends Controller
 
     public function success(Order $order)
     {
-        // For production, verify payment status here via API/Webhook
+        // Actualizar estados tras pago exitoso
         if ($order->payment_method === 'stripe' || $order->payment_method === 'paypal') {
-            $order->update(['status' => 'paid']);
+            $order->update([
+                'status' => 'paid',
+                'payment_status' => 'paid'
+            ]);
         }
 
         return view('checkout.success', compact('order'));

@@ -17,7 +17,6 @@
     "Comments": "Comentarios",
     "Orders": "Pedidos",
     "Abandoned Cart": "Carritos Abandonados",
-    "Nosotros": "Nosotros",
     "Search": "Buscar",
     "General Products": "General Productos",
     "Home": "Inicio",
@@ -27,10 +26,6 @@
     "If you did not receive the email": "Si no recibió el correo electrónico",
     "click here to request another": "haga clic aquí para solicitar otro",
     "Toggle navigation": "Alternar navegación",
-    "Misión": "Misión",
-    "Visión": "Visión",
-    "El Equipo": "El Equipo",
-    "Nuestros 5 Creadores": "Nuestros 5 Creadores",
     "Empoderar la belleza natural con ciencia orgánica.": "Empoderar la belleza natural con ciencia orgánica.",
     "Ser el referente global en cosmética consciente.": "Ser el referente global en cosmética consciente.",
     "Bienvenido de nuevo, ingresa tus credenciales": "Bienvenido de nuevo, ingresa tus credenciales",
@@ -66,5 +61,10 @@
     "No hay comentarios aún.": "No hay comentarios aún.",
     "Usuario": "Usuario",
     "Contenido": "Contenido",
-    "Categoría": "Categoría"
+    "Categoría": "Categoría",
+    "Agregar": "Agregar",
+    "Descubre la pureza de lo natural. Cosmética premium para tu piel.": "Descubre la pureza de lo natural. Cosmética premium para tu piel.",
+    "Nuestros Productos: <span class=\"text-tan\">Esencia Natural</span>": "Nuestros Productos: <span class=\"text-tan\">Esencia Natural</span>",
+    "SOMOS ORQUIDEA COSMÉTICA": "SOMOS ORQUIDEA COSMÉTICA",
+    "ORQUIDEA ECOSKIN": "ORQUIDEA ECOSKIN"
 }

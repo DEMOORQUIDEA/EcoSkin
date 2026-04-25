@@ -57,15 +57,10 @@ class LoginController extends Controller
         }
 
         if ($user->hasRole('admin')) {
-            $this->guard()->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
-            return redirect()->route('login')
-                ->withErrors(['email' => 'Los administradores deben usar el acceso de administración.']);
+            return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->intended($this->redirectPath());
+        return redirect('/');
     }
 
     /**

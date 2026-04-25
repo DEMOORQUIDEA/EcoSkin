@@ -59,8 +59,9 @@
         padding: 3rem 2.5rem;
     }
 
-    .form-floating {
-        margin-bottom: 2rem;
+    .form-floating > label {
+        color: #000000;
+        font-weight: 500;
     }
 
     .btn-recovery {

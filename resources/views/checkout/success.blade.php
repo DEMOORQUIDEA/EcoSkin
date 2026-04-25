@@ -65,7 +65,7 @@
             <div id="printable-ticket" class="ticket-premium shadow-lg bg-white p-4">
                 <div class="ticket-header text-center mb-4">
                     <div class="premium-logo mb-2">
-                        <span class="logo-text" style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 600; color: #1B2B1B; letter-spacing: 2px;">EcoSkin</span>
+                        <span class="logo-text" style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 600; color: #1B2B1B; letter-spacing: 2px;">Orquidea</span>
                     </div>
                     <div class="store-info" style="font-family: 'Jost', sans-serif; font-size: 0.9rem; color: #444;">
                         <p class="m-0 fw-bold">CUIDADO NATURAL Y ARTESANAL</p>
@@ -138,7 +138,7 @@
                         "Cuidamos tu piel con el alma de la naturaleza. Tu compra apoya procesos artesanales y sostenibles."
                     </p>
                     <div class="mt-3 opacity-50 small">
-                        <p class="m-0">Siguenos en @EcoSkin_Natural</p>
+                        <p class="m-0">Siguenos en @Orquidea_Natural</p>
                     </div>
                 </div>
             </div>
@@ -263,13 +263,12 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Al llegar a la pantalla de éxito, borramos permanentemente los artículos que ya se pagaron
-        if (typeof getCartKey === 'function') {
-            localStorage.removeItem(getCartKey());
-            // Actualizamos la cantidad en el ícono del carrito
-            if (typeof updateCartCount === 'function') {
-                updateCartCount();
-            }
+        // Al llegar a la pantalla de éxito, borramos permanentemente TODOS los carritos en el navegador
+        Object.keys(localStorage).filter(x => x.startsWith('cart_')).forEach(x => localStorage.removeItem(x));
+        
+        // Actualizamos la cantidad en el ícono del carrito
+        if (typeof updateCartCount === 'function') {
+            updateCartCount();
         }
     });
 </script>

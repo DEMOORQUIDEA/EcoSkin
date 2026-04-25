@@ -41,9 +41,48 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-8">
-                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <!-- PASO 1: DATOS DE ENVÍO -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4" id="shipping-section">
                     <div class="card-body p-4">
-                        <h4 class="fw-bold mb-4">Selecciona tu Método de Pago</h4>
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px; font-weight: bold;">1</div>
+                            <h4 class="fw-bold mb-0">Datos de Envío</h4>
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Nombre Completo</label>
+                                <input type="text" id="shipping_name" class="form-control" placeholder="Ej. Juan Pérez" value="{{ Auth::user()->name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Teléfono de Contacto</label>
+                                <input type="tel" id="shipping_phone" class="form-control" placeholder="Ej. 1234567890">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Dirección Completa</label>
+                                <textarea id="shipping_address" class="form-control" rows="3" placeholder="Calle, Número, Colonia, Ciudad, Código Postal"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Referencias (Opcional)</label>
+                                <textarea id="shipping_reference" class="form-control" rows="2" placeholder="Ej. Entre calles, descripción de la fachada..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 text-end">
+                            <button class="btn btn-dark px-4 rounded-pill fw-bold" onclick="showPaymentStep()">
+                                Continuar al Pago <i class="bi bi-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 2: MÉTODO DE PAGO -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4 d-none" id="payment-section">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px; font-weight: bold;">2</div>
+                            <h4 class="fw-bold mb-0">Selecciona tu Método de Pago</h4>
+                        </div>
                         
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -67,6 +106,12 @@
                                     <small class="text-muted">Referencia bancaria</small>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button class="btn btn-link text-decoration-none text-muted p-0" onclick="showShippingStep()">
+                                <i class="bi bi-arrow-left me-2"></i> Editar datos de envío
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -135,6 +180,27 @@
         renderSummary();
     });
 
+    function showPaymentStep() {
+        const name = document.getElementById('shipping_name').value.trim();
+        const phone = document.getElementById('shipping_phone').value.trim();
+        const address = document.getElementById('shipping_address').value.trim();
+
+        if (!name || !phone || !address) {
+            alert('Por favor, completa los campos obligatorios del envío (Nombre, Teléfono y Dirección)');
+            return;
+        }
+
+        document.getElementById('shipping-section').classList.add('d-none');
+        document.getElementById('payment-section').classList.remove('d-none');
+        window.scrollTo(0, 0);
+    }
+
+    function showShippingStep() {
+        document.getElementById('payment-section').classList.add('d-none');
+        document.getElementById('shipping-section').classList.remove('d-none');
+        window.scrollTo(0, 0);
+    }
+
     function selectPayment(method) {
         selectedMethod = method;
         document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('active'));
@@ -186,17 +252,23 @@
                 },
                 body: JSON.stringify({
                     cart: cart,
-                    payment_method: selectedMethod
+                    payment_method: selectedMethod,
+                    shipping_name: document.getElementById('shipping_name').value,
+                    shipping_phone: document.getElementById('shipping_phone').value,
+                    shipping_address: document.getElementById('shipping_address').value,
+                    shipping_reference: document.getElementById('shipping_reference').value
                 })
             });
 
             const data = await response.json();
 
             if (data.success) {
+                // Borrar carrito inmediatamente al confirmar pedido
+                localStorage.removeItem(getCheckoutCartKey());
+                
                 if (selectedMethod === 'stripe') {
                     window.location.href = data.url;
                 } else if (selectedMethod === 'bank_transfer') {
-                    localStorage.removeItem(getCheckoutCartKey());
                     window.location.href = data.redirect;
                 }
             } else {
@@ -231,8 +303,9 @@
                 });
             },
             onApprove: (data, actions) => {
+                // Borrar carrito inmediatamente al aprobar
+                localStorage.removeItem(getCheckoutCartKey());
                 return actions.order.capture().then(details => {
-                    localStorage.removeItem(getCheckoutCartKey());
                     // El custom_id contiene el ID de la orden que enviamos en createOrder
                     const orderId = details.purchase_units[0].custom_id;
                     window.location.href = "{{ route('checkout.success', ['order' => '__ID__']) }}".replace('__ID__', orderId);

@@ -21,11 +21,11 @@ class AdminUsersSeeder extends Seeder
         }
 
         $admins = [
-            ['name' => 'Alejandro', 'email' => 'alejandro@ecoskin.com'],
             ['name' => 'Orquidea', 'email' => 'orquidea@ecoskin.com'],
             ['name' => 'Karen', 'email' => 'karen@ecoskin.com'],
             ['name' => 'Obet', 'email' => 'obet@ecoskin.com'],
             ['name' => 'Dayana', 'email' => 'dayana@ecoskin.com'],
+            ['name' => 'Alondra', 'email' => 'alondraeco@gmail.com'],
         ];
 
         foreach ($admins as $adminData) {

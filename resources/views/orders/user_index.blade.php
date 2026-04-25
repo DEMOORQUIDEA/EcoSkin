@@ -49,27 +49,38 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3">
-                                @if($order->status == 'completed' || $order->status == 'paid')
-                                    <span class="badge bg-success rounded-pill px-3 py-2">Completado</span>
-                                @elseif($order->status == 'pending')
-                                    <div class="d-flex flex-column align-items-start gap-2">
-                                        <span class="badge bg-warning text-dark rounded-pill px-3 py-2">Pendiente</span>
-                                        <a href="{{ route('user.orders.pay', $order->id) }}" class="btn btn-sm py-1 px-3 text-white" style="background: var(--color-forest); font-size: 0.75rem; border-radius: 50px;">
-                                            <i class="bi bi-credit-card me-1"></i>Pagar Ahora
-                                        </a>
+                                <div class="d-flex flex-column gap-2">
+                                    <!-- Estado de Pago -->
+                                    <div>
+                                        <small class="text-muted d-block" style="font-size: 0.65rem;">PAGO:</small>
+                                        @if($order->payment_status == 'paid')
+                                            <span class="badge bg-success rounded-pill px-2 py-1" style="font-size: 0.7rem;">Pagado</span>
+                                        @elseif($order->payment_status == 'cancelled')
+                                            <span class="badge bg-danger rounded-pill px-2 py-1" style="font-size: 0.7rem;">Cancelado</span>
+                                        @else
+                                            <span class="badge bg-warning text-dark rounded-pill px-2 py-1" style="font-size: 0.7rem;">Pendiente</span>
+                                        @endif
                                     </div>
-                                @elseif($order->status == 'pending_transfer')
-                                    <div class="d-flex flex-column align-items-start gap-2">
-                                        <span class="badge bg-info text-dark rounded-pill px-3 py-2">Falta Pago</span>
-                                        <a href="{{ route('user.orders.pay', $order->id) }}" class="btn btn-sm py-1 px-3 text-white" style="background: var(--color-forest); font-size: 0.75rem; border-radius: 50px;">
-                                            <i class="bi bi-arrow-right-circle me-1"></i>Completar Pago
-                                        </a>
+                                    <!-- Estado de Envío -->
+                                    <div>
+                                        <small class="text-muted d-block" style="font-size: 0.65rem;">ENVÍO:</small>
+                                        @if($order->shipping_status == 'shipped')
+                                            <span class="badge bg-primary rounded-pill px-2 py-1" style="font-size: 0.7rem;">En Camino</span>
+                                        @elseif($order->shipping_status == 'delivered')
+                                            <span class="badge bg-success rounded-pill px-2 py-1" style="font-size: 0.7rem;">Entregado</span>
+                                        @elseif($order->shipping_status == 'cancelled')
+                                            <span class="badge bg-danger rounded-pill px-2 py-1" style="font-size: 0.7rem;">Cancelado</span>
+                                        @else
+                                            <span class="badge bg-secondary rounded-pill px-2 py-1" style="font-size: 0.7rem;">Preparando</span>
+                                        @endif
                                     </div>
-                                @elseif($order->status == 'cancelled')
-                                    <span class="badge bg-danger rounded-pill px-3 py-2">Cancelado</span>
-                                @else
-                                    <span class="badge bg-secondary rounded-pill px-3 py-2">{{ ucfirst($order->status) }}</span>
-                                @endif
+                                    
+                                    @if($order->payment_status == 'pending' && $order->shipping_status != 'cancelled')
+                                        <a href="{{ route('user.orders.pay', $order->id) }}" class="btn btn-sm py-1 px-3 text-white mt-1" style="background: var(--color-forest); font-size: 0.7rem; border-radius: 50px;">
+                                            <i class="bi bi-credit-card me-1"></i>Pagar ahora
+                                        </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach

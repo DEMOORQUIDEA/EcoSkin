@@ -53,12 +53,12 @@
     }
 
     .table thead {
-        background: var(--color-charcoal);
+        background: #000000;
     }
 
     .table thead th {
-        color: var(--color-cream);
-        font-weight: 500;
+        color: #FFFFFF !important;
+        font-weight: 600;
         padding: 1.25rem 1rem;
         border: none;
         text-transform: uppercase;

@@ -18,7 +18,7 @@
                 Actualmente estamos configurando la recolección de datos en tiempo real.
             </p>
             <div class="mt-4">
-                <span class="badge rounded-pill px-3 py-2" style="background: var(--color-cream); color: var(--color-sage); border: 1px solid var(--color-sage);">
+                <span class="badge rounded-pill px-3 py-2" style="background: #000000; color: #FFFFFF; border: 1px solid #000000;">
                     <i class="bi bi-clock-history me-1"></i> {{ __('Próximamente datos estadísticos') }}
                 </span>
             </div>

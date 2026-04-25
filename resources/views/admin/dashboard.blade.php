@@ -8,7 +8,7 @@
                 Panel de Administración
             </h1>
             <p class="text-muted mb-0" style="font-size: 1.1rem;">
-                Bienvenido, {{ Auth::user()->name }}. Gestiona todos los aspectos de EcoSkin.
+                Bienvenido, {{ Auth::user()->name }}. Gestiona todos los aspectos de Orquidea.
             </p>
         </div>
         <div class="col-md-4 text-md-end mt-3 mt-md-0">
@@ -27,7 +27,7 @@
             <a href="{{ route('users.index') }}" class="text-decoration-none h-100 d-block">
                 <div class="card h-100 border-0 shadow-sm admin-module-card" style="border-radius: 16px; overflow: hidden; background: #fff;">
                     <div class="card-body p-4 text-center d-flex flex-column justify-content-center align-items-center h-100 position-relative z-1">
-                        <div class="icon-circle mb-3 d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; background: rgba(72, 99, 63, 0.1); border-radius: 50%; color: var(--color-forest); font-size: 2rem; transition: all 0.3s ease;">
+                        <div class="icon-circle mb-3 d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; background: rgba(0, 0, 0, 0.05); border-radius: 50%; color: #000000; font-size: 2rem; transition: all 0.3s ease;">
                             <i class="bi bi-people"></i>
                         </div>
                         <h4 class="fw-bold mb-2" style="color: var(--color-charcoal);">Usuarios</h4>
@@ -42,7 +42,7 @@
             <a href="{{ route('productos.create') }}" class="text-decoration-none h-100 d-block">
                 <div class="card h-100 border-0 shadow-sm admin-module-card" style="border-radius: 16px; overflow: hidden; background: #fff;">
                     <div class="card-body p-4 text-center d-flex flex-column justify-content-center align-items-center h-100 position-relative z-1">
-                        <div class="icon-circle mb-3 d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; background: rgba(72, 99, 63, 0.1); border-radius: 50%; color: var(--color-forest); font-size: 2rem; transition: all 0.3s ease;">
+                        <div class="icon-circle mb-3 d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; background: rgba(0, 0, 0, 0.05); border-radius: 50%; color: #000000; font-size: 2rem; transition: all 0.3s ease;">
                             <i class="bi bi-cloud-upload"></i>
                         </div>
                         <h4 class="fw-bold mb-2" style="color: var(--color-charcoal);">Subir Productos</h4>
@@ -57,7 +57,7 @@
             <a href="{{ route('admin.orders.index') }}" class="text-decoration-none h-100 d-block">
                 <div class="card h-100 border-0 shadow-sm admin-module-card" style="border-radius: 16px; overflow: hidden; background: #fff;">
                     <div class="card-body p-4 text-center d-flex flex-column justify-content-center align-items-center h-100 position-relative z-1">
-                        <div class="icon-circle mb-3 d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; background: rgba(72, 99, 63, 0.1); border-radius: 50%; color: var(--color-forest); font-size: 2rem; transition: all 0.3s ease;">
+                        <div class="icon-circle mb-3 d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; background: rgba(0, 0, 0, 0.05); border-radius: 50%; color: #000000; font-size: 2rem; transition: all 0.3s ease;">
                             <i class="bi bi-cart-check"></i>
                         </div>
                         <h4 class="fw-bold mb-2" style="color: var(--color-charcoal);">Pedidos</h4>
@@ -72,7 +72,7 @@
             <a href="{{ route('admin.abandoned.index') }}" class="text-decoration-none h-100 d-block">
                 <div class="card h-100 border-0 shadow-sm admin-module-card" style="border-radius: 16px; overflow: hidden; background: #fff;">
                     <div class="card-body p-4 text-center d-flex flex-column justify-content-center align-items-center h-100 position-relative z-1">
-                        <div class="icon-circle mb-3 d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; background: rgba(72, 99, 63, 0.1); border-radius: 50%; color: var(--color-forest); font-size: 2rem; transition: all 0.3s ease;">
+                        <div class="icon-circle mb-3 d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; background: rgba(0, 0, 0, 0.05); border-radius: 50%; color: #000000; font-size: 2rem; transition: all 0.3s ease;">
                             <i class="bi bi-bag-x"></i>
                         </div>
                         <h4 class="fw-bold mb-2" style="color: var(--color-charcoal);">Carritos Abandonados</h4>
@@ -87,7 +87,7 @@
             <a href="{{ route('admin.comments.index') }}" class="text-decoration-none h-100 d-block">
                 <div class="card h-100 border-0 shadow-sm admin-module-card" style="border-radius: 16px; overflow: hidden; background: #fff;">
                     <div class="card-body p-4 text-center d-flex flex-column justify-content-center align-items-center h-100 position-relative z-1">
-                        <div class="icon-circle mb-3 d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; background: rgba(72, 99, 63, 0.1); border-radius: 50%; color: var(--color-forest); font-size: 2rem; transition: all 0.3s ease;">
+                        <div class="icon-circle mb-3 d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; background: rgba(0, 0, 0, 0.05); border-radius: 50%; color: #000000; font-size: 2rem; transition: all 0.3s ease;">
                             <i class="bi bi-chat-dots"></i>
                         </div>
                         <h4 class="fw-bold mb-2" style="color: var(--color-charcoal);">Comentarios</h4>

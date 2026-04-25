@@ -108,6 +108,7 @@ class ProductController extends Controller
                 "price" => "required|numeric|min:1|max:9999999",
                 "description" => "required|string",
                 "category" => "nullable|string|max:50",
+                "stock" => "required|integer|min:0|max:99999",
                 "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120",
             ]);
 
@@ -147,6 +148,7 @@ class ProductController extends Controller
                     'price' => $validated['price'],
                     'description' => $validated['description'],
                     'category' => $validated['category'] ?? null,
+                    'stock' => $validated['stock'] ?? 0,
                     'user_id' => auth()->id(),
                 ]);
 
@@ -387,5 +389,23 @@ class ProductController extends Controller
         }
 
         return redirect()->back()->with('success', "Producto {$status} exitosamente.");
+    }
+
+    /**
+     * Mostrar los productos favoritos del usuario
+     */
+    public function favorites(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        
+        if (!is_array($ids)) {
+            $ids = explode(',', $ids);
+        }
+
+        $products = Product::whereIn('id', $ids)->get();
+
+        return view('products.favorites', [
+            'products' => $products,
+        ]);
     }
 }

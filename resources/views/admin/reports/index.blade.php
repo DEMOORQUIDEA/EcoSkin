@@ -22,8 +22,8 @@
         <div class="col-md-3">
             <div class="card h-100 border-0 shadow-sm" style="border-radius: 12px; background: var(--color-surface);">
                 <div class="card-body p-4 d-flex flex-column align-items-center justify-content-center text-center">
-                    <div class="mb-3" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(130, 157, 100, 0.1); display: flex; align-items: center; justify-content: center;">
-                        <i class="bi bi-calendar-event text-success" style="font-size: 1.5rem;"></i>
+                    <div class="mb-3" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(0, 0, 0, 0.05); display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-calendar-event" style="font-size: 1.5rem; color: #000000;"></i>
                     </div>
                     <h5 class="text-uppercase text-muted fw-bold mb-2" style="font-size: 0.85rem; letter-spacing: 1px;">Ventas de Hoy</h5>
                     <h2 class="fw-bold mb-0" style="color: var(--color-forest);">${{ number_format($salesToday, 2) }}</h2>
@@ -85,6 +85,8 @@
                             <th class="px-4 py-3 border-0 text-muted" style="font-weight: 600;">Cliente</th>
                             <th class="px-4 py-3 border-0 text-muted" style="font-weight: 600;">Fecha</th>
                             <th class="px-4 py-3 border-0 text-muted" style="font-weight: 600;">Método</th>
+                            <th class="px-4 py-3 border-0 text-muted" style="font-weight: 600;">Dirección de Envío</th>
+                            <th class="px-4 py-3 border-0 text-muted" style="font-weight: 600;">Teléfono</th>
                             <th class="px-4 py-3 border-0 text-muted text-end" style="font-weight: 600;">Total</th>
                         </tr>
                     </thead>
@@ -103,7 +105,13 @@
                             <td class="px-4 py-3 border-light">
                                 <span class="badge bg-light text-dark border"><i class="bi {{ $order->payment_method === 'paypal' ? 'bi-paypal text-primary' : ($order->payment_method === 'stripe' ? 'bi-credit-card text-info' : 'bi-bank text-secondary') }} me-1"></i>{{ ucfirst($order->payment_method) }}</span>
                             </td>
-                            <td class="px-4 py-3 border-light text-end fw-bold text-success">
+                            <td class="px-4 py-3 border-light small">
+                                {{ $order->shipping_address ?? 'No proporcionada' }}
+                            </td>
+                            <td class="px-4 py-3 border-light">
+                                {{ $order->shipping_phone ?? 'N/A' }}
+                            </td>
+                            <td class="px-4 py-3 border-light text-end fw-bold" style="color: #000000;">
                                 ${{ number_format($order->total, 2) }}
                             </td>
                         </tr>

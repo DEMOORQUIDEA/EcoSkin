@@ -8,14 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #00A19B;
-            /* Teal UT Selva */
-            --secondary: #F7941E;
-            /* Naranja UT Selva */
-            --dark: #002D44;
-            /* Azul Marino UT Selva */
-            --bg: #f8fafc;
-            --text: #1e293b;
+            --primary: #DE829B;
+            --secondary: #ECAABB;
+            --dark: #4A373E;
+            --bg: #FDF4F6;
+            --text: #4A373E;
         }
 
         /* * {
@@ -34,8 +31,8 @@
             justify-content: center;
             overflow: hidden;
             background-image:
-                radial-gradient(circle at 20% 20%, rgba(0, 161, 155, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(247, 148, 30, 0.2) 0%, transparent 40%);
+                radial-gradient(circle at 20% 20%, rgba(222, 130, 155, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(236, 170, 187, 0.2) 0%, transparent 40%);
         }
 
         .container {

@@ -149,7 +149,7 @@
                            required
                            autocomplete="email"
                            autofocus
-                           placeholder="admin@ecoskin.com">
+                           placeholder="admin@orquidea.com">
                     <label for="email">
                         <i class="bi bi-person-badge me-2"></i>Correo Administrativo
                     </label>
@@ -184,7 +184,7 @@
 
                 <div class="admin-notice">
                     <i class="bi bi-info-circle me-1"></i>
-                    Solo personal autorizado de EcoSkin puede acceder a este panel.
+                    Solo personal autorizado de Orquidea puede acceder a este panel.
                 </div>
             </form>
         </div>

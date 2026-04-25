@@ -1,3 +1,5 @@
+@extends('layouts.app')
+
 @push('styles')
 <style>
     /* Estilos generales */
@@ -85,12 +87,12 @@
     }
 
     .table thead {
-        background: var(--color-charcoal);
+        background: #000000;
     }
 
     .table thead th {
-        color: var(--color-cream);
-        font-weight: 500;
+        color: #FFFFFF !important;
+        font-weight: 600;
         padding: 1.25rem 1rem;
         border: none;
         text-transform: uppercase;
@@ -129,7 +131,7 @@
 </style>
 @endpush
 
-<x-layout>
+@section('content')
     <div class="users-container">
         <div class="container">
             <!-- Header -->
@@ -157,6 +159,7 @@
                                 <th>{{ __('Avatar') }}</th>
                                 <th>{{ __('Nombre') }}</th>
                                 <th>{{ __('Email') }}</th>
+                                <th>{{ __('Rol') }}</th>
                                 <th>{{ __('Registro') }}</th>
                                 <th class="text-center">{{ __('Acciones') }}</th>
                             </tr>
@@ -169,7 +172,7 @@
         </div>
     </div>
 
-    @section('js')
+    @push('scripts')
         <script>
             $('#myTable').DataTable({
                 serverSide: true,
@@ -191,6 +194,7 @@
                     },
                     { data: 'name' },
                     { data: 'email' },
+                    { data: 'role' },
                     { data: 'created_at' },
                     {
                         data: 'actions',
@@ -201,11 +205,9 @@
                 ],
                 pageLength: 10,
                 lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+                order: [[1, 'asc']],
                 language: {
-                    paginate: {
-                        next: "Siguiente",
-                        previous: "Anterior"
-                    }
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
                 }
             });
 
@@ -238,5 +240,5 @@
                 }
             }
         </script>
-    @endsection
-</x-layout>
+    @endpush
+@endsection

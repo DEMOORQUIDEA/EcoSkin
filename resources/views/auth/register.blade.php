@@ -66,28 +66,29 @@
 
     .form-floating > label {
         padding: 1rem 0.75rem;
-        color: #8492a6;
+        color: #000000;
+        font-weight: 500;
     }
 
     .btn-register {
-        background: var(--color-forest);
+        background: #000000;
         border: none;
         border-radius: 8px;
         padding: 0.875rem;
-        font-weight: 500;
+        font-weight: 600;
         font-size: 1rem;
         letter-spacing: 0.04em;
-        color: var(--color-cream);
+        color: #FFFFFF;
         width: 100%;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(88, 98, 74, 0.25);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
     .btn-register:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(88, 98, 74, 0.35);
-        background: var(--color-charcoal);
-        color: var(--color-cream);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        background: #333333;
+        color: #FFFFFF;
     }
 
     .btn-register:active {

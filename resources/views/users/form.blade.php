@@ -1,6 +1,7 @@
-<x-layout>
-    <div class="container">
-        <h1>{{ isset($user) ? 'Editar' : 'Agregar' }} usuario</h1>
+@extends('layouts.app')
+@section('content')
+    <div class="container py-4">
+        <h1 class="mb-4">{{ isset($user) ? 'Editar' : 'Agregar' }} usuario</h1>
 
         <form method='POST' action={{ isset($user) ? route('users.store') : route('users.store') }}
             class="row g-3 needs-validation" novalidate enctype="multipart/form-data">
@@ -25,6 +26,21 @@
                 <div class="invalid-feedback">
                     {{ isset($errors) && $errors->has('email') ? $errors->first('email') : 'Campo requerido y debe ser un email válido.' }}
                 </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="role" class="form-label">Rol del Usuario</label>
+                <select name="role" id="role" class="form-select" {{ (auth()->user()->email !== 'alondraeco@gmail.com' && isset($user) && $user->isAdmin()) ? 'disabled' : '' }}>
+                    <option value="cliente" {{ (isset($user) && $user->hasRole('cliente')) ? 'selected' : '' }}>Cliente</option>
+                    @if(auth()->user()->email === 'alondraeco@gmail.com')
+                        <option value="admin" {{ (isset($user) && $user->hasRole('admin')) ? 'selected' : '' }}>Administrador</option>
+                    @endif
+                </select>
+                @if(auth()->user()->email !== 'alondraeco@gmail.com')
+                    <div class="form-text text-muted">
+                        * Solo el Super-Admin puede gestionar administradores.
+                    </div>
+                @endif
             </div>
 
             <div class="col-md-6">
@@ -70,7 +86,7 @@
         @stack('styles')
     @endsection()
 
-    @section('js')
+    @push('scripts')
         <script>
             (function() {
                 'use strict';
@@ -86,6 +102,5 @@
                 })
             })()
         </script>
-        @stack('scripts')
-    @endsection
-</x-layout>
+    @endpush
+@endsection

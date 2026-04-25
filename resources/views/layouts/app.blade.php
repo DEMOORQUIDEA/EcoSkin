@@ -18,20 +18,22 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.css">
+    @stack('styles')
 
     <style>
         /* ====================================================
-           PALETA EcoSkin Minimalista
-           Limpieza, luz, y toques sutiles de verde
+           PALETA Orquidea Clara y Coherente
+           Colores claros, detalles morado suave y texto SIEMPRE NEGRO
         ==================================================== */
         :root {
-            --color-cream: #FCFCFC;     /* Fondo principal casi blanco */
-            --color-surface: #FFFFFF;    /* Blanco puro para tarjetas/navbar */
-            --color-tan: #829D64;        /* Verde suave para acentos sutiles */
-            --color-sage: #8A9286;       /* Gris con subtono verde para textos secundarios */
-            --color-forest: #4A5B42;     /* Verde oscuro para botones principales */
-            --color-charcoal: #2A2F28;   /* Gris antracita para el texto, menos duro que negro */
-            --color-border: #EAECE8;     /* Bordes muy tenues */
+            --color-cream: #FFF0F5;      /* Fondo principal casi blanco, tono lavanda claro */
+            --color-surface: #E6C8E6;     /* Barra principal mora/rosa claro (como en la imagen referencial) */
+            --color-tan: #000000;        /* Detalles, íconos o acentos en negro */
+            --color-sage: #F3E5F5;       /* Fondo secundario claro */
+            --color-forest: #000000;     /* Botones negros por defecto para máximo contraste */
+            --color-charcoal: #000000;   /* TEXTO 100% NEGRO PARA LEGIBILIDAD EXTREMA */
+            --color-border: #D1B3D1;     /* Bordes algo contrastados */
         }
 
         /* Estilos generales */
@@ -41,75 +43,85 @@
             color: var(--color-charcoal);
         }
 
-        /* Navbar Minimalista */
+        h1, h2, h3, h4, h5, h6, .brand-text, .nav-link, 
+        p, th, td, label, span:not(.badge), strong, small, li, div:not(.navbar-toggler-icon) {
+            color: #000000 !important;
+        }
+
+        h1, h2, h3, h4, h5, h6, .brand-text {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .card, .table {
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+        }
+        
+        .form-control, .form-select, input, select, textarea {
+            background-color: #FFFFFF !important;
+            color: #000000 !important;
+            border: 1px solid var(--color-border) !important;
+        }
+
+        .btn-primary, .eco-card__btn-cart, .eco-search__btn, .eco-btn, .btn {
+            background-color: #000000 !important;
+            border: 1px solid #000000 !important;
+            color: #FFFFFF !important;
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            padding: 0.6rem 1.7rem !important;
+            transition: all 0.3s ease !important;
+            text-decoration: none !important;
+            letter-spacing: 0.05em;
+        }
+        .btn-primary:hover, .eco-card__btn-cart:hover, .eco-search__btn:hover, .eco-btn:hover, .btn:hover {
+            background-color: #333333 !important;
+            color: #FFFFFF !important;
+            transform: translateY(-2px);
+        }
+
+        /* Navbar Estilo Tradicional */
         .navbar-custom {
-            background: var(--color-surface);
-            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
-            padding: 1.1rem 0;
-            border-bottom: 1px solid var(--color-border);
+            background-color: var(--color-surface);
+            border-bottom: 2px solid var(--color-border);
+            padding: 0.8rem 0;
+            z-index: 1050;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .navbar-brand {
             font-family: 'Cormorant Garamond', serif;
-            font-weight: 500;
-            font-size: 1.6rem;
-            letter-spacing: 0.02em;
-            color: var(--color-charcoal) !important;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #000000 !important;
         }
-
-        .navbar-brand:hover {
-            color: var(--color-tan) !important;
-        }
-
-        .navbar-brand-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: var(--color-forest);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .navbar-brand-icon i {
-            font-size: 1.3rem;
-            color: var(--color-cream);
-        }
-
-        .navbar-toggler {
-            border: 1.5px solid rgba(230, 234, 221, 0.4);
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
-        }
-
-        .navbar-toggler:focus {
-            box-shadow: 0 0 0 0.15rem rgba(186, 155, 114, 0.4);
-        }
-
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2842, 47, 40, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-
-        .navbar-nav .nav-link {
-            color: var(--color-charcoal) !important;
-            font-weight: 400;
-            letter-spacing: 0.04em;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            margin: 0 0.4rem;
-            font-size: 0.92rem;
+            font-weight: 700;
+            font-size: 1.4rem !important;
+            letter-spacing: 0.15em;
+            color: #000000 !important;
             text-transform: uppercase;
         }
 
-        .navbar-nav .nav-link:hover {
-            color: var(--color-tan) !important;
-            background: rgba(186, 155, 114, 0.08);
-            transform: translateY(-1px);
+        .navbar-brand:hover {
+            opacity: 0.8;
+            transform: scale(1.02);
+        }
+
+        .navbar-nav .nav-link {
+            color: #000000 !important;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.92rem;
+            margin: 0 0.4rem;
+        }
+
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            color: #333333 !important;
+            background: rgba(0,0,0,0.05);
+            border-radius: 4px;
         }
 
         /* Carrito de compras */
@@ -305,189 +317,173 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-custom">
+        <!-- ╔══ NAVBAR FLOATING GLASS ════════════════════════════════════════╗ -->
+        <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
             <div class="container">
+                <!-- Branding -->
                 <a class="navbar-brand d-flex align-items-center" href="{{ auth()->check() && auth()->user()->hasRole('admin') ? route('admin.dashboard') : url('/') }}">
-                <div class="logo-ec-container me-2">
-                    <span class="logo-ec">EC</span>
-                </div>
-                <span class="brand-text">EcoSkin</span>
-            </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
+                    <span>DISEÑO ORQUIDEA</span>
+                </a>
+
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                    <i class="bi bi-list fs-2 text-dark"></i>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-                        @role('admin')
-                            {{-- Administrador: Panel y secciones principales --}}
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                                    <i class="bi bi-speedometer2 me-1"></i> {{ __('Dashboard') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}" href="{{ route('users.index') }}">
-                                    <i class="bi bi-people me-1"></i> {{ __('Users') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('productos.create') ? 'active' : '' }}" href="{{ route('productos.create') }}">
-                                    <i class="bi bi-cloud-upload me-1"></i> {{ __('Subir Productos') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('productos.index') ? 'active' : '' }}" href="{{ route('productos.index') }}">
-                                    <i class="bi bi-box-seam me-1"></i> {{ __('Productos') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
-                                    <i class="bi bi-cart-check me-1"></i> {{ __('Orders') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('admin.abandoned.index') ? 'active' : '' }}" href="{{ route('admin.abandoned.index') }}">
-                                    <i class="bi bi-bag-x me-1"></i> {{ __('Abandoned Cart') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('admin.comments.index') ? 'active' : '' }}" href="{{ route('admin.comments.index') }}">
-                                    <i class="bi bi-chat-dots me-1"></i> {{ __('Comments') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('admin.reports.index') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">
-                                    <i class="bi bi-graph-up me-1"></i> {{ __('Reporte de Ventas') }}
-                                </a>
-                            </li>
-                        @else
-                            {{-- Cliente/Invitado: Nosotros y Productos --}}
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->is('nosotros') ? 'active' : '' }}" href="{{ route('nosotros') }}">
-                                    <i class="bi bi-people me-1"></i> {{ __('Nosotros') }}
-                                </a>
-                            </li>
-                            @auth
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('productos.create') ? 'active' : '' }}" href="{{ route('productos.create') }}">
-                                    <i class="bi bi-cloud-upload me-1"></i> {{ __('Subir Productos') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('productos.index') ? 'active' : '' }}" href="{{ route('productos.index') }}">
-                                    <i class="bi bi-box-seam me-1"></i> {{ __('Productos') }}
-                                </a>
-                            </li>
-                            @endauth
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdownProductos" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <i class="bi bi-grid me-1"></i> {{ __('Products') }}
-                                </a>
-
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownProductos">
-                                    <a class="dropdown-item" href="{{ route('welcome') }}">
-                                        <i class="bi bi-collection"></i> <span>{{ __('General Products') }}</span>
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Jabones']) }}">
-                                        <i class="bi bi-water"></i> <span>Jabones</span>
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Mascarillas en polvo']) }}">
-                                        <i class="bi bi-magic"></i> <span>Mascarillas en polvo</span>
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Bálsamos']) }}">
-                                        <i class="bi bi-droplet"></i> <span>Bálsamos</span>
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Cremas faciales']) }}">
-                                        <i class="bi bi-sparkles"></i> <span>Cremas faciales</span>
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Cremas corporales']) }}">
-                                        <i class="bi bi-wind"></i> <span>Cremas corporales</span>
-                                    </a>
-                                </div>
-                            </li>
-                        @endrole
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto d-flex align-items-center">
-                        <!-- Historial de Compras (Solo usuarios autenticados no admin) -->
-                        @if(Auth::check() && !Auth::user()->hasRole('admin'))
-                        <li class="nav-item me-2 d-flex align-items-center">
-                            <a class="nav-link d-flex align-items-center gap-2" href="{{ route('user.orders') }}" title="Mi Historial de Compras" style="padding: 0.5rem 1rem !important; border-radius: 8px; transition: all 0.3s;" onmouseover="this.style.background='rgba(186, 155, 114, 0.15)';" onmouseout="this.style.background='transparent';">
-                                <i class="bi bi-clock-history" style="font-size: 1.2rem;"></i>
-                                <span style="font-weight: 500; font-size: 0.95rem;">Historial de compras</span>
+                    <!-- Left Side (Admin specific) -->
+                    @role('admin')
+                    <ul class="navbar-nav me-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                                PANEL
                             </a>
                         </li>
-                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                                USUARIOS
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                PRODUCTOS
+                            </a>
+                            <div class="dropdown-menu animate-fade-in shadow-sm border-0">
+                                <a class="dropdown-item" href="{{ route('productos.index') }}">
+                                    <i class="bi bi-box-seam me-2"></i>{{ __('Listado') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('productos.create') }}">
+                                    <i class="bi bi-cloud-upload me-2"></i>{{ __('Subir Nuevo') }}
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
+                                PEDIDOS
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.abandoned.index') ? 'active' : '' }}" href="{{ route('admin.abandoned.index') }}">
+                                CARRITOS ABANDONADOS
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.comments.index') ? 'active' : '' }}" href="{{ route('admin.comments.index') }}">
+                                COMENTARIOS
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.reports.index') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">
+                                REPORTES
+                            </a>
+                        </li>
+                    </ul>
+                    @endrole
 
-                        <!-- Carrito de Compras -->
-                        @unless(Auth::check() && Auth::user()->hasRole('admin'))
-                        <li class="nav-item me-3">
-                            @auth
-                            <a class="nav-link position-relative" href="{{ route('cart.index') }}" id="cartIcon" title="Ver mi carrito">
-                            @else
-                            <a class="nav-link position-relative" href="{{ route('login') }}" id="cartIcon" title="Iniciar sesión para ver carrito">
-                            @endauth
-                                <i class="bi bi-cart3" style="font-size: 1.5rem;"></i>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount" style="display: none; font-size: 0.7rem;">
-                                    0
-                                </span>
+                    <!-- Right Side -->
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        @unless(auth()->check() && auth()->user()->hasRole('admin'))
+                        <li class="nav-item mx-2">
+                            <a class="nav-link {{ request()->routeIs('welcome') && !request()->has('category') ? 'active' : '' }}" href="{{ route('welcome') }}">
+                                TIENDA
+                            </a>
+                        </li>
+
+                        <!-- Dropdown de Productos por Categoría -->
+                        <li class="nav-item dropdown mx-2">
+                            <a id="navbarDropdownProductos" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                PRODUCTOS
+                            </a>
+
+                            <div class="dropdown-menu animate-fade-in shadow border-0" aria-labelledby="navbarDropdownProductos">
+                                <a class="dropdown-item" href="{{ route('welcome') }}">
+                                    <i class="bi bi-collection me-2"></i>PRODUCTOS GENERALES
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Jabones']) }}">
+                                    <i class="bi bi-water me-2"></i>Jabones
+                                </a>
+                                <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Mascarillas en polvo']) }}">
+                                    <i class="bi bi-magic me-2"></i>Mascarillas en polvo
+                                </a>
+                                <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Bálsamos']) }}">
+                                    <i class="bi bi-droplet me-2"></i>Bálsamos
+                                </a>
+                                <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Cremas faciales']) }}">
+                                    <i class="bi bi-sparkles me-2"></i>Cremas faciales
+                                </a>
+                                <a class="dropdown-item" href="{{ route('welcome', ['category' => 'Cremas corporales']) }}">
+                                    <i class="bi bi-wind me-2"></i>Cremas corporales
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item mx-2">
+                            <a class="nav-link {{ request()->routeIs('sobre-orquidea') ? 'active' : '' }}" href="{{ route('sobre-orquidea') }}">
+                                SOBRE ORQUIDEA
                             </a>
                         </li>
                         @endunless
 
                         @guest
-                            <li class="nav-item">
+                            <li class="nav-item mx-2">
                                 <a class="nav-link" href="{{ route('admin.login') }}">
                                     <i class="bi bi-shield"></i>
-                                    <span>{{ __('Administrador') }}</span>
+                                    <span>{{ __('Admin') }}</span>
                                 </a>
                             </li>
-                        @endguest
-
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">
-                                    <i class="bi bi-person"></i>
-                                    <span>{{ __('Login') }}</span>
-                                </a>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                        @endif
-
                             @if (Route::has('register'))
-                                <a class="nav-link" href="{{ route('register') }}">
-                                    <i class="bi bi-person-plus"></i>
-                                    <span>{{ __('Register') }}</span>
+                                <li class="nav-item ms-2">
+                                    <a class="btn btn-auth-nav" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <!-- Cart Icon (Always visible for logged in clients) -->
+                            @unless(Auth::user()->hasRole('admin'))
+                            <li class="nav-item mx-2">
+                                <a class="nav-link position-relative" href="#" onclick="goToFavorites(event)" id="favoritesIcon" title="Mis Favoritos">
+                                    <i class="bi bi-heart fs-5"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="favCount" style="display: none; font-size: 0.6rem;">
+                                        0
+                                    </span>
                                 </a>
                             </li>
-                        @endif
-                        @else
-                            <li class="nav-item dropdown user-dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <i class="bi bi-person-circle"></i>
+
+                            <li class="nav-item mx-2">
+                                <a class="nav-link position-relative" href="{{ route('cart.index') }}" id="cartIcon" title="Ver mi carrito">
+                                    <i class="bi bi-cart3 fs-5"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount" style="display: none; font-size: 0.6rem;">
+                                        0
+                                    </span>
+                                </a>
+                            </li>
+                            @endunless
+
+                            <li class="nav-item dropdown ms-3">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="user-avatar-sm me-2">
+                                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                    </div>
                                     <span>{{ Auth::user()->name }}</span>
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-end animate-fade-in shadow border-0" aria-labelledby="navbarDropdown">
                                     @role('admin')
-                                        {{-- Para Admin: Solo Logout --}}
-                                        <div class="dropdown-header text-uppercase small font-weight-bold" style="color: var(--color-sage);">Sesión de Administrador</div>
+                                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                            <i class="bi bi-speedometer2 me-2"></i>{{ __('Panel Admin') }}
+                                        </a>
+                                        <div class="dropdown-divider"></div>
                                     @else
-                                        {{-- Para Cliente: Inicio y Logout --}}
-                                        <a class="dropdown-item" href="{{ route('home') }}">
-                                            <i class="bi bi-house-door"></i>
-                                            <span>Inicio</span>
+                                        <a class="dropdown-item" href="{{ route('user.orders') }}">
+                                            <i class="bi bi-clock-history me-2"></i>{{ __('Mis Compras') }}
                                         </a>
                                     @endrole
-
-                                    <a class="dropdown-item" href="{{ route('logout') }}">
-                                        <i class="bi bi-box-arrow-left"></i>
-                                        <span>{{ __('Logout') }}</span>
+                                    
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault(); Object.keys(localStorage).filter(x => x.startsWith('cart_')).forEach(x => localStorage.removeItem(x)); document.getElementById('logout-form').submit();">
+                                        <i class="bi bi-box-arrow-right me-2"></i>{{ __('Cerrar Sesión') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -545,19 +541,19 @@
         <footer class="py-5" style="background: var(--color-surface); margin-top: 3rem;">
             <div class="container text-center">
                 <div class="d-flex justify-content-center gap-4 mb-4">
-                    <a href="#" class="social-icon-link" title="Instagram">
+                    <a href="https://www.instagram.com/alo_solorzano?igsh=N2MzeWg0dno5MHFz" class="social-icon-link" target="_blank" title="Instagram">
                         <i class="bi bi-instagram"></i>
                     </a>
-                    <a href="#" class="social-icon-link" title="Facebook">
+                    <a href="https://www.facebook.com/share/1EBovWtMGF/" class="social-icon-link" target="_blank" title="Facebook">
                         <i class="bi bi-facebook"></i>
                     </a>
-                    <a href="#" class="social-icon-link" title="TikTok">
+                    <a href="https://www.tiktok.com/@orquideaa_solorzano?_r=1&_t=ZS-95oWvIAENpk" class="social-icon-link" target="_blank" title="TikTok">
                         <i class="bi bi-tiktok"></i>
                     </a>
                 </div>
                 
                 <h5 class="mt-2 fw-bold" style="font-family: 'Cormorant Garamond', serif; letter-spacing: 0.15em; color: var(--color-tan); font-size: 1.4rem;">
-                    SOMOS ECOSKIN COSMETICS
+                    {{ __('SOMOS DISEÑO ORQUIDEA') }}
                 </h5>
 
                 <style>
@@ -578,25 +574,37 @@
         </footer>
         @endunless
     </div>
+    <!-- jQuery and DataTables CDNs -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
+
     @stack('scripts')
 
     <script>
         $(document).ready(function() {
-            @guest
-                // Redirect if cached page accessed without authentication
-                $(window).on('pageshow', function(event) {
-                    if (event.originalEvent && event.originalEvent.persisted) {
-                        window.location.replace('/');
-                    }
-                });
-            @endguest
+            // Impedir que se cargue contenido en caché al retroceder después de cerrar sesión
+            $(window).on('pageshow', function(event) {
+                if (event.originalEvent && event.originalEvent.persisted) {
+                    window.location.reload();
+                }
+            });
 
             @auth
-                // usuarios autentificados, redireccionarlos a su home
+                // Redirigir a home si intenta ir a login/register estando ya autenticado
                 if (window.location.pathname.includes('login') || window.location.pathname.includes('register')) {
                     window.location.replace('/home');
                 }
             @endauth
+
+            @guest
+                // Si el usuario no está autenticado pero está en una ruta que requiere auth (según URL)
+                const protectedPaths = ['/home', '/admin', '/checkout', '/my-orders'];
+                const currentPath = window.location.pathname;
+                if (protectedPaths.some(path => currentPath.startsWith(path))) {
+                    window.location.replace('/login');
+                }
+            @endguest
 
             // Cargar contador del carrito al iniciar
             updateCartCount();
@@ -622,16 +630,69 @@
             updateCartCount();
         }
 
+        // SISTEMA DE FAVORITOS
+        function getFavKey() {
+            @auth
+                return 'fav_{{ Auth::id() }}';
+            @endauth
+            return 'fav_guest';
+        }
+
+        function getFavorites() {
+            const favs = localStorage.getItem(getFavKey());
+            return favs ? JSON.parse(favs) : [];
+        }
+
+        function saveFavorites(favs) {
+            localStorage.setItem(getFavKey(), JSON.stringify(favs));
+            updateFavCount();
+        }
+
+        function updateFavCount() {
+            const favs = getFavorites();
+            const badge = document.getElementById('favCount');
+            const icon = document.querySelector('#favoritesIcon i');
+
+            if (favs.length > 0) {
+                if(badge) {
+                    badge.textContent = favs.length;
+                    badge.style.display = 'block';
+                }
+                if(icon) {
+                    icon.classList.replace('bi-heart', 'bi-heart-fill');
+                    icon.style.color = '#e74c3c';
+                }
+            } else {
+                if(badge) badge.style.display = 'none';
+                if(icon) {
+                    icon.classList.replace('bi-heart-fill', 'bi-heart');
+                    icon.style.color = '';
+                }
+            }
+        }
+
+        function goToFavorites(event) {
+            if(event) event.preventDefault();
+            const favs = getFavorites();
+            if (favs.length === 0) {
+                showToastNotification('No tienes productos favoritos aún.', 'info');
+                return;
+            }
+            window.location.href = "{{ route('favorites.index') }}?ids=" + favs.join(',');
+        }
+
         function updateCartCount() {
             const cart = getCart();
             const count = cart.reduce((sum, item) => sum + item.quantity, 0);
             const badge = document.getElementById('cartCount');
 
             if (count > 0) {
-                badge.textContent = count;
-                badge.style.display = 'block';
+                if(badge) {
+                    badge.textContent = count;
+                    badge.style.display = 'block';
+                }
             } else {
-                badge.style.display = 'none';
+                if(badge) badge.style.display = 'none';
             }
         }
 

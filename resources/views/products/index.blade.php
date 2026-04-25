@@ -165,12 +165,13 @@
         }
 
         .table thead {
-            background: var(--color-charcoal);
+            background: transparent !important;
+            border-bottom: 2px solid var(--color-border);
         }
 
         .table thead th {
-            color: var(--color-cream);
-            font-weight: 500;
+            color: var(--color-charcoal) !important;
+            font-weight: 700;
             padding: 1.25rem 1rem;
             border: none;
             text-transform: uppercase;

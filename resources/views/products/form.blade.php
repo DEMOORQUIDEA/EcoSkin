@@ -13,15 +13,16 @@
         .form-card {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             max-width: 900px;
             margin: 0 auto;
+            border: 1px solid var(--color-border);
         }
 
         .form-header {
-            background: var(--color-charcoal);
-            color: var(--color-cream);
+            background: #000000;
+            color: #FFFFFF !important;
             padding: 2rem;
             display: flex;
             align-items: center;
@@ -31,308 +32,82 @@
         .form-icon {
             width: 60px;
             height: 60px;
-            background: rgba(230,234,221,0.15);
-            border: 1.5px solid rgba(186,155,114,0.3);
+            background: rgba(255,255,255,0.2);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .form-icon i {
-            font-size: 2rem;
+            color: white;
         }
 
         .form-header h1 {
+            color: #FFFFFF !important;
             margin: 0;
-            font-family: 'Cormorant Garamond', serif;
             font-size: 1.9rem;
-            font-weight: 500;
-            letter-spacing: 0.03em;
         }
 
         .form-header p {
+            color: #FFFFFF !important;
             margin: 0.5rem 0 0;
-            opacity: 0.65;
-            font-size: 0.9rem;
-            letter-spacing: 0.02em;
+            opacity: 0.8;
         }
 
-        /* Form body */
         .form-body {
             padding: 2.5rem;
-        }
-
-        /* Alert styles */
-        .alert-custom {
-            border-radius: 12px;
-            border: none;
-            padding: 1.25rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .alert-custom i {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        /* Form sections */
-        .form-section {
-            margin-bottom: 2rem;
+            background: white;
         }
 
         .section-title {
-            color: #2d3748;
-            font-size: 1.1rem;
-            font-weight: 600;
+            color: #000000 !important;
+            font-weight: 700;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 0.5rem;
             margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #e0e6ed;
         }
 
-        .section-title i {
-            color: var(--color-sage);
-            font-size: 1.2rem;
-        }
-
-        /* Form controls */
         .form-label {
-            color: #2d3748;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            color: #000000 !important;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
-        .form-label i {
-            color: var(--color-sage);
+        .form-control, .form-select {
+            background-color: #FFFFFF !important;
+            color: #000000 !important;
+            border: 2px solid #000000 !important;
+            border-radius: 10px;
+            padding: 0.8rem;
         }
 
-        .form-label .required {
-            color: var(--color-tan);
-            margin-left: 0.25rem;
-        }
-
-        .form-control,
-        .form-select {
-            border: 2px solid #e0e6ed;
-            border-radius: 12px;
-            padding: 0.875rem 1rem;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            border-color: var(--color-sage);
-            box-shadow: 0 0 0 0.2rem rgba(162,165,141,0.2);
-            background: white;
-            outline: none;
-        }
-
-        .form-control.is-invalid,
-        .form-select.is-invalid {
-            border-color: #b04a3a;
-            background: #fdf5f4;
-        }
-
-        .form-control.is-invalid:focus,
-        .form-select.is-invalid:focus {
-            box-shadow: 0 0 0 0.2rem rgba(176,74,58,0.15);
-        }
-
-        .invalid-feedback {
-            color: #b04a3a;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .invalid-feedback i {
-            font-size: 1rem;
-        }
-
-        /* Input group */
-        .input-group {
-            border-radius: 12px;
-            overflow: hidden;
+        .form-control::placeholder {
+            color: #666666 !important;
+            opacity: 1;
         }
 
         .input-group-text {
-            background: var(--color-forest);
-            color: var(--color-cream);
-            border: none;
-            font-weight: 500;
-            padding: 0.875rem 1rem;
-        }
-
-        .input-group .form-control {
-            border-radius: 0 12px 12px 0;
-            border-left: none;
-        }
-
-        /* Textarea */
-        textarea.form-control {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        /* Character counter */
-        .char-counter {
-            font-size: 0.85rem;
-            color: #718096;
-            margin-top: 0.5rem;
-            text-align: right;
-        }
-
-        .char-counter.warning {
-            color: #ffc107;
-            font-weight: 600;
-        }
-
-        .char-counter.danger {
-            color: var(--color-tan);
-            font-weight: 600;
-        }
-
-        /* Buttons */
-        .btn-group-custom {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            padding-top: 2rem;
-            border-top: 2px solid #e0e6ed;
-        }
-
-        .btn-custom {
-            border-radius: 12px;
-            padding: 0.875rem 2rem;
-            font-weight: 600;
-            font-size: 1rem;
-            border: none;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: #000000 !important;
+            color: #FFFFFF !important;
+            border: 2px solid #000000 !important;
         }
 
         .btn-save {
-            background: var(--color-forest);
-            color: var(--color-cream);
+            background: #000000 !important;
+            color: #FFFFFF !important;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            border: none;
         }
 
         .btn-save:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(88,98,74,0.35);
-            background: var(--color-charcoal);
-            color: var(--color-cream);
+            background: #333333 !important;
         }
 
-        .btn-save:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-cancel {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-cancel:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
-            color: white;
-        }
-
-        .btn-custom i {
-            font-size: 1.1rem;
-        }
-
-        /* Spinner */
-        .spinner-border-sm {
-            width: 1rem;
-            height: 1rem;
-            border-width: 0.15em;
-        }
-
-        /* Image preview section */
         .image-preview-section {
-            background: #f8f9fa;
-            border-radius: 12px;
+            background: #fdfdfd;
+            border: 2px dashed #000000;
+            border-radius: 15px;
             padding: 1.5rem;
-            border: 2px dashed #e0e6ed;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .form-container {
-                padding: 1rem 0;
-            }
-
-            .form-header {
-                flex-direction: column;
-                text-align: center;
-                padding: 1.5rem;
-            }
-
-            .form-header h1 {
-                font-size: 1.5rem;
-            }
-
-            .form-body {
-                padding: 1.5rem;
-            }
-
-            .btn-group-custom {
-                flex-direction: column;
-            }
-
-            .btn-custom {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .form-card {
-            animation: fadeIn 0.5s ease;
-        }
-
-        /* Success state */
-        .form-control.is-valid {
-            border-color: #28a745;
-            background: #f0fff4;
-        }
-
-        .form-control.is-valid:focus {
-            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.15);
         }
     </style>
     @endsection
@@ -392,7 +167,7 @@
                                            value="{{ old('name', $product->name ?? '') }}"
                                            required
                                            maxlength="50"
-                                           placeholder="Ej: Laptop Dell XPS 15">
+                                           placeholder="Ej: Jabón Artesanal de Lavanda">
                                     <div class="char-counter">
                                         <span id="nameCount">0</span>/50 caracteres
                                     </div>
@@ -457,6 +232,35 @@
                                             {{ $errors->first('category') }}
                                         </div>
                                     @endif
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="stock" class="form-label">
+                                        <i class="bi bi-box-seam"></i> {{ __('Cantidad en Stock') }} <span class="required">*</span>
+                                    </label>
+                                    <div class="input-group has-validation">
+                                        <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                                        <input name="stock"
+                                               type="number"
+                                               min="0"
+                                               max="99999"
+                                               class="form-control {{ $errors->has('stock') ? 'is-invalid' : '' }}"
+                                               value="{{ old('stock', $product->stock ?? 0) }}"
+                                               id="stock"
+                                               required
+                                               placeholder="0">
+                                        @if($errors->has('stock'))
+                                            <div class="invalid-feedback d-block">
+                                                <i class="bi bi-x-circle"></i>
+                                                {{ $errors->first('stock') }}
+                                            </div>
+                                        @else
+                                            <div class="invalid-feedback">
+                                                <i class="bi bi-x-circle"></i>
+                                                Ingresa una cantidad de stock válida
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
 
                                 <div class="col-12">

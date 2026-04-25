@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <title>{{ config('app.name', 'EcoSkin') }}</title>
+    <title>{{ config('app.name', 'Orquidea') }}</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -18,18 +18,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-cream: #EBF2E8;
-            --color-tan: #8DB600;
-            --color-sage: #8F9D7D;
-            --color-forest: #48633F;
-            --color-charcoal: #1B2B1B;
+            --color-cream: #FFADC2;
+            --color-surface: #F889A5;
+            --color-tan: #FFFFFF;
+            --color-sage: #FFE3EA;
+            --color-forest: #FFFFFF;
+            --color-charcoal: #FFFFFF;
+            --color-border: #FFD4DE;
         }
 
         /* Estilos generales */
         body {
             background: var(--color-cream);
             font-family: 'Jost', sans-serif;
-            color: var(--color-charcoal);
+            color: var(--color-charcoal) !important;
+        }
+        
+        h1, h2, h3, h4, h5, h6, p, span, div, th, td {
+            color: var(--color-charcoal) !important;
+        }
+
+        .card, .table {
+            background-color: var(--color-surface) !important;
+            color: var(--color-charcoal) !important;
+        }
+        .table td, .table th {
+            background-color: transparent !important;
+            color: var(--color-charcoal) !important;
+            border-color: var(--color-border) !important;
+        }
+        
+        .form-control, .form-select, input, select, textarea {
+            background-color: var(--color-cream) !important;
+            color: var(--color-charcoal) !important;
+            border: 1px solid var(--color-border) !important;
+        }
+        ::placeholder {
+            color: var(--color-sage) !important;
+            opacity: 1 !important;
         }
 
         /* Navbar */
@@ -203,14 +229,14 @@
         /* botones personalizados para activar/desactivar coherentes */
         .btn-activate {
             background: var(--color-forest) !important;
-            color: var(--color-cream) !important;
+            color: var(--color-surface) !important;
         }
         .btn-activate:hover {
             filter: brightness(0.9);
         }
         .btn-deactivate {
-            background: var(--color-tan) !important;
-            color: var(--color-cream) !important;
+            background: var(--color-forest) !important;
+            color: var(--color-surface) !important;
         }
         .btn-deactivate:hover {
             filter: brightness(0.9);
@@ -276,10 +302,12 @@
             <div class="container">
                 <!-- Brand -->
                 <a class="navbar-brand d-flex align-items-center" href="{{ auth()->check() && auth()->user()->hasRole('admin') ? route('admin.dashboard') : url('/') }}">
-                    <div class="logo-ec-container me-2" style="background: var(--color-forest); color: var(--color-cream); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.3rem;">
-                        <span class="logo-ec">EC</span>
+                    <div class="logo-ec-container me-2">
+                        <span class="logo-ec">O</span>
                     </div>
-                    <span>EcoSkin</span>
+                    <span class="brand-text">
+                        <span>Orquidea</span>
+                    </span>
                 </a>
 
                 <!-- Toggler -->
@@ -345,12 +373,12 @@
 
     <footer>
         <div class="container text-center">
-            <p>
-                EcoSkin Cosmetics © {{ date('Y') }}
-            </p>
-            <p class="mt-2 text-center" style="color: var(--color-tan); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; letter-spacing: 0.1em; font-weight: 600;">
-                SOMOS ECOSKIN COSMETICS
-            </p>
+            <h5 class="mt-2 fw-bold" style="font-family: 'Cormorant Garamond', serif; letter-spacing: 0.15em; color: var(--color-tan); font-size: 1.4rem;">
+                SOMOS ORQUIDEA COSMETICS
+            </h5>
+            <div class="col-md-4 text-center text-md-end footer-right pt-3 pt-md-0">
+                Orquidea Cosmetics © {{ date('Y') }}
+            </div>
         </div>
     </footer>
 

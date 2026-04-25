@@ -10,15 +10,17 @@
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
-                    <thead style="background: var(--color-charcoal); color: var(--color-cream);">
-                        <tr>
-                            <th class="px-4 py-3">ID</th>
-                            <th class="py-3">{{ __('Cliente') }}</th>
-                            <th class="py-3">{{ __('Total') }}</th>
-                            <th class="py-3">{{ __('Método') }}</th>
-                            <th class="py-3">{{ __('Estado') }}</th>
-                            <th class="py-3">{{ __('Fecha') }}</th>
-                            <th class="px-4 py-3 text-end">{{ __('Acciones') }}</th>
+                    <thead>
+                        <tr style="background: #000000;">
+                            <th class="px-4 py-3" style="color: #FFFFFF !important;">ID</th>
+                            <th class="py-3" style="color: #FFFFFF !important;">{{ __('Cliente') }}</th>
+                            <th class="py-3" style="color: #FFFFFF !important;">{{ __('Total') }}</th>
+                            <th class="py-3" style="color: #FFFFFF !important;">{{ __('Pago') }}</th>
+                            <th class="py-3" style="color: #FFFFFF !important;">{{ __('Logística') }}</th>
+                            <th class="py-3" style="color: #FFFFFF !important;">{{ __('Fecha') }}</th>
+                            <th class="py-3" style="color: #FFFFFF !important;">{{ __('Teléfono') }}</th>
+                            <th class="py-3" style="color: #FFFFFF !important;">{{ __('Dirección') }}</th>
+                            <th class="px-4 py-3 text-end" style="color: #FFFFFF !important;">{{ __('Acciones') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -27,13 +29,21 @@
                             <td class="px-4 py-3 align-middle">#{{ $order->id }}</td>
                             <td class="py-3 align-middle">{{ $order->user->name }}</td>
                             <td class="py-3 align-middle">${{ number_format($order->total, 2) }}</td>
-                            <td class="py-3 align-middle text-uppercase small">{{ $order->payment_method }}</td>
                             <td class="py-3 align-middle">
-                                <span class="badge rounded-pill" style="background: {{ $order->status == 'completed' ? 'var(--color-forest)' : 'var(--color-sage)' }}; color: white;">
-                                    {{ ucfirst($order->status) }}
+                                <span class="badge {{ $order->payment_status == 'paid' ? 'bg-success' : ($order->payment_status == 'cancelled' ? 'bg-danger' : 'bg-warning text-dark') }} rounded-pill">
+                                    {{ $order->payment_status == 'paid' ? 'Pagado' : ($order->payment_status == 'cancelled' ? 'Cancelado' : 'Pendiente') }}
+                                </span>
+                            </td>
+                            <td class="py-3 align-middle">
+                                <span class="badge {{ $order->shipping_status == 'delivered' ? 'bg-success' : ($order->shipping_status == 'shipped' ? 'bg-info text-white' : ($order->shipping_status == 'cancelled' ? 'bg-danger' : 'bg-secondary')) }} rounded-pill">
+                                    {{ $order->shipping_status == 'delivered' ? 'Entregado' : ($order->shipping_status == 'shipped' ? 'Enviado' : ($order->shipping_status == 'cancelled' ? 'Cancelado' : 'Preparando')) }}
                                 </span>
                             </td>
                             <td class="py-3 align-middle text-muted">{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                            <td class="py-3 align-middle">{{ $order->shipping_phone ?? 'N/A' }}</td>
+                            <td class="py-3 align-middle" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $order->shipping_address }}">
+                                {{ $order->shipping_address ?? 'No proporcionada' }}
+                            </td>
                             <td class="px-4 py-3 text-end align-middle">
                                 <a href="{{ route('admin.orders.show', $order) }}" class="btn btn-sm btn-outline-dark" style="border-radius: 8px;">
                                     Ver Detalle

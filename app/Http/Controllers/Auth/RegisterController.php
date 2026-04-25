@@ -64,7 +64,7 @@ class RegisterController extends Controller
 
             return $request->wantsJson()
                 ? new \Illuminate\Http\JsonResponse([], 201)
-                : redirect($this->redirectPath());
+                : redirect('/');
         }
         catch (QueryException $e) {
             // Detectar error de duplicación (código 23000)
@@ -118,6 +118,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'is_active' => true,
         ]);
 
         // Asignar rol 'cliente' automáticamente a nuevos usuarios
